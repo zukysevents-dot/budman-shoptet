@@ -93,9 +93,33 @@ export function truncateAtWord(text, max) {
 	return (sp > max * 0.6 ? cut.slice(0, sp) : cut).trim();
 }
 
-// Odstraní HTML tagy (pro počítání délky / fallback krátkého popisu).
+// Dekóduje HTML entity (číselné i pojmenované) na reálné znaky — pro plain text (meta, SEO).
+const NAMED_ENTITIES = {
+	amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', hellip: '…',
+	ndash: '–', mdash: '—', minus: '−', rsquo: '’', lsquo: '‘', ldquo: '“', rdquo: '”',
+	bdquo: '„', sbquo: '‚', laquo: '«', raquo: '»', copy: '©', reg: '®', trade: '™',
+	deg: '°', times: '×', middot: '·', euro: '€',
+};
+function entityChar(cp) {
+	try {
+		return String.fromCodePoint(cp);
+	} catch {
+		return '';
+	}
+}
+export function decodeEntities(s) {
+	return String(s ?? '')
+		.replace(/&#x([0-9a-f]+);/gi, (_, h) => entityChar(parseInt(h, 16)))
+		.replace(/&#(\d+);/g, (_, d) => entityChar(parseInt(d, 10)))
+		.replace(/&([a-z][a-z0-9]*);/gi, (m, n) => {
+			const v = NAMED_ENTITIES[n] ?? NAMED_ENTITIES[n.toLowerCase()];
+			return v !== undefined ? v : m;
+		});
+}
+
+// Odstraní HTML tagy a dekóduje entity (pro počítání délky / SEO meta / fallback popisu).
 export function stripTags(html) {
-	return collapseWhitespace(String(html ?? '').replace(/<[^>]*>/g, ' '));
+	return decodeEntities(collapseWhitespace(String(html ?? '').replace(/<[^>]*>/g, ' ')));
 }
 
 // Pročistí HTML popisek z WordPressu pro přenos na Shoptet:

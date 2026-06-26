@@ -12,25 +12,50 @@ export function isExcludedCategory(slug) {
 	return EXCLUDED_CATEGORY_SLUGS.has(slug);
 }
 
-// Sestaví SEO title (~60) a meta description (~155) z reálných dat produktu.
-// Compliance: pokud zdroj obsahuje zdravotní tvrzení, použije bezpečnou šablonu.
+const META_MAX = 158;
+const META_TAIL = 'Skladem u Budman.';
+
+// Ořízne text na hranici VĚTY (ne uprostřed). Fallback: čárka + …, pak slovo + …
+function trimToSentence(text, max) {
+	const s = collapseWhitespace(text);
+	if (!s) return '';
+	if (s.length <= max) return s;
+	const slice = s.slice(0, max + 1);
+	let cut = -1;
+	for (const m of slice.matchAll(/[.!?](\s|$)/g)) cut = m.index + 1;
+	if (cut > max * 0.5) return s.slice(0, cut).trim();
+	const comma = slice.lastIndexOf(', ');
+	if (comma > max * 0.5) return s.slice(0, comma).trim() + '…';
+	return truncateAtWord(s, max - 1) + '…';
+}
+
+// Sestaví SEO title (~60) a meta description (~158) z reálných dat produktu.
+// Compliance: pokud zdroj obsahuje zdravotní tvrzení, text nepoužije.
 export function buildSeo({ name, shortHtml, longHtml }) {
 	const cleanName = collapseWhitespace(name);
 	const suffix = ' | Budman';
 	const seoTitle =
-		cleanName.length + suffix.length <= 60 ? cleanName + suffix : truncateAtWord(cleanName, 60);
+		cleanName.length + suffix.length <= 60
+			? cleanName + suffix
+			: cleanName.length <= 60
+				? cleanName
+				: truncateAtWord(cleanName, 60);
 
-	const source = stripTags(shortHtml) || stripTags(longHtml);
-	let metaDescription;
-	if (source && scanHealthClaims(source).length === 0) {
-		metaDescription = truncateAtWord(source, 155);
-	} else {
-		metaDescription = truncateAtWord(
-			`${cleanName} — skladem u Budman, headshop gear a doplňky. Doprava zdarma od 1 500 Kč.`,
-			155
-		);
+	let source = stripTags(shortHtml) || stripTags(longHtml);
+	if (source && scanHealthClaims(source).length) source = '';
+
+	let meta = trimToSentence(source, META_MAX);
+	// Krátké meta doplnit o benefit, ať není „hluché".
+	if (meta && meta.length < 95) {
+		const withTail = meta.replace(/[.…]?$/, '.') + ' ' + META_TAIL;
+		if (withTail.length <= META_MAX) meta = withTail;
 	}
-	return { seoTitle, metaDescription };
+	if (!meta) {
+		meta = trimToSentence(`${cleanName} — headshop gear u Budman. ${META_TAIL} Doprava od 1 500 Kč zdarma.`, META_MAX);
+	}
+	// Ať meta vždy končí větou.
+	if (meta && !/[.!?…]$/.test(meta)) meta += '.';
+	return { seoTitle, metaDescription: meta };
 }
 
 // CBD compliance: výrazy naznačující léčebné/zdravotní účinky (zakázané claims).

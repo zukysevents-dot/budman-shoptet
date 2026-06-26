@@ -4,6 +4,7 @@
 
 import path from 'node:path';
 import {
+	MIGRATION_DIR,
 	RAW_DIR,
 	NORM_DIR,
 	readJSON,
@@ -98,6 +99,11 @@ function main() {
 
 	const rawProducts = readJSON(productsFile);
 	const rawCats = fileExists(catsFile) ? readJSON(catsFile) : [];
+
+	// Ruční SEO doladění (klíč = slug produktu). Generátor je fallback.
+	const seoOverridesFile = path.join(MIGRATION_DIR, 'config', 'seo-overrides.json');
+	const seoOverrides = fileExists(seoOverridesFile) ? readJSON(seoOverridesFile) : {};
+	let seoOverridesUsed = 0;
 	const { cats } = buildCategories(rawCats);
 	const catBySlug = new Map(cats.map((c) => [c.slug, c])); // všechny (kvůli správné hloubce)
 	const keptCats = cats.filter((c) => !isExcludedCategory(c.slug));
@@ -141,6 +147,12 @@ function main() {
 		const shortDesc = cleanHtml(p.short_description);
 		const longDesc = cleanHtml(p.description);
 		const seo = buildSeo({ name: p.name, shortHtml: shortDesc, longHtml: longDesc });
+		const ov = seoOverrides[baseSlug];
+		if (ov) {
+			if (ov.seoTitle) seo.seoTitle = ov.seoTitle;
+			if (ov.metaDescription) seo.metaDescription = ov.metaDescription;
+			seoOverridesUsed += 1;
+		}
 
 		if (!shortDesc) warn('NO_SHORT_DESC', `Chybí krátký popis: ${p.name}`, origUrl);
 		if (!defCat) warn('NO_CATEGORY', `Produkt bez kategorie: ${p.name}`, origUrl);
@@ -243,6 +255,7 @@ function main() {
 
 	log.ok(`Řádků produktů: ${rows.length} (z toho variant: ${rows.filter((r) => r.pairCode).length})`);
 	log.ok(`Kategorií: ${keptCats.length}`);
+	if (seoOverridesUsed) log.ok(`SEO override použito: ${seoOverridesUsed}`);
 	if (removedProducts.length || removedCatSlugs.length)
 		log.warn(`Vyřazeno (CBD): produktů ${removedProducts.length}, kategorií ${removedCatSlugs.length} → přesměrování na homepage`);
 	if (warnings.length) log.warn(`Upozornění: ${warnings.length} (detail v normalized/report.json)`);
