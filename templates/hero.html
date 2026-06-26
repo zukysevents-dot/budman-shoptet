@@ -1,0 +1,61 @@
+<!--
+  Budman hero — vlož do Shoptet (Návrhář šablon → HTML blok na homepage).
+  Vyžaduje načtené assets/budman.css a assets/budman.js (viz README / build-template).
+  Banger emitor dýmu se dolaďuje přes data-emit-x / data-emit-y na .budman-hero__stage.
+-->
+<section class="budman-hero">
+  <div class="budman-hero__inner">
+    <div class="budman-hero__copy" data-reveal>
+      <p class="budman-hero__eyebrow">Prémiový headshop gear</p>
+      <h1 class="budman-hero__title">Vybavení pro tvůj <em>dab</em>,<br>ne pastelová lékárna.</h1>
+      <p class="budman-hero__lead">Rigy, slurpery, Puffco doplňky a vybrané extrakty. Pečlivě vybrané, ověřené, skladem.</p>
+      <div class="budman-hero__cta">
+        <a class="budman-btn budman-btn--primary" href="/novinky/">Prohlédnout novinky</a>
+        <a class="budman-btn budman-btn--ghost" href="/vsechny-produkty/">Celý sortiment</a>
+      </div>
+    </div>
+
+    <div class="budman-hero__stage" data-hero-smoke data-emit-x="0.705" data-emit-y="0.40">
+      <svg class="budman-hero__rig" viewBox="0 0 400 500" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="bmGlass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#8FC31F" stop-opacity="0.22"/>
+            <stop offset="1" stop-color="#1E5E20" stop-opacity="0.32"/>
+          </linearGradient>
+        </defs>
+
+        <!-- vodní komora (flask) -->
+        <path d="M138,330 C120,335 95,360 95,395 C95,435 120,455 150,455 C180,455 205,435 205,395 C205,360 180,335 162,330 Z"
+              fill="url(#bmGlass)" stroke="#8FC31F" stroke-opacity="0.7" stroke-width="3"/>
+        <!-- voda -->
+        <path d="M97,394 C101,435 122,453 150,453 C178,453 199,435 203,394 C170,406 130,406 97,394 Z"
+              fill="#4C9A2A" fill-opacity="0.30"/>
+        <!-- bublinky -->
+        <circle cx="130" cy="424" r="4" fill="#8FC31F" fill-opacity="0.55"/>
+        <circle cx="150" cy="438" r="3" fill="#8FC31F" fill-opacity="0.45"/>
+        <circle cx="168" cy="420" r="3.5" fill="#8FC31F" fill-opacity="0.5"/>
+
+        <!-- náustek / krk -->
+        <path d="M150,332 L150,150 Q150,100 184,86" stroke="#8FC31F" stroke-opacity="0.5" stroke-width="16"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M150,332 L150,150 Q150,100 184,86" stroke="#F2F5EC" stroke-opacity="0.35" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- boční rameno k bangeru -->
+        <path d="M188,350 C225,342 250,320 258,290 L272,240" stroke="#8FC31F" stroke-opacity="0.5" stroke-width="14"
+              stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- banger (quartz bucket) -->
+        <path d="M264,200 L264,226 Q264,242 282,242 Q300,242 300,226 L300,200"
+              fill="url(#bmGlass)" stroke="#8FC31F" stroke-opacity="0.75" stroke-width="3"/>
+        <ellipse cx="282" cy="198" rx="18" ry="6" fill="#0E120D" stroke="#8FC31F" stroke-opacity="0.8" stroke-width="3"/>
+
+        <!-- statický wisp (jen pro reduced-motion) -->
+        <path class="budman-hero__static-smoke" d="M282,192 C276,168 294,150 283,126 C274,108 292,92 284,68"
+              stroke="#D2DECD" stroke-opacity="0.7" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+
+      <canvas class="budman-hero__smoke" data-smoke-canvas></canvas>
+    </div>
+  </div>
+</section>

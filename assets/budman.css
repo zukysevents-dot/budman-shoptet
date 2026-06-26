@@ -1,3 +1,4 @@
+/* src/css/budman.css */
 /*
  * budman.css — custom vrstva pro Shoptet šablonu (plain CSS, bez buildu závislého na deps).
  * Tokeny = placeholdery. FINÁLNÍ paleta a typografie se doplní z LOGA (vibe rozhodneme z něj).
@@ -118,4 +119,151 @@
 		scroll-behavior: auto !important;
 	}
 	[data-reveal] { opacity: 1; transform: none; }
+}
+
+
+/* src/css/hero.css */
+/*
+ * hero.css — homepage hero s dab rigem a dýmem. Navazuje na tokeny v budman.css.
+ */
+
+.budman-hero {
+	position: relative;
+	background: var(--budman-bg);
+	color: var(--budman-text);
+	overflow: hidden;
+}
+/* jemné lime žhnutí v pozadí (statické) */
+.budman-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(40% 50% at 72% 42%, rgba(143, 195, 31, 0.12), transparent 70%),
+		radial-gradient(60% 60% at 30% 80%, rgba(30, 94, 32, 0.18), transparent 70%);
+	pointer-events: none;
+}
+
+.budman-hero__inner {
+	position: relative;
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: clamp(2rem, 6vw, 4.5rem) var(--budman-gutter);
+	display: grid;
+	grid-template-columns: 1.05fr 0.95fr;
+	gap: clamp(1.5rem, 4vw, 3rem);
+	align-items: center;
+	min-height: min(86vh, 760px);
+}
+
+.budman-hero__eyebrow {
+	color: var(--budman-accent);
+	font-size: 0.72rem;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	margin: 0 0 0.9rem;
+}
+.budman-hero__title {
+	font-family: var(--budman-font-head);
+	font-size: var(--budman-h1);
+	line-height: 1.04;
+	font-weight: 800;
+	margin: 0 0 1rem;
+}
+.budman-hero__title em {
+	color: var(--budman-accent);
+	font-style: normal;
+}
+.budman-hero__lead {
+	color: var(--budman-muted);
+	max-width: 46ch;
+	line-height: 1.6;
+	margin: 0 0 1.6rem;
+}
+.budman-hero__cta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+}
+
+/* --- Stage: SVG rig + canvas dým ------------------------------------- */
+.budman-hero__stage {
+	position: relative;
+	width: 100%;
+	max-width: 460px;
+	aspect-ratio: 4 / 5;
+	margin-inline: auto;
+}
+.budman-hero__rig,
+.budman-hero__smoke {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+.budman-hero__smoke {
+	pointer-events: none;
+}
+/* statický wisp jen pro reduced-motion */
+.budman-hero__static-smoke {
+	opacity: 0;
+	transition: opacity 0.4s ease;
+}
+
+/* --- Tlačítka (globální) -------------------------------------------- */
+.budman-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.8em 1.4em;
+	border-radius: var(--budman-radius-sm);
+	font-weight: 600;
+	text-decoration: none;
+	border: 1px solid transparent;
+	transition: transform 0.2s var(--budman-ease), background-color 0.2s var(--budman-ease),
+		border-color 0.2s var(--budman-ease);
+}
+.budman-btn--primary {
+	background: var(--budman-accent);
+	color: var(--budman-accent-ink);
+}
+.budman-btn--primary:hover {
+	background: var(--budman-accent-bright);
+	transform: translateY(-2px);
+}
+.budman-btn--ghost {
+	border-color: var(--budman-line);
+	color: var(--budman-text);
+}
+.budman-btn--ghost:hover {
+	border-color: var(--budman-accent);
+}
+
+/* --- Responsivní ----------------------------------------------------- */
+@media (max-width: 860px) {
+	.budman-hero__inner {
+		grid-template-columns: 1fr;
+		min-height: 0;
+		text-align: center;
+	}
+	.budman-hero__lead {
+		margin-inline: auto;
+	}
+	.budman-hero__cta {
+		justify-content: center;
+	}
+	.budman-hero__stage {
+		order: -1;
+		max-width: 300px;
+	}
+}
+
+/* --- Reduced motion: žádný canvas, jen statický wisp ----------------- */
+@media (prefers-reduced-motion: reduce) {
+	.budman-hero__smoke {
+		display: none;
+	}
+	.budman-hero__static-smoke {
+		opacity: 0.55;
+	}
 }
