@@ -14,12 +14,12 @@ import {
 	sanitizeCode,
 	sanitizePairCode,
 	collapseWhitespace,
-	stripTags,
+	cleanHtml,
 	parsePrice,
 	toDateOnly,
 } from './lib/util.mjs';
 import { config } from './lib/env.mjs';
-import { resolveManufacturer, resolveEan, isVariantParam, wooProductUrl } from './config/mapping.mjs';
+import { resolveManufacturer, resolveEan, isVariantParam, wooProductUrl, scanHealthClaims } from './config/mapping.mjs';
 
 const warnings = [];
 const warn = (code, msg, ref) => warnings.push({ code, msg, ref });
@@ -43,7 +43,7 @@ function buildCategories(rawCats) {
 			title: collapseWhitespace(c.name),
 			slug: c.slug,
 			parentSlug: c.parent ? byId.get(c.parent)?.slug || '' : '',
-			description: (c.description || '').trim(),
+			description: cleanHtml(c.description),
 			depth: depth(c),
 		}))
 		// Rodiče první (kvůli parentUrl při importu).
@@ -93,6 +93,11 @@ function main() {
 	const { cats } = buildCategories(rawCats);
 	const catBySlug = new Map(cats.map((c) => [c.slug, c]));
 
+	for (const c of cats) {
+		const claims = scanHealthClaims(c.description);
+		if (claims.length) warn('HEALTH_CLAIM_CAT', `Možná zdravotní tvrzení v kategorii "${c.title}" (${claims.join(', ')})`, c.slug);
+	}
+
 	const usedCodes = new Set();
 	const uniqueCode = (base, ref) => {
 		let code = sanitizeCode(base) || sanitizeCode('PROD-' + slugify(ref || 'x'));
@@ -115,11 +120,13 @@ function main() {
 		const defCat = pickDefaultCategory(p.categories, catBySlug);
 		const manufacturer = resolveManufacturer(p);
 		const parentImages = imageUrls(p.images);
-		const shortDesc = (p.short_description || '').trim();
-		const longDesc = (p.description || '').trim();
+		const shortDesc = cleanHtml(p.short_description);
+		const longDesc = cleanHtml(p.description);
 
 		if (!shortDesc) warn('NO_SHORT_DESC', `Chybí krátký popis: ${p.name}`, origUrl);
 		if (!defCat) warn('NO_CATEGORY', `Produkt bez kategorie: ${p.name}`, origUrl);
+		const claims = scanHealthClaims(`${shortDesc} ${longDesc}`);
+		if (claims.length) warn('HEALTH_CLAIM', `Možná zdravotní tvrzení (${claims.join(', ')}): ${p.name}`, origUrl);
 
 		const isVariable = p.type === 'variable' && Array.isArray(p._variations) && p._variations.length > 0;
 

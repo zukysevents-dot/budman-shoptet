@@ -89,6 +89,18 @@ export function stripTags(html) {
 	return collapseWhitespace(String(html ?? '').replace(/<[^>]*>/g, ' '));
 }
 
+// Pročistí HTML popisek z WordPressu pro přenos na Shoptet:
+// odstraní redakční balast (data-*, class, id, style — třídy starého theme jsou mrtvé)
+// a sloučí obsah do jednoho řádku (kvůli bezpečnosti CSV importu).
+export function cleanHtml(html) {
+	if (!html) return '';
+	let s = String(html);
+	s = s.replace(/\s+(?:data-[\w-]+|class|id|style)\s*=\s*"(?:[^"\\]|\\.)*"/gi, '');
+	s = s.replace(/\s+(?:data-[\w-]+|class|id|style)\s*=\s*'(?:[^'\\]|\\.)*'/gi, '');
+	s = s.replace(/\s*\r?\n\s*/g, ' ').replace(/[ \t]{2,}/g, ' ');
+	return s.trim();
+}
+
 // --- CSV (oddělovač ;) ---------------------------------------------------
 export function csvCell(value) {
 	const s = value === null || value === undefined ? '' : String(value);

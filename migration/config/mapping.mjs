@@ -2,7 +2,22 @@
 // Vše, co se může lišit dle konkrétního e-shopu, je tady (ne ve skriptech).
 
 import { config } from '../lib/env.mjs';
-import { collapseWhitespace } from '../lib/util.mjs';
+import { collapseWhitespace, stripTags } from '../lib/util.mjs';
+
+// CBD compliance: výrazy naznačující léčebné/zdravotní účinky (zakázané claims).
+// Sken je jen poradní — místa k ruční úpravě, nic se nemaže automaticky.
+const HEALTH_CLAIM_TERMS = [
+	'léčb', 'léčí', 'léčiv', 'léčebn', 'terapeut', 'uzdrav', 'hojení', 'hojiv',
+	'rakovin', 'zánět', 'protizánětliv', 'úzkost', 'depres', 'nespavost', 'spánek',
+	'imunit', 'onemocněn', 'analget', 'antivir', 'bolest', 'zdraví', 'zdravotní',
+];
+
+// Vrátí pole nalezených rizikových výrazů v textu (po odstranění HTML).
+export function scanHealthClaims(html) {
+	const text = stripTags(html).toLowerCase();
+	if (!text) return [];
+	return [...new Set(HEALTH_CLAIM_TERMS.filter((t) => text.includes(t)))];
+}
 
 // Názvy Woo atributů, které reprezentují výrobce/značku (case-insensitive).
 const BRAND_ATTRIBUTE_NAMES = ['značka', 'znacka', 'výrobce', 'vyrobce', 'brand', 'manufacturer'];
