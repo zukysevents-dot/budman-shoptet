@@ -19,7 +19,15 @@ import {
 	toDateOnly,
 } from './lib/util.mjs';
 import { config } from './lib/env.mjs';
-import { resolveManufacturer, resolveEan, isVariantParam, wooProductUrl, scanHealthClaims } from './config/mapping.mjs';
+import {
+	resolveManufacturer,
+	resolveEan,
+	isVariantParam,
+	wooProductUrl,
+	scanHealthClaims,
+	isExcludedCategory,
+	buildSeo,
+} from './config/mapping.mjs';
 
 const warnings = [];
 const warn = (code, msg, ref) => warnings.push({ code, msg, ref });
@@ -91,9 +99,12 @@ function main() {
 	const rawProducts = readJSON(productsFile);
 	const rawCats = fileExists(catsFile) ? readJSON(catsFile) : [];
 	const { cats } = buildCategories(rawCats);
-	const catBySlug = new Map(cats.map((c) => [c.slug, c]));
+	const catBySlug = new Map(cats.map((c) => [c.slug, c])); // všechny (kvůli správné hloubce)
+	const keptCats = cats.filter((c) => !isExcludedCategory(c.slug));
+	const removedCatSlugs = cats.filter((c) => isExcludedCategory(c.slug)).map((c) => c.slug);
+	const removedProducts = [];
 
-	for (const c of cats) {
+	for (const c of keptCats) {
 		const claims = scanHealthClaims(c.description);
 		if (claims.length) warn('HEALTH_CLAIM_CAT', `Možná zdravotní tvrzení v kategorii "${c.title}" (${claims.join(', ')})`, c.slug);
 	}
@@ -118,10 +129,18 @@ function main() {
 		const baseSlug = p.slug || slugify(p.name);
 		const origUrl = wooProductUrl(baseSlug, p.permalink);
 		const defCat = pickDefaultCategory(p.categories, catBySlug);
+
+		// Vyřazené kategorie (CBD) → produkt do importu nejde, jen do mapy přesměrování.
+		if (defCat && isExcludedCategory(defCat.slug)) {
+			removedProducts.push(origUrl);
+			continue;
+		}
+
 		const manufacturer = resolveManufacturer(p);
 		const parentImages = imageUrls(p.images);
 		const shortDesc = cleanHtml(p.short_description);
 		const longDesc = cleanHtml(p.description);
+		const seo = buildSeo({ name: p.name, shortHtml: shortDesc, longHtml: longDesc });
 
 		if (!shortDesc) warn('NO_SHORT_DESC', `Chybí krátký popis: ${p.name}`, origUrl);
 		if (!defCat) warn('NO_CATEGORY', `Produkt bez kategorie: ${p.name}`, origUrl);
@@ -154,6 +173,8 @@ function main() {
 				weight: p.weight || '',
 				shortDescription: shortDesc,
 				description: longDesc,
+				seoTitle: seo.seoTitle,
+				metaDescription: seo.metaDescription,
 				params: {},
 				images: parentImages,
 				origUrl,
@@ -194,6 +215,8 @@ function main() {
 				weight: v.weight || p.weight || '',
 				shortDescription: shortDesc,
 				description: longDesc,
+				seoTitle: seo.seoTitle,
+				metaDescription: seo.metaDescription,
 				params,
 				images: vImages.length ? [...vImages, ...parentImages] : parentImages,
 				origUrl,
@@ -203,20 +226,25 @@ function main() {
 	}
 
 	writeJSON(path.join(NORM_DIR, 'products.json'), rows);
-	writeJSON(path.join(NORM_DIR, 'categories.json'), cats);
+	writeJSON(path.join(NORM_DIR, 'categories.json'), keptCats);
+	writeJSON(path.join(NORM_DIR, 'removed.json'), { products: removedProducts, categories: removedCatSlugs });
 	writeJSON(path.join(NORM_DIR, 'report.json'), {
 		generatedFrom: 'data/raw/woo-products.json',
 		counts: {
 			rawProducts: rawProducts.length,
 			outputRows: rows.length,
 			variantRows: rows.filter((r) => r.pairCode).length,
-			categories: cats.length,
+			categories: keptCats.length,
+			removedProducts: removedProducts.length,
+			removedCategories: removedCatSlugs.length,
 		},
 		warnings,
 	});
 
 	log.ok(`Řádků produktů: ${rows.length} (z toho variant: ${rows.filter((r) => r.pairCode).length})`);
-	log.ok(`Kategorií: ${cats.length}`);
+	log.ok(`Kategorií: ${keptCats.length}`);
+	if (removedProducts.length || removedCatSlugs.length)
+		log.warn(`Vyřazeno (CBD): produktů ${removedProducts.length}, kategorií ${removedCatSlugs.length} → přesměrování na homepage`);
 	if (warnings.length) log.warn(`Upozornění: ${warnings.length} (detail v normalized/report.json)`);
 	else log.ok('Bez upozornění.');
 }

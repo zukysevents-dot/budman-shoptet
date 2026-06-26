@@ -2,7 +2,36 @@
 // Vše, co se může lišit dle konkrétního e-shopu, je tady (ne ve skriptech).
 
 import { config } from '../lib/env.mjs';
-import { collapseWhitespace, stripTags } from '../lib/util.mjs';
+import { collapseWhitespace, stripTags, truncateAtWord } from '../lib/util.mjs';
+
+// Kategorie (dle slugu) vyřazené z migrace — i s jejich produkty.
+// Volba klienta: odstranit konzumovatelné CBD, ponechat hardware.
+const EXCLUDED_CATEGORY_SLUGS = new Set(['extrakty-oleje-cbd', 'kvety', 'cbd']);
+
+export function isExcludedCategory(slug) {
+	return EXCLUDED_CATEGORY_SLUGS.has(slug);
+}
+
+// Sestaví SEO title (~60) a meta description (~155) z reálných dat produktu.
+// Compliance: pokud zdroj obsahuje zdravotní tvrzení, použije bezpečnou šablonu.
+export function buildSeo({ name, shortHtml, longHtml }) {
+	const cleanName = collapseWhitespace(name);
+	const suffix = ' | Budman';
+	const seoTitle =
+		cleanName.length + suffix.length <= 60 ? cleanName + suffix : truncateAtWord(cleanName, 60);
+
+	const source = stripTags(shortHtml) || stripTags(longHtml);
+	let metaDescription;
+	if (source && scanHealthClaims(source).length === 0) {
+		metaDescription = truncateAtWord(source, 155);
+	} else {
+		metaDescription = truncateAtWord(
+			`${cleanName} — skladem u Budman, headshop gear a doplňky. Doprava zdarma od 1 500 Kč.`,
+			155
+		);
+	}
+	return { seoTitle, metaDescription };
+}
 
 // CBD compliance: výrazy naznačující léčebné/zdravotní účinky (zakázané claims).
 // Sken je jen poradní — místa k ruční úpravě, nic se nemaže automaticky.

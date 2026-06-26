@@ -5,6 +5,11 @@ Legenda: 🧑‍💻 = naklikáš ty v Shoptet adminu · 🤖 = připravím já 
 
 ---
 
+> **Vyřazené CBD:** kategorie „Extrakty a oleje CBD", „Květy", „CBD" a jejich produkty
+> (Night Dab, Day Dab) se NEimportují (volba klienta). Jejich staré URL jsou v `redirects.csv`
+> přesměrované na homepage (`/`). Seznam vyřazeného: `migration/data/normalized/removed.json`.
+> Nastavení vyřazení: `EXCLUDED_CATEGORY_SLUGS` v `migration/config/mapping.mjs`.
+
 ## 0. Příprava
 
 - 🤖 Vyplněné `migration/config/.env` (Woo přístupy + URL klonu).
@@ -44,6 +49,8 @@ Legenda: 🧑‍💻 = naklikáš ty v Shoptet adminu · 🤖 = připravím já 
 | `weight` | Hmotnost |
 | `availability` / `stock` | Dostupnost / sklad |
 | `shortDescription` / `description` | Krátký / dlouhý popis |
+| `seoTitle` | SEO titulek produktu |
+| `metaDescription` | Meta description (SEO) |
 | `variant:Barva` (apod.) | Parametr varianty |
 | `image`, `image2`, … | Obrázky (URL) |
 

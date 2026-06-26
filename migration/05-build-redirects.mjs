@@ -39,6 +39,14 @@ function main() {
 		add(wooCategoryUrl(c.slug), shoptetCategoryUrl(c.slug));
 	}
 
+	// Vyřazené (CBD) → staré URL na homepage, ať nevznikne 404.
+	const removedFile = path.join(NORM_DIR, 'removed.json');
+	if (fileExists(removedFile)) {
+		const removed = readJSON(removedFile);
+		for (const u of removed.products || []) add(u, '/');
+		for (const slug of removed.categories || []) add(wooCategoryUrl(slug), '/');
+	}
+
 	const columns = ['fromUrl', 'toUrl', 'automatic'];
 	const file = path.join(OUT_DIR, 'redirects.csv');
 	writeText(file, toCSV(columns, out), { withBom: true });

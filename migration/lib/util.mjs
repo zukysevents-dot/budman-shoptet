@@ -84,6 +84,15 @@ export function collapseWhitespace(s) {
 	return String(s ?? '').replace(/\s+/g, ' ').trim();
 }
 
+// Ořízne text na max znaků na hranici slova (bez useknutí uprostřed slova).
+export function truncateAtWord(text, max) {
+	const s = collapseWhitespace(text);
+	if (s.length <= max) return s;
+	const cut = s.slice(0, max);
+	const sp = cut.lastIndexOf(' ');
+	return (sp > max * 0.6 ? cut.slice(0, sp) : cut).trim();
+}
+
 // Odstraní HTML tagy (pro počítání délky / fallback krátkého popisu).
 export function stripTags(html) {
 	return collapseWhitespace(String(html ?? '').replace(/<[^>]*>/g, ' '));

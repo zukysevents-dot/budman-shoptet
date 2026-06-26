@@ -49,6 +49,8 @@ function buildCSV(rows) {
 		'stock',
 		'shortDescription',
 		'description',
+		'seoTitle',
+		'metaDescription',
 		...paramNames.map((n) => `variant:${n}`),
 		'image',
 		...Array.from({ length: Math.max(0, imgCount - 1) }, (_, i) => `image${i + 2}`),
@@ -73,6 +75,8 @@ function buildCSV(rows) {
 			stock: r.stock,
 			shortDescription: r.shortDescription,
 			description: r.description,
+			seoTitle: r.seoTitle,
+			metaDescription: r.metaDescription,
 		};
 		for (const n of paramNames) row[`variant:${n}`] = r.params?.[n] || '';
 		(r.images || []).slice(0, imgCount).forEach((url, i) => {
@@ -109,6 +113,8 @@ function buildXML(rows) {
 			head.defaultCategory ? `    <CATEGORIES>\n      <CATEGORY>${xmlEscape(head.defaultCategory)}</CATEGORY>\n    </CATEGORIES>` : '',
 			head.shortDescription ? `    <SHORT_DESCRIPTION>${xmlCData(head.shortDescription)}</SHORT_DESCRIPTION>` : '',
 			head.description ? `    <DESCRIPTION>${xmlCData(head.description)}</DESCRIPTION>` : '',
+			head.seoTitle ? `    <SEO_TITLE>${xmlEscape(head.seoTitle)}</SEO_TITLE>` : '',
+			head.metaDescription ? `    <META_DESCRIPTION>${xmlEscape(head.metaDescription)}</META_DESCRIPTION>` : '',
 			head.origUrl ? `    <ORIG_URL>${xmlEscape(head.origUrl)}</ORIG_URL>` : '',
 			`    <VAT>${xmlEscape(head.vatRate)}</VAT>`,
 			imgs ? `    <IMAGES>\n${imgs}\n    </IMAGES>` : '',
