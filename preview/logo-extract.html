@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8">
+	<title>Extrakce loga z PDF</title>
+	<style>
+		body { background:#222; color:#eee; font-family:system-ui; margin:0; padding:20px; }
+		#status { font-size:14px; margin-bottom:12px; white-space:pre-wrap; }
+		.checker { display:inline-block; background-image:
+			linear-gradient(45deg,#888 25%,transparent 25%),linear-gradient(-45deg,#888 25%,transparent 25%),
+			linear-gradient(45deg,transparent 75%,#888 75%),linear-gradient(-45deg,transparent 75%,#888 75%);
+			background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0; padding:10px; }
+		canvas { display:block; max-width:900px; height:auto; }
+	</style>
+</head>
+<body>
+	<div id="status">Načítám pdf.js…</div>
+	<div class="checker"><canvas id="out"></canvas></div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+	<script>
+	(async function(){
+		var statusEl = document.getElementById('status');
+		function say(m){ statusEl.textContent = m; }
+		try {
+			pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+			var pdf = await pdfjsLib.getDocument('/assets/brand/budman-logo-green.pdf').promise;
+			var page = await pdf.getPage(1);
+
+			var base = page.getViewport({ scale: 1 });
+			var scale = Math.min(4, Math.max(2, 1400 / base.width));
+			var vp = page.getViewport({ scale: scale });
+
+			var c = document.createElement('canvas');
+			c.width = Math.ceil(vp.width); c.height = Math.ceil(vp.height);
+			var cx = c.getContext('2d');
+			await page.render({ canvasContext: cx, viewport: vp, background: 'rgba(0,0,0,0)' }).promise;
+
+			var W = c.width, H = c.height;
+			var img = cx.getImageData(0, 0, W, H);
+			var d = img.data;
+			function isWhite(i){ return d[i+3] > 20 && d[i] > 235 && d[i+1] > 235 && d[i+2] > 235; }
+
+			var corners = [0, (W-1)*4, (H-1)*W*4, ((H-1)*W + (W-1))*4];
+			var hasWhiteBg = corners.every(isWhite);
+			var removed = 0;
+			if (hasWhiteBg) {
+				var seen = new Uint8Array(W*H);
+				var stack = [];
+				function push(x,y){ if(x<0||y<0||x>=W||y>=H) return; var idx=y*W+x; if(seen[idx]) return; seen[idx]=1; stack.push(idx); }
+				for (var x=0;x<W;x++){ push(x,0); push(x,H-1); }
+				for (var y=0;y<H;y++){ push(0,y); push(W-1,y); }
+				while (stack.length){
+					var idx = stack.pop(); var i = idx*4;
+					if (!isWhite(i)) continue;
+					d[i+3] = 0; removed++;
+					var px = idx % W, py = (idx - px) / W;
+					push(px+1,py); push(px-1,py); push(px,py+1); push(px,py-1);
+				}
+				cx.putImageData(img, 0, 0);
+			}
+
+			var minX=W, minY=H, maxX=0, maxY=0;
+			for (var yy=0; yy<H; yy++){ for (var xx=0; xx<W; xx++){ if (d[(yy*W+xx)*4+3] > 10){ if(xx<minX)minX=xx; if(xx>maxX)maxX=xx; if(yy<minY)minY=yy; if(yy>maxY)maxY=yy; } } }
+			var pad = 6;
+			minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad); maxX=Math.min(W-1,maxX+pad); maxY=Math.min(H-1,maxY+pad);
+			var cw = maxX-minX+1, ch = maxY-minY+1;
+
+			var out = document.getElementById('out');
+			out.width = cw; out.height = ch;
+			out.getContext('2d').drawImage(c, minX, minY, cw, ch, 0, 0, cw, ch);
+
+			var dataUrl = out.toDataURL('image/png');
+			var resp = await fetch('/save?path=assets/brand/budman-logo.png', { method:'POST', body: dataUrl });
+			var txt = await resp.text();
+			say('HOTOVO — bg odstraněno: ' + (hasWhiteBg ? (removed+' px') : 'PDF už bylo průhledné') + '\nOříznuto na ' + cw + '×' + ch + ' px\nServer: ' + txt);
+			window.__done = true;
+		} catch (e) {
+			say('CHYBA: ' + e.message);
+			window.__error = e.message;
+		}
+	})();
+	</script>
+</body>
+</html>

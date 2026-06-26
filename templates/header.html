@@ -1,0 +1,44 @@
+<!--
+  Budman hlavička — vlož do Shoptet šablony (záhlaví). Vyžaduje budman.css + budman.js.
+  Logo nahraj na FTP do /user/documents/ (budman-logo-web.png). Odkazy uprav na reálné URL.
+-->
+<div class="budman-topbar">
+  <div class="budman-topbar__inner">
+    <span><b>Doprava zdarma</b> od 1 500 Kč</span>
+    <span><b>Ověřeno 18+</b></span>
+    <span>Skladem &amp; expedice do 2 dnů</span>
+  </div>
+</div>
+
+<header class="budman-header" data-sticky-header>
+  <div class="budman-header__inner">
+    <button class="budman-burger" data-burger aria-label="Otevřít menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+
+    <a class="budman-logo" href="/" aria-label="Budman — úvod">
+      <img src="/user/documents/budman-logo-web.png" alt="Budman" width="800" height="415">
+    </a>
+
+    <nav class="budman-nav" data-nav aria-label="Hlavní navigace">
+      <a href="/kuracke-potreby/">Kuřácké potřeby</a>
+      <a href="/rigy/">Rigy</a>
+      <a href="/extrakty-oleje-cbd/">Extrakty</a>
+      <a href="/kvety/">Květy</a>
+      <a href="/merch/">Merch</a>
+    </nav>
+
+    <div class="budman-actions">
+      <button class="budman-iconbtn" aria-label="Hledat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <a class="budman-iconbtn" href="/muj-ucet/" aria-label="Můj účet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+      </a>
+      <a class="budman-iconbtn budman-cart" href="/kosik/" aria-label="Košík">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 11a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="budman-cart__count">2</span>
+      </a>
+    </div>
+  </div>
+</header>

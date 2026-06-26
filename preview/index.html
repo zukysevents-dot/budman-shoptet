@@ -3,26 +3,39 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Budman — preview (hero + dým)</title>
+	<title>Budman — preview</title>
 	<link rel="stylesheet" href="../assets/budman.css">
 	<style>
-		/* jen pro preview – Shoptet má vlastní reset/body */
 		body { margin: 0; background: var(--budman-bg); color: var(--budman-text); font-family: var(--budman-font); }
-		.pv-header { display:flex; align-items:center; justify-content:space-between; padding:14px 24px; background:var(--budman-surface); border-bottom:1px solid var(--budman-line); }
-		.pv-logo { font-size:22px; font-weight:800; letter-spacing:.5px; }
-		.pv-logo span { color:var(--budman-accent); }
-		.pv-nav a { color:#C9D2C2; text-decoration:none; font-size:13px; margin-left:16px; }
-		.pv-note { max-width:1240px; margin:24px auto; padding:0 24px; color:var(--budman-muted); font-size:13px; }
+		.pv-section { padding: clamp(2rem, 5vw, 4rem) 0; }
+		.pv-h2 { font-size: var(--budman-h2); margin: 0 0 1.4rem; font-weight: 800; }
+		.pv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+		.pv-thumb { aspect-ratio: 1; background: #0e120d; display: grid; place-items: center; color: #3a463a; }
+		.pv-card-body { padding: 14px; }
+		.pv-card-name { font-size: 0.9rem; margin-bottom: 8px; color: var(--budman-text); }
 	</style>
 </head>
 <body>
-	<header class="pv-header" data-sticky-header>
-		<div class="pv-logo">Bud<span>Man</span></div>
-		<nav class="pv-nav">
-			<a href="#">Kuřácké potřeby</a><a href="#">Rigy</a><a href="#">Extrakty</a><a href="#">CBD</a><a href="#">Merch</a>
-		</nav>
+	<!-- HLAVIČKA -->
+	<div class="budman-topbar"><div class="budman-topbar__inner">
+		<span><b>Doprava zdarma</b> od 1 500 Kč</span><span><b>Ověřeno 18+</b></span><span>Skladem &amp; expedice do 2 dnů</span>
+	</div></div>
+	<header class="budman-header" data-sticky-header>
+		<div class="budman-header__inner">
+			<button class="budman-burger" data-burger aria-label="Otevřít menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+			<a class="budman-logo" href="#" aria-label="Budman"><img src="../assets/brand/budman-logo-web.png" alt="Budman" width="800" height="415"></a>
+			<nav class="budman-nav" data-nav aria-label="Hlavní navigace">
+				<a href="#">Kuřácké potřeby</a><a href="#">Rigy</a><a href="#">Extrakty</a><a href="#">Květy</a><a href="#">Merch</a>
+			</nav>
+			<div class="budman-actions">
+				<button class="budman-iconbtn" aria-label="Hledat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+				<a class="budman-iconbtn" href="#" aria-label="Můj účet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg></a>
+				<a class="budman-iconbtn budman-cart" href="#" aria-label="Košík"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 11a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="budman-cart__count">2</span></a>
+			</div>
+		</div>
 	</header>
 
+	<!-- HERO -->
 	<section class="budman-hero">
 		<div class="budman-hero__inner">
 			<div class="budman-hero__copy" data-reveal>
@@ -34,20 +47,12 @@
 					<a class="budman-btn budman-btn--ghost" href="#">Celý sortiment</a>
 				</div>
 			</div>
-
 			<div class="budman-hero__stage" data-hero-smoke data-emit-x="0.705" data-emit-y="0.40">
 				<svg class="budman-hero__rig" viewBox="0 0 400 500" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
-					<defs>
-						<linearGradient id="bmGlass" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="0" stop-color="#8FC31F" stop-opacity="0.22"/>
-							<stop offset="1" stop-color="#1E5E20" stop-opacity="0.32"/>
-						</linearGradient>
-					</defs>
+					<defs><linearGradient id="bmGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FC31F" stop-opacity="0.22"/><stop offset="1" stop-color="#1E5E20" stop-opacity="0.32"/></linearGradient></defs>
 					<path d="M138,330 C120,335 95,360 95,395 C95,435 120,455 150,455 C180,455 205,435 205,395 C205,360 180,335 162,330 Z" fill="url(#bmGlass)" stroke="#8FC31F" stroke-opacity="0.7" stroke-width="3"/>
 					<path d="M97,394 C101,435 122,453 150,453 C178,453 199,435 203,394 C170,406 130,406 97,394 Z" fill="#4C9A2A" fill-opacity="0.30"/>
-					<circle cx="130" cy="424" r="4" fill="#8FC31F" fill-opacity="0.55"/>
-					<circle cx="150" cy="438" r="3" fill="#8FC31F" fill-opacity="0.45"/>
-					<circle cx="168" cy="420" r="3.5" fill="#8FC31F" fill-opacity="0.5"/>
+					<circle cx="130" cy="424" r="4" fill="#8FC31F" fill-opacity="0.55"/><circle cx="150" cy="438" r="3" fill="#8FC31F" fill-opacity="0.45"/><circle cx="168" cy="420" r="3.5" fill="#8FC31F" fill-opacity="0.5"/>
 					<path d="M150,332 L150,150 Q150,100 184,86" stroke="#8FC31F" stroke-opacity="0.5" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
 					<path d="M150,332 L150,150 Q150,100 184,86" stroke="#F2F5EC" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 					<path d="M188,350 C225,342 250,320 258,290 L272,240" stroke="#8FC31F" stroke-opacity="0.5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,7 +65,33 @@
 		</div>
 	</section>
 
-	<p class="pv-note">Preview hero sekce s animovaným dýmem z bangeru. Canvas běží jen ve viewportu a respektuje prefers-reduced-motion. Toto je lokální náhled — na Shoptet jde stejné CSS/JS přes FTP a HTML snippet z templates/hero.html.</p>
+	<!-- NEJPRODÁVANĚJŠÍ -->
+	<section class="pv-section">
+		<div class="budman-container">
+			<h2 class="pv-h2">Nejprodávanější</h2>
+			<div class="pv-grid">
+				<a class="budman-card" href="#" data-reveal><div class="pv-thumb"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg></div><div class="pv-card-body"><div class="pv-card-name">Puffco Opal Dry Top</div><div class="budman-price">450 Kč</div></div></a>
+				<a class="budman-card" href="#" data-reveal data-reveal-delay="1"><div class="pv-thumb"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg></div><div class="pv-card-body"><div style="margin-bottom:8px;"><span class="budman-badge budman-badge--sale">Akce</span></div><div class="pv-card-name">Classic Slurper</div><div style="display:flex; gap:8px; align-items:baseline;"><span class="budman-price">1 199 Kč</span><span style="color:var(--budman-muted); text-decoration:line-through; font-size:.85rem;">1 399 Kč</span></div></div></a>
+				<a class="budman-card" href="#" data-reveal data-reveal-delay="2"><div class="pv-thumb"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg></div><div class="pv-card-body"><div class="pv-card-name">Dab Rite Pro</div><div class="budman-price">7 349 Kč</div></div></a>
+				<a class="budman-card" href="#" data-reveal data-reveal-delay="3"><div class="pv-thumb"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg></div><div class="pv-card-body"><div class="pv-card-name">High Tower V4</div><div class="budman-price">2 480 Kč</div></div></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- PATIČKA -->
+	<footer class="budman-footer">
+		<div class="budman-footer__inner">
+			<div class="budman-footer__brand">
+				<img src="../assets/brand/budman-logo-web.png" alt="Budman" width="800" height="415">
+				<p>Vybraný headshop gear — rigy, slurpery, Puffco doplňky a CBD extrakty. Mladý tým nadšenců konopné kultury.</p>
+				<span class="budman-age">18+ · prodej jen osobám starším 18 let</span>
+			</div>
+			<div><h4>Nákup</h4><a href="#">Kuřácké potřeby</a><a href="#">Rigy</a><a href="#">Extrakty a oleje CBD</a><a href="#">Květy</a><a href="#">Merch</a></div>
+			<div><h4>Informace</h4><a href="#">Doprava a platba</a><a href="#">Obchodní podmínky</a><a href="#">Ochrana osobních údajů</a><a href="#">Reklamace</a><a href="#">O nás</a></div>
+			<div><h4>Kontakt</h4><a href="mailto:budman.shop@gmail.com">budman.shop@gmail.com</a><div class="budman-footer__social"><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a></div></div>
+		</div>
+		<div class="budman-footer__bottom"><div class="budman-footer__bottom-inner"><span>© 2026 Budman</span><span>Vytvořeno s láskou ke konopné kultuře.</span></div></div>
+	</footer>
 
 	<script src="../assets/budman.js" defer></script>
 </body>

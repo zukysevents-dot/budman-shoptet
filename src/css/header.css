@@ -1,0 +1,188 @@
+/*
+ * header.css — sticky hlavička + oznamovací pruh. Navazuje na tokeny v budman.css.
+ */
+
+/* --- Oznamovací pruh -------------------------------------------------- */
+.budman-topbar {
+	background: var(--budman-surface);
+	color: var(--budman-muted);
+	font-size: 0.78rem;
+}
+.budman-topbar__inner {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 0.45rem var(--budman-gutter);
+	display: flex;
+	gap: 1.2rem;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.budman-topbar b {
+	color: var(--budman-accent);
+	font-weight: 600;
+}
+
+/* --- Hlavička --------------------------------------------------------- */
+.budman-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: rgba(14, 18, 13, 0.85);
+	backdrop-filter: saturate(1.1) blur(8px);
+	border-bottom: 1px solid var(--budman-line);
+}
+.budman-header.is-scrolled {
+	background: rgba(14, 18, 13, 0.96);
+	box-shadow: var(--budman-shadow);
+}
+.budman-header__inner {
+	position: relative;
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 0.6rem var(--budman-gutter);
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+.budman-logo {
+	display: inline-flex;
+	flex: 0 0 auto;
+}
+.budman-logo img {
+	display: block;
+	height: 50px;
+	width: auto;
+	transition: height var(--budman-dur) var(--budman-ease);
+}
+.budman-header.is-scrolled .budman-logo img {
+	height: 40px;
+}
+
+/* Navigace */
+.budman-nav {
+	display: flex;
+	gap: 1.4rem;
+	margin-inline: auto;
+}
+.budman-nav a {
+	position: relative;
+	color: #c9d2c2;
+	text-decoration: none;
+	font-size: 0.9rem;
+	padding: 0.3rem 0;
+	white-space: nowrap;
+}
+.budman-nav a::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 2px;
+	background: var(--budman-accent);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 0.25s var(--budman-ease);
+}
+.budman-nav a:hover,
+.budman-nav a[aria-current] {
+	color: var(--budman-text);
+}
+.budman-nav a:hover::after,
+.budman-nav a[aria-current]::after {
+	transform: scaleX(1);
+}
+
+/* Akce (hledání, účet, košík) */
+.budman-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.9rem;
+	flex: 0 0 auto;
+}
+.budman-iconbtn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--budman-text);
+	background: none;
+	border: 0;
+	cursor: pointer;
+	padding: 4px;
+	transition: color 0.2s var(--budman-ease);
+}
+.budman-iconbtn:hover {
+	color: var(--budman-accent);
+}
+.budman-iconbtn svg {
+	width: 22px;
+	height: 22px;
+}
+.budman-cart {
+	position: relative;
+}
+.budman-cart__count {
+	position: absolute;
+	top: -5px;
+	right: -7px;
+	background: var(--budman-accent);
+	color: var(--budman-accent-ink);
+	font-size: 0.62rem;
+	font-weight: 700;
+	min-width: 16px;
+	height: 16px;
+	padding: 0 4px;
+	border-radius: 999px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Hamburger (mobil) */
+.budman-burger {
+	display: none;
+	background: none;
+	border: 0;
+	color: var(--budman-text);
+	cursor: pointer;
+	padding: 4px;
+}
+.budman-burger svg {
+	width: 26px;
+	height: 26px;
+}
+
+/* --- Mobil ------------------------------------------------------------ */
+@media (max-width: 860px) {
+	.budman-burger {
+		display: inline-flex;
+	}
+	.budman-nav {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		flex-direction: column;
+		gap: 0;
+		margin: 0;
+		padding: 0.4rem 0;
+		background: var(--budman-surface);
+		border-bottom: 1px solid var(--budman-line);
+		transform: translateY(-8px);
+		opacity: 0;
+		pointer-events: none;
+		transition: transform 0.2s var(--budman-ease), opacity 0.2s var(--budman-ease);
+	}
+	.budman-nav.is-open {
+		transform: none;
+		opacity: 1;
+		pointer-events: auto;
+	}
+	.budman-nav a {
+		padding: 0.7rem var(--budman-gutter);
+	}
+	.budman-nav a::after {
+		display: none;
+	}
+}

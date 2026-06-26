@@ -1,0 +1,91 @@
+/*
+ * footer.css — patička. Navazuje na tokeny v budman.css.
+ */
+.budman-footer {
+	background: var(--budman-surface);
+	color: var(--budman-muted);
+	border-top: 1px solid var(--budman-line);
+}
+.budman-footer__inner {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: clamp(2rem, 5vw, 3.5rem) var(--budman-gutter);
+	display: grid;
+	grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+	gap: clamp(1.5rem, 4vw, 3rem);
+}
+.budman-footer__brand img {
+	height: 46px;
+	width: auto;
+	margin-bottom: 0.9rem;
+}
+.budman-footer__brand p {
+	font-size: 0.85rem;
+	line-height: 1.6;
+	max-width: 34ch;
+}
+.budman-footer h4 {
+	color: var(--budman-text);
+	font-size: 0.95rem;
+	margin: 0 0 0.8rem;
+}
+.budman-footer a {
+	display: block;
+	color: var(--budman-muted);
+	text-decoration: none;
+	padding: 0.28rem 0;
+	font-size: 0.88rem;
+	transition: color 0.2s var(--budman-ease);
+}
+.budman-footer a:hover {
+	color: var(--budman-accent);
+}
+.budman-footer__social {
+	display: flex;
+	gap: 0.8rem;
+	margin-top: 0.6rem;
+}
+.budman-footer__social a {
+	display: inline-flex;
+	padding: 0;
+}
+.budman-footer__social svg {
+	width: 22px;
+	height: 22px;
+}
+.budman-age {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-top: 0.8rem;
+	border: 1px solid var(--budman-accent);
+	color: var(--budman-accent);
+	font-size: 0.78rem;
+	font-weight: 600;
+	padding: 0.25rem 0.6rem;
+	border-radius: 999px;
+}
+.budman-footer__bottom {
+	border-top: 1px solid var(--budman-line);
+}
+.budman-footer__bottom-inner {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 1rem var(--budman-gutter);
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	font-size: 0.78rem;
+}
+
+@media (max-width: 860px) {
+	.budman-footer__inner {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media (max-width: 520px) {
+	.budman-footer__inner {
+		grid-template-columns: 1fr;
+	}
+}

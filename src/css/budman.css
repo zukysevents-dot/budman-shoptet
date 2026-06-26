@@ -83,6 +83,7 @@
 	flex-direction: column;
 	background: var(--budman-surface-2);
 	color: var(--budman-text);
+	text-decoration: none;
 	border: 1px solid var(--budman-line);
 	border-radius: var(--budman-radius);
 	overflow: clip;
