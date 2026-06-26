@@ -1,0 +1,19 @@
+node_modules/
+
+# Tajné přístupy – NIKDY necommitovat
+migration/config/.env
+.env
+
+# Pracovní data migrace (raw export, normalizovaná data, výstupy importu)
+# – generují se skripty, do gitu nepatří. Fixtures jsou verzované zvlášť.
+migration/data/raw/
+migration/data/normalized/
+migration/data/out/
+
+# Build šablony
+assets/dist/
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db

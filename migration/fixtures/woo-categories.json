@@ -1,0 +1,10 @@
+[
+	{ "id": 10, "name": "Kuřácké potřeby", "slug": "kuracke-potreby", "parent": 0, "description": "<p>Kuřácké potřeby a příslušenství pro každodenní použití.</p>", "count": 1 },
+	{ "id": 11, "name": "Extrakty a oleje CBD", "slug": "extrakty-oleje-cbd", "parent": 0, "description": "", "count": 1 },
+	{ "id": 12, "name": "Balení", "slug": "baleni", "parent": 0, "description": "", "count": 1 },
+	{ "id": 13, "name": "Měření", "slug": "mereni", "parent": 0, "description": "", "count": 1 },
+	{ "id": 14, "name": "Slurpery, Blendery, Bangery", "slug": "slurpery-blendery-bangery", "parent": 0, "description": "", "count": 0 },
+	{ "id": 15, "name": "Cleaning", "slug": "cleaning", "parent": 0, "description": "", "count": 0 },
+	{ "id": 16, "name": "Puffco doplňky", "slug": "puffco-doplnky", "parent": 10, "description": "", "count": 1 },
+	{ "id": 17, "name": "Doplňky na extrakty", "slug": "doplnky-na-extrakty", "parent": 11, "description": "", "count": 1 }
+]

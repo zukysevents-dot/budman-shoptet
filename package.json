@@ -1,0 +1,21 @@
+{
+	"name": "budman-shoptet",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Migrace e-shopu Budman z WooCommerce na Shoptet (data + redirecty) a custom Shoptet šablona.",
+	"engines": {
+		"node": ">=20"
+	},
+	"scripts": {
+		"export": "node migration/01-export-woo.mjs",
+		"transform": "node migration/02-transform.mjs",
+		"build:categories": "node migration/03-build-categories.mjs",
+		"build:products": "node migration/04-build-products-xml.mjs",
+		"build:redirects": "node migration/05-build-redirects.mjs",
+		"validate": "node migration/06-validate.mjs",
+		"build:all": "npm run transform && npm run build:categories && npm run build:products && npm run build:redirects && npm run validate",
+		"migrate": "npm run export && npm run build:all",
+		"seed:fixture": "node migration/lib/seed-fixture.mjs"
+	}
+}
