@@ -21,6 +21,9 @@ dist/
 # Full-res logo (4,9 MB) – odvozené z PDF, regenerovatelné. Web verze (budman-logo-web.png) se verzuje.
 assets/brand/budman-logo.png
 
+# Stažené obrázky kategorií (k ručnímu nahrání do Shoptetu) – odvozené z produktů.
+assets/category/
+
 # OS / editor
 .DS_Store
 Thumbs.db
