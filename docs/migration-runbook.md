@@ -32,6 +32,9 @@ Legenda: 🧑‍💻 = naklikáš ty v Shoptet adminu · 🤖 = připravím já 
 ## 3. Import produktů (primárně CSV)
 
 - 🧑‍💻 *Položky → Produkty → Import* → nahraj `products.csv`.
+- 🧑‍💻 **Nastavení importu:** pro **první import** nech „Neměnit produkty a varianty…" (bezpečné),
+  ponech zaškrtnuté „Aktivovat přesměrování u změněných URL", a **NEZAŠKRTÁVEJ**
+  „Změňte adresu URL produktu podle názvu" — URL řídíme sloupcem `url` (kvůli přesnosti redirectů).
 - 🧑‍💻 V **průvodci namapuj sloupce** na pole Shoptetu:
 
 | Sloupec v CSV | Pole Shoptetu |
@@ -39,6 +42,7 @@ Legenda: 🧑‍💻 = naklikáš ty v Shoptet adminu · 🤖 = připravím já 
 | `code` | Kód produktu (párovací) |
 | `pairCode` | Párovací kód variant |
 | `name` | Název |
+| `url` | URL adresa produktu (slug) |
 | `manufacturer` | Výrobce |
 | `ean` | EAN |
 | `defaultCategory` | Výchozí kategorie |
