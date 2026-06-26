@@ -11,12 +11,15 @@ function main() {
 	if (!fileExists(file)) throw new Error(`Chybí ${file}. Spusť napřed "npm run transform".`);
 
 	const cats = readJSON(file);
-	const columns = ['title', 'url', 'parentUrl', 'description'];
+	const columns = ['title', 'url', 'parentUrl', 'description', 'seoTitle', 'metaDescription', 'imageUrl'];
 	const rows = cats.map((c) => ({
 		title: c.title,
 		url: c.slug,
 		parentUrl: c.parentSlug || '',
 		description: c.description || '',
+		seoTitle: c.seoTitle || '',
+		metaDescription: c.metaDescription || '',
+		imageUrl: c.imageUrl || '',
 	}));
 
 	const out = path.join(OUT_DIR, 'categories.csv');

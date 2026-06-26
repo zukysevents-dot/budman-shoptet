@@ -53,6 +53,7 @@ function buildCategories(rawCats) {
 			slug: c.slug,
 			parentSlug: c.parent ? byId.get(c.parent)?.slug || '' : '',
 			description: cleanHtml(c.description),
+			image: (c.image && c.image.src) || '',
 			depth: depth(c),
 		}))
 		// Rodiče první (kvůli parentUrl při importu).
@@ -104,6 +105,10 @@ function main() {
 	const seoOverridesFile = path.join(MIGRATION_DIR, 'config', 'seo-overrides.json');
 	const seoOverrides = fileExists(seoOverridesFile) ? readJSON(seoOverridesFile) : {};
 	let seoOverridesUsed = 0;
+
+	// Obsah kategorií (popis + SEO) podle slugu.
+	const categoryContentFile = path.join(MIGRATION_DIR, 'config', 'category-content.json');
+	const categoryContent = fileExists(categoryContentFile) ? readJSON(categoryContentFile) : {};
 	const { cats } = buildCategories(rawCats);
 	const catBySlug = new Map(cats.map((c) => [c.slug, c])); // všechny (kvůli správné hloubce)
 	const keptCats = cats.filter((c) => !isExcludedCategory(c.slug));
@@ -234,6 +239,28 @@ function main() {
 				origUrl,
 				...stockInfo(v),
 			});
+		}
+	}
+
+	// Obrázek kategorie z reprezentativního produktu (první s fotkou) + popis/SEO obsah.
+	const repImage = {};
+	for (const r of rows) {
+		if (r.defaultCategorySlug && !repImage[r.defaultCategorySlug] && (r.images || []).length) {
+			repImage[r.defaultCategorySlug] = r.images[0];
+		}
+	}
+	for (const c of keptCats) {
+		const cc = categoryContent[c.slug] || {};
+		c.description = cc.description || c.description || '';
+		c.seoTitle = cc.seoTitle || `${c.title} | Budman`;
+		c.metaDescription = cc.metaDescription || c.description || `${c.title} – skladem u Budman.`;
+		c.imageUrl = c.image || repImage[c.slug] || '';
+	}
+	// Nadřazené kategorie bez fotky → vezmi obrázek z první podkategorie.
+	for (const c of keptCats) {
+		if (!c.imageUrl) {
+			const child = keptCats.find((x) => x.parentSlug === c.slug && x.imageUrl);
+			if (child) c.imageUrl = child.imageUrl;
 		}
 	}
 

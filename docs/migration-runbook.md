@@ -27,6 +27,10 @@ Legenda: 🧑‍💻 = naklikáš ty v Shoptet adminu · 🤖 = připravím já 
 ## 2. Import kategorií
 
 - 🧑‍💻 *Položky → Kategorie → Import* → nahraj `categories.csv` (oddělovač `;`, UTF-8).
+- 🧑‍💻 Namapuj sloupce: `title` → Název, `url` → URL, `parentUrl` → Nadřazená,
+  `description` → Popis, `seoTitle` → SEO titulek, `metaDescription` → Meta description,
+  `imageUrl` → Obrázek (URL). Pokud průvodce SEO/obrázek nenabízí, doplň je ručně (jen 9 kategorií).
+- 🧑‍💻 Re-import **aktualizuje** existující kategorie (páruje podle `url`) — popisy/SEO/obrázky se doplní.
 - 🧑‍💻 Zkontroluj strom (rodiče/děti). Soubor má rodiče v pořadí první.
 
 ## 3. Import produktů (primárně CSV)
