@@ -6,17 +6,21 @@
 
 /* ============================================================= TOKENY === */
 :root {
-	/* Barvy — PLACEHOLDER, nahradit z loga. Připraveno na tmavou i světlou variantu. */
-	--budman-bg: #ffffff;
-	--budman-surface: #f6f6f4;
-	--budman-text: #1a1a17;
-	--budman-muted: #6b6b66;
-	--budman-line: #e6e6e1;
-	--budman-accent: #1d9e75;        /* TODO: z loga */
-	--budman-accent-ink: #0f6e56;    /* TODO: z loga */
-	--budman-badge-sale: #d83a3a;
+	/* Barvy odvozené z loga (tmavý „street/gear" směr s lime akcentem). */
+	--budman-bg: #0e120d;            /* near-black, teple zelený nádech */
+	--budman-surface: #171e15;       /* tmavá plocha (header, pruhy) */
+	--budman-surface-2: #1c241a;     /* karty */
+	--budman-text: #f2f5ec;          /* off-white */
+	--budman-muted: #9aa694;         /* tlumený text */
+	--budman-line: rgba(255, 255, 255, 0.10);
+	--budman-accent: #8fc31f;        /* lime z loga (hlavní akcent) */
+	--budman-accent-bright: #b6e635; /* světlejší lime pro hover/pop */
+	--budman-accent-2: #4c9a2a;      /* střední zelená */
+	--budman-deep: #1e5e20;          /* tmavě zelená */
+	--budman-accent-ink: #12160d;    /* text na lime ploše */
+	--budman-badge-sale: #e2483f;
 
-	/* Typografie — systémové fonty s latin-ext, nahradit brand fontem. */
+	/* Typografie — systémové fonty s latin-ext; brand display font doplníme. */
 	--budman-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--budman-font-head: var(--budman-font);
 
@@ -77,17 +81,21 @@
 .budman-card {
 	display: flex;
 	flex-direction: column;
-	background: var(--budman-bg);
+	background: var(--budman-surface-2);
+	color: var(--budman-text);
 	border: 1px solid var(--budman-line);
 	border-radius: var(--budman-radius);
 	overflow: clip;
 	transition: transform var(--budman-dur) var(--budman-ease),
+		border-color var(--budman-dur) var(--budman-ease),
 		box-shadow var(--budman-dur) var(--budman-ease);
 }
 .budman-card:hover {
 	transform: translateY(-4px);
+	border-color: var(--budman-accent);
 	box-shadow: var(--budman-shadow-lg);
 }
+.budman-price { color: var(--budman-accent); font-weight: 600; }
 .budman-badge {
 	display: inline-block;
 	padding: 0.2em 0.6em;
@@ -97,7 +105,7 @@
 	line-height: 1.4;
 }
 .budman-badge--sale { background: var(--budman-badge-sale); color: #fff; }
-.budman-badge--stock { background: var(--budman-accent); color: #fff; }
+.budman-badge--stock { background: var(--budman-accent); color: var(--budman-accent-ink); }
 
 /* ===================================================== REDUCE MOTION === */
 @media (prefers-reduced-motion: reduce) {
