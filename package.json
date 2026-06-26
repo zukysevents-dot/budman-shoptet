@@ -16,6 +16,7 @@
 		"validate": "node migration/06-validate.mjs",
 		"build:all": "npm run transform && npm run build:categories && npm run build:products && npm run build:redirects && npm run validate",
 		"migrate": "npm run export && npm run build:all",
-		"seed:fixture": "node migration/lib/seed-fixture.mjs"
+		"seed:fixture": "node migration/lib/seed-fixture.mjs",
+		"build": "node build-template.mjs"
 	}
 }

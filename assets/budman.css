@@ -1,0 +1,113 @@
+/*
+ * budman.css — custom vrstva pro Shoptet šablonu (plain CSS, bez buildu závislého na deps).
+ * Tokeny = placeholdery. FINÁLNÍ paleta a typografie se doplní z LOGA (vibe rozhodneme z něj).
+ * Nahrává se přes FTP do /user/documents/ a odkazuje v Návrháři šablon.
+ */
+
+/* ============================================================= TOKENY === */
+:root {
+	/* Barvy — PLACEHOLDER, nahradit z loga. Připraveno na tmavou i světlou variantu. */
+	--budman-bg: #ffffff;
+	--budman-surface: #f6f6f4;
+	--budman-text: #1a1a17;
+	--budman-muted: #6b6b66;
+	--budman-line: #e6e6e1;
+	--budman-accent: #1d9e75;        /* TODO: z loga */
+	--budman-accent-ink: #0f6e56;    /* TODO: z loga */
+	--budman-badge-sale: #d83a3a;
+
+	/* Typografie — systémové fonty s latin-ext, nahradit brand fontem. */
+	--budman-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--budman-font-head: var(--budman-font);
+
+	/* Typografická škála (fluid) */
+	--budman-h1: clamp(2rem, 1.4rem + 3vw, 3.5rem);
+	--budman-h2: clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem);
+	--budman-h3: clamp(1.2rem, 1.05rem + 0.8vw, 1.5rem);
+
+	/* Prostor a tvar */
+	--budman-container: 1240px;
+	--budman-gutter: clamp(1rem, 4vw, 2.5rem);
+	--budman-radius: 14px;
+	--budman-radius-sm: 8px;
+	--budman-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+	--budman-shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+
+	/* Pohyb */
+	--budman-ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--budman-dur: 0.5s;
+}
+
+/* ============================================================ POMOCNÉ === */
+.budman-container {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding-inline: var(--budman-gutter);
+}
+
+/* ====================================================== SCROLL-REVEAL === */
+/* Páruje se s budman.js: [data-reveal] start, .is-revealed cíl. */
+[data-reveal] {
+	opacity: 0;
+	transform: translateY(24px);
+	transition: opacity var(--budman-dur) var(--budman-ease),
+		transform var(--budman-dur) var(--budman-ease);
+	will-change: opacity, transform;
+}
+[data-reveal].is-revealed {
+	opacity: 1;
+	transform: none;
+}
+/* Volitelné zpoždění pro kaskádu */
+[data-reveal-delay="1"] { transition-delay: 0.08s; }
+[data-reveal-delay="2"] { transition-delay: 0.16s; }
+[data-reveal-delay="3"] { transition-delay: 0.24s; }
+
+/* ====================================================== STICKY HEADER === */
+[data-sticky-header] {
+	transition: box-shadow var(--budman-dur) var(--budman-ease),
+		background-color var(--budman-dur) var(--budman-ease);
+}
+[data-sticky-header].is-scrolled {
+	box-shadow: var(--budman-shadow);
+	backdrop-filter: saturate(1.1) blur(6px);
+}
+
+/* ===================================================== PRODUKTOVÁ KARTA (skeleton) === */
+.budman-card {
+	display: flex;
+	flex-direction: column;
+	background: var(--budman-bg);
+	border: 1px solid var(--budman-line);
+	border-radius: var(--budman-radius);
+	overflow: clip;
+	transition: transform var(--budman-dur) var(--budman-ease),
+		box-shadow var(--budman-dur) var(--budman-ease);
+}
+.budman-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--budman-shadow-lg);
+}
+.budman-badge {
+	display: inline-block;
+	padding: 0.2em 0.6em;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 600;
+	line-height: 1.4;
+}
+.budman-badge--sale { background: var(--budman-badge-sale); color: #fff; }
+.budman-badge--stock { background: var(--budman-accent); color: #fff; }
+
+/* ===================================================== REDUCE MOTION === */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+	[data-reveal] { opacity: 1; transform: none; }
+}
