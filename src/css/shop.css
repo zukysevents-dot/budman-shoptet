@@ -1,0 +1,414 @@
+/*
+ * shop.css — výpis kategorie + detail produktu + homepage sekce (USP, dlaždice).
+ * Navazuje na tokeny v budman.css. Pozn.: na Shoptetu se tyto třídy mapují na reálný
+ * markup šablony; zde slouží jako cílový design (preview).
+ */
+
+/* --- Breadcrumb ------------------------------------------------------- */
+.budman-breadcrumb {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 1rem var(--budman-gutter) 0;
+	font-size: 0.8rem;
+	color: var(--budman-muted);
+}
+.budman-breadcrumb a {
+	color: var(--budman-muted);
+	text-decoration: none;
+}
+.budman-breadcrumb a:hover {
+	color: var(--budman-accent);
+}
+.budman-breadcrumb span {
+	margin: 0 0.4rem;
+	opacity: 0.5;
+}
+
+/* --- USP pruh (homepage) --------------------------------------------- */
+.budman-usp {
+	background: var(--budman-surface);
+	border-block: 1px solid var(--budman-line);
+}
+.budman-usp__inner {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 1.2rem var(--budman-gutter);
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1rem;
+}
+.budman-usp__item {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	font-size: 0.9rem;
+	color: var(--budman-text);
+}
+.budman-usp__item svg {
+	width: 26px;
+	height: 26px;
+	color: var(--budman-accent);
+	flex: 0 0 auto;
+}
+.budman-usp__item b {
+	display: block;
+	font-weight: 600;
+}
+.budman-usp__item span {
+	color: var(--budman-muted);
+	font-size: 0.82rem;
+}
+
+/* --- Dlaždice kategorií (homepage) ----------------------------------- */
+.budman-tiles {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: clamp(2rem, 5vw, 4rem) var(--budman-gutter);
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 14px;
+}
+.budman-tile {
+	position: relative;
+	aspect-ratio: 4 / 3;
+	border-radius: var(--budman-radius);
+	overflow: clip;
+	background: var(--budman-surface-2);
+	border: 1px solid var(--budman-line);
+	text-decoration: none;
+	display: flex;
+	align-items: flex-end;
+}
+.budman-tile::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(14, 18, 13, 0.85) 10%, transparent 60%);
+}
+.budman-tile__label {
+	position: relative;
+	z-index: 1;
+	padding: 1rem;
+	color: var(--budman-text);
+	font-weight: 600;
+	font-size: 1.05rem;
+}
+.budman-tile__label small {
+	display: block;
+	color: var(--budman-muted);
+	font-weight: 400;
+	font-size: 0.78rem;
+}
+.budman-tile:hover .budman-tile__label {
+	color: var(--budman-accent);
+}
+
+/* --- Výpis kategorie -------------------------------------------------- */
+.budman-cat__head {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 1.2rem var(--budman-gutter) 0;
+}
+.budman-cat__title {
+	font-size: var(--budman-h2);
+	font-weight: 800;
+	margin: 0.3rem 0 0.4rem;
+}
+.budman-cat__desc {
+	color: var(--budman-muted);
+	max-width: 70ch;
+	line-height: 1.6;
+	font-size: 0.92rem;
+}
+.budman-cat__toolbar {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 1rem var(--budman-gutter);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+.budman-cat__count {
+	color: var(--budman-muted);
+	font-size: 0.85rem;
+}
+.budman-select {
+	background: var(--budman-surface-2);
+	color: var(--budman-text);
+	border: 1px solid var(--budman-line);
+	border-radius: var(--budman-radius-sm);
+	padding: 0.5rem 0.8rem;
+	font-size: 0.88rem;
+}
+.budman-cat__grid {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: 0 var(--budman-gutter) clamp(2rem, 5vw, 4rem);
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 16px;
+}
+
+/* karta – doplnění k .budman-card z budman.css */
+.budman-card__thumb {
+	aspect-ratio: 1;
+	background: var(--budman-bg);
+	display: grid;
+	place-items: center;
+	color: #3a463a;
+}
+.budman-card__body {
+	padding: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+.budman-card__name {
+	font-size: 0.9rem;
+	line-height: 1.3;
+	color: var(--budman-text);
+}
+.budman-card__old {
+	color: var(--budman-muted);
+	text-decoration: line-through;
+	font-size: 0.82rem;
+	margin-left: 6px;
+}
+
+.budman-pagination {
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+	padding-bottom: clamp(2rem, 5vw, 4rem);
+}
+.budman-pagination a,
+.budman-pagination span {
+	min-width: 38px;
+	height: 38px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--budman-line);
+	border-radius: var(--budman-radius-sm);
+	color: var(--budman-text);
+	text-decoration: none;
+	font-size: 0.88rem;
+}
+.budman-pagination a:hover {
+	border-color: var(--budman-accent);
+	color: var(--budman-accent);
+}
+.budman-pagination .is-active {
+	background: var(--budman-accent);
+	color: var(--budman-accent-ink);
+	border-color: var(--budman-accent);
+	font-weight: 600;
+}
+
+/* --- Detail produktu -------------------------------------------------- */
+.budman-product__inner {
+	max-width: var(--budman-container);
+	margin-inline: auto;
+	padding: clamp(1rem, 3vw, 2rem) var(--budman-gutter) clamp(2rem, 5vw, 3.5rem);
+	display: grid;
+	grid-template-columns: 1.05fr 1fr;
+	gap: clamp(1.5rem, 4vw, 3rem);
+	align-items: start;
+}
+.budman-gallery__main {
+	aspect-ratio: 1;
+	background: var(--budman-surface-2);
+	border: 1px solid var(--budman-line);
+	border-radius: var(--budman-radius);
+	display: grid;
+	place-items: center;
+	color: #3a463a;
+	overflow: clip;
+}
+.budman-gallery__thumbs {
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
+	flex-wrap: wrap;
+}
+.budman-gallery__thumb {
+	width: 64px;
+	aspect-ratio: 1;
+	background: var(--budman-surface-2);
+	border: 1px solid var(--budman-line);
+	border-radius: var(--budman-radius-sm);
+	display: grid;
+	place-items: center;
+	color: #3a463a;
+	cursor: pointer;
+}
+.budman-gallery__thumb.is-active {
+	border-color: var(--budman-accent);
+}
+
+.budman-pinfo__cat {
+	color: var(--budman-accent);
+	font-size: 0.74rem;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+}
+.budman-pinfo__title {
+	font-size: clamp(1.4rem, 1rem + 2vw, 2rem);
+	font-weight: 800;
+	line-height: 1.1;
+	margin: 0.5rem 0 0.8rem;
+}
+.budman-pinfo__price {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	margin-bottom: 0.8rem;
+}
+.budman-pinfo__price b {
+	color: var(--budman-accent);
+	font-size: 1.8rem;
+	font-weight: 700;
+}
+.budman-stock {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	font-size: 0.85rem;
+	color: var(--budman-text);
+	margin-bottom: 1.2rem;
+}
+.budman-stock::before {
+	content: "";
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--budman-accent);
+}
+.budman-stock--out::before {
+	background: var(--budman-muted);
+}
+
+.budman-variant {
+	margin-bottom: 1.1rem;
+}
+.budman-variant__label {
+	display: block;
+	font-size: 0.82rem;
+	color: var(--budman-muted);
+	margin-bottom: 0.4rem;
+}
+.budman-chips {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+.budman-chip {
+	padding: 0.45rem 0.9rem;
+	border: 1px solid var(--budman-line);
+	border-radius: var(--budman-radius-sm);
+	background: var(--budman-surface-2);
+	color: var(--budman-text);
+	font-size: 0.86rem;
+	cursor: pointer;
+}
+.budman-chip.is-active {
+	border-color: var(--budman-accent);
+	color: var(--budman-accent);
+}
+
+.budman-buy {
+	display: flex;
+	gap: 10px;
+	margin: 1.2rem 0;
+}
+.budman-qty {
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid var(--budman-line);
+	border-radius: var(--budman-radius-sm);
+	overflow: clip;
+}
+.budman-qty button {
+	width: 40px;
+	height: 46px;
+	background: var(--budman-surface-2);
+	color: var(--budman-text);
+	border: 0;
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+.budman-qty input {
+	width: 48px;
+	height: 46px;
+	text-align: center;
+	background: transparent;
+	border: 0;
+	color: var(--budman-text);
+	font-size: 1rem;
+}
+.budman-buy .budman-btn--primary {
+	flex: 1;
+	justify-content: center;
+	font-size: 1rem;
+}
+
+.budman-meta {
+	list-style: none;
+	margin: 1.2rem 0 0;
+	padding: 1rem 0 0;
+	border-top: 1px solid var(--budman-line);
+	font-size: 0.85rem;
+}
+.budman-meta li {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.3rem 0;
+}
+.budman-meta span {
+	color: var(--budman-muted);
+}
+
+/* Dlouhý popis (prose) */
+.budman-pdesc {
+	max-width: 820px;
+	margin: 0 auto;
+	padding: 0 var(--budman-gutter) clamp(2rem, 5vw, 4rem);
+	color: var(--budman-text);
+	line-height: 1.7;
+}
+.budman-pdesc h2,
+.budman-pdesc h3 {
+	color: var(--budman-text);
+	margin: 1.6rem 0 0.6rem;
+}
+.budman-pdesc p {
+	color: #d5ddcf;
+	margin: 0 0 1rem;
+}
+.budman-pdesc ul {
+	color: #d5ddcf;
+	padding-left: 1.2rem;
+}
+.budman-pdesc blockquote {
+	border-left: 3px solid var(--budman-accent);
+	margin: 1rem 0;
+	padding: 0.4rem 0 0.4rem 1rem;
+	color: var(--budman-muted);
+}
+
+/* --- Responsivní ----------------------------------------------------- */
+@media (max-width: 860px) {
+	.budman-product__inner {
+		grid-template-columns: 1fr;
+	}
+	.budman-usp__inner {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media (max-width: 520px) {
+	.budman-usp__inner {
+		grid-template-columns: 1fr;
+	}
+}
