@@ -394,9 +394,10 @@
 	'use strict';
 
 	var CDN = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main';
-	// rig.png pinnut na commit (jsDelivr @main cache na mutable cestě servíruje stale) — bump při změně rigu
+	// měnitelné assety pinnuty na commit (jsDelivr @main cache servíruje stale) — bump při změně souboru
 	var RIG_URL = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@3497d21/assets/hero/rig.png';
-	var B_URL = CDN + '/assets/brand/budman-b.png';
+	var B_URL = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@21d60dc/assets/brand/budman-b.png';
+	var CDN_PIN_LOGO = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@e65092b/assets/brand/budman-logo-web.png';
 
 	var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -432,10 +433,10 @@
 			canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		}
-		function rate() { return Math.max(7, Math.min(17, W / 95)); }
+		function rate() { return Math.max(10, Math.min(24, W / 70)); }
 		function spawn() {
-			if (parts.length > 240) return;
-			parts.push({ x: relX * W + rnd(-W * 0.02, W * 0.02), y: relY * H + rnd(-4, 4), vx: rnd(-5, 5), vy: rnd(-26, -42), r: rnd(9, 18), grow: rnd(12, 21), life: 0, max: rnd(3, 5), seed: Math.random() * 6.28 });
+			if (parts.length > 320) return;
+			parts.push({ x: relX * W + rnd(-W * 0.025, W * 0.025), y: relY * H + rnd(-5, 5), vx: rnd(-6, 6), vy: rnd(-30, -48), r: rnd(11, 23), grow: rnd(14, 25), life: 0, max: rnd(3.2, 5.4), seed: Math.random() * 6.28 });
 		}
 		function step(t) {
 			if (!last) last = t;
@@ -453,11 +454,12 @@
 			ctx.globalCompositeOperation = 'lighter';
 			for (var j = 0; j < parts.length; j++) {
 				var q = parts[j];
-				var a = Math.sin(Math.PI * (q.life / q.max)) * 0.13;
+				var a = Math.sin(Math.PI * (q.life / q.max)) * 0.26;
 				if (a <= 0) continue;
 				var g = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, q.r);
-				g.addColorStop(0, 'rgba(212, 224, 200,' + a.toFixed(3) + ')');
-				g.addColorStop(1, 'rgba(212, 224, 200,0)');
+				g.addColorStop(0, 'rgba(224, 234, 212,' + a.toFixed(3) + ')');
+				g.addColorStop(0.5, 'rgba(196, 216, 176,' + (a * 0.5).toFixed(3) + ')');
+				g.addColorStop(1, 'rgba(196, 216, 176,0)');
 				ctx.fillStyle = g;
 				ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, 6.28); ctx.fill();
 			}
@@ -637,9 +639,138 @@
 		});
 	}
 
+	/* helper: najdi href kategorie/stránky podle textu odkazu (reálné slugy) */
+	function findHref(rx, fallback) {
+		var a = [].slice.call(document.querySelectorAll('.menu a, .navigation a, .footer a, .top-navigation-bar a, a')).find(function (x) { return rx.test((x.textContent || '').trim()); });
+		return (a && a.getAttribute('href')) || fallback;
+	}
+	var ICON = {
+		arrow: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+		truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v11H1zM14 8h4l3 3v3h-7"/><circle cx="5.5" cy="17" r="1.6"/><circle cx="17.5" cy="17" r="1.6"/></svg>',
+		box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v10l8 4 8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>',
+		ig: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.7 0 3 0 4.1.1 1 0 1.7.2 2.3.4.6.3 1.1.6 1.6 1.1.5.5.8 1 1.1 1.6.2.6.4 1.3.4 2.3.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.7-.4 2.3a4.6 4.6 0 0 1-1.1 1.6 4.6 4.6 0 0 1-1.6 1.1c-.6.2-1.3.4-2.3.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.7-.2-2.3-.4a4.6 4.6 0 0 1-1.6-1.1 4.6 4.6 0 0 1-1.1-1.6c-.2-.6-.4-1.3-.4-2.3C2 15 2 14.7 2 12s0-3 .1-4.1c0-1 .2-1.7.4-2.3.3-.6.6-1.1 1.1-1.6.5-.5 1-.8 1.6-1.1.6-.2 1.3-.4 2.3-.4C9 2 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.4 6.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>',
+		fb: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>'
+	};
+
+	/* Horní lišta: doplnit USP (doprava zdarma / skladem) ----------- */
+	function topBarMsg() {
+		var bar = document.querySelector('.top-navigation-bar, .header-top');
+		if (!bar || bar.querySelector('.bm-topmsg-host')) return;
+		var host = document.createElement('span');
+		host.className = 'bm-topmsg-host';
+		host.style.cssText = 'display:inline-flex;align-items:center;gap:1.4rem;margin-right:auto;padding-right:1rem';
+		host.innerHTML = '<span class="bm-topmsg">' + ICON.truck + 'Doprava zdarma od 1 500 Kč</span>' +
+			'<span class="bm-topmsg bm-hide-sm">' + ICON.box + 'Skladem, expedice do 24 h</span>';
+		var inner = bar.querySelector('.top-navigation-bar__in, .header-top__in, .container, .wrapper') || bar;
+		inner.insertBefore(host, inner.firstChild);
+	}
+
+	/* Brandové PROMO bannery (titulka, za hero) --------------------- */
+	function injectPromo() {
+		if (!isHome() || document.querySelector('.bm-promo')) return;
+		var hero = document.querySelector('.bm-hp-hero');
+		if (!hero) return;
+		var hrefRig = findHref(/^rigy$|skleněné rig|^rig/i, '/rigy/');
+		var hrefPuffco = findHref(/puffco/i, '/kuracke-potreby/');
+		var hrefSmoke = findHref(/kuřáck/i, '/kuracke-potreby/');
+		var hrefMerch = findHref(/^merch$/i, '/merch/');
+		var hrefClean = findHref(/cleaning/i, '/kuracke-potreby/');
+		var tiles = [
+			{ big: true, href: hrefRig, eye: 'Bestseller', t: 'Skleněné rigy &amp; recyclery', s: 'Ruční kousky i kompaktní dab rigy — pečlivě vybrané, skladem.', bg: "radial-gradient(120% 120% at 82% 12%, rgba(121,195,67,0.38), transparent 58%), linear-gradient(135deg,#17220f 0%,#0a0e07 100%)", rig: true },
+			{ href: hrefPuffco, eye: 'Dab gear', t: 'Puffco doplňky', s: 'Atomizéry, nástavce a příslušenství.', bg: "radial-gradient(120% 120% at 78% 18%, rgba(201,162,75,0.32), transparent 60%), linear-gradient(135deg,#2a2410,#0d0f07)" },
+			{ href: hrefSmoke, eye: 'Sortiment', t: 'Kuřácké potřeby', s: 'Vše pro pohodový dab.', bg: "radial-gradient(120% 120% at 78% 18%, rgba(46,125,30,0.42), transparent 60%), linear-gradient(135deg,#143a0e,#0b0e07)" },
+			{ href: hrefMerch, eye: 'Budman', t: 'Merch', s: 'Oblečení a doplňky komunity.', bg: "linear-gradient(135deg,#26271c,#0c0f08)" },
+			{ href: hrefClean, eye: 'Péče', t: 'Cleaning', s: 'Ať sklo září jako nové.', bg: "radial-gradient(120% 120% at 80% 14%, rgba(150,220,90,0.26), transparent 60%), linear-gradient(135deg,#10180b,#0a0e07)" }
+		];
+		var sec = document.createElement('section');
+		sec.className = 'bm-promo';
+		sec.innerHTML = tiles.map(function (x) {
+			return '<a class="bm-promo__tile' + (x.big ? ' bm-promo__tile--big' : '') + '" href="' + x.href + '">' +
+				'<span class="bm-promo__bg" style="background:' + x.bg + '"></span>' +
+				(x.rig ? '<img src="' + RIG_URL + '" alt="" aria-hidden="true" style="position:absolute;right:-6%;bottom:-4%;height:108%;width:auto;z-index:-1;opacity:.96;filter:drop-shadow(0 10px 20px rgba(0,0,0,.5))">' : '') +
+				'<p class="bm-promo__eyebrow">' + x.eye + '</p>' +
+				'<h3 class="bm-promo__title">' + x.t + '</h3>' +
+				'<p class="bm-promo__sub">' + x.s + '</p>' +
+				'<span class="bm-promo__cta">Prohlédnout ' + ICON.arrow + '</span>' +
+				'</a>';
+		}).join('');
+		hero.parentNode.insertBefore(sec, hero.nextSibling);
+	}
+
+	/* Skrýt Shoptet demo text + branded „proč u nás" ---------------- */
+	function cleanDemo() {
+		if (!isHome()) return;
+		[].slice.call(document.querySelectorAll('#content h1, #content h2, #content h3, #content p')).forEach(function (el) {
+			if (/Vítejte v na|zkušebn|Shoptet|30 dní zdarma|registračním emailu|přepsat nebo smazat/i.test(el.textContent || '')) el.classList.add('bm-demo-hidden');
+		});
+		if (document.querySelector('.bm-why')) return;
+		var promo = document.querySelector('.bm-promo');
+		var why = document.createElement('section');
+		why.className = 'bm-why';
+		why.innerHTML = '<h2 class="bm-why__title">Headshop pro dab komunitu</h2>' +
+			'<p class="bm-why__lead">Skleněné rigy, recyclery a kvalitní kuřácké potřeby vybírané s citem pro detail. ' +
+			'Skladové zásoby, expedice do 24 hodin a férové ceny — od kompaktních kousků po sběratelské ruční skleničky.</p>';
+		var usp = document.querySelector('.benefitBanner');
+		if (usp && usp.parentNode) usp.parentNode.insertBefore(why, usp);
+		else if (promo && promo.parentNode) promo.parentNode.insertBefore(why, promo.nextSibling);
+	}
+
+	/* Bohatá patička (nativní je prázdná) --------------------------- */
+	function injectFooter() {
+		var f = document.querySelector('.footer');
+		if (!f || f.querySelector('.bm-footer')) return;
+		var L = {
+			rigy: findHref(/^rigy$|^rig/i, '/rigy/'),
+			puffco: findHref(/puffco/i, '/kuracke-potreby/'),
+			smoke: findHref(/kuřáck/i, '/kuracke-potreby/'),
+			merch: findHref(/^merch$/i, '/merch/'),
+			znacky: findHref(/značk/i, '/znacky/'),
+			jak: findHref(/jak nakupovat/i, '/jak-nakupovat/'),
+			op: findHref(/obchodní podmínky/i, '/obchodni-podminky/'),
+			gdpr: findHref(/osobních údaj|ochrana/i, '/ochrana-osobnich-udaju/'),
+			kontakt: findHref(/kontakt/i, '/kontakty/')
+		};
+		var sec = document.createElement('div');
+		sec.className = 'bm-footer';
+		sec.innerHTML =
+			'<div class="bm-footer__grid">' +
+				'<div>' +
+					'<div class="bm-footer__logo" style="background-image:url(\'' + CDN_PIN_LOGO + '\')" role="img" aria-label="budMan"></div>' +
+					'<p class="bm-footer__tag">Prémiový dab &amp; smoking gear. Skleněné rigy, Puffco doplňky a kuřácké potřeby pro českou dab komunitu.</p>' +
+					'<div class="bm-footer__social"><a href="' + L.kontakt + '" aria-label="Instagram">' + ICON.ig + '</a><a href="' + L.kontakt + '" aria-label="Facebook">' + ICON.fb + '</a></div>' +
+					'<span class="bm-footer__age"><b>18+</b> Prodej pouze osobám starším 18 let</span>' +
+				'</div>' +
+				'<div><h4>Nakupování</h4><ul>' +
+					'<li><a href="' + L.rigy + '">Skleněné rigy</a></li>' +
+					'<li><a href="' + L.puffco + '">Puffco doplňky</a></li>' +
+					'<li><a href="' + L.smoke + '">Kuřácké potřeby</a></li>' +
+					'<li><a href="' + L.merch + '">Merch</a></li>' +
+					'<li><a href="' + L.znacky + '">Značky</a></li>' +
+				'</ul></div>' +
+				'<div><h4>Informace</h4><ul>' +
+					'<li><a href="' + L.jak + '">Jak nakupovat</a></li>' +
+					'<li><a href="' + L.op + '">Obchodní podmínky</a></li>' +
+					'<li><a href="' + L.gdpr + '">Ochrana osobních údajů</a></li>' +
+					'<li><a href="' + L.kontakt + '">Kontakt</a></li>' +
+				'</ul></div>' +
+				'<div class="bm-footer__contact"><h4>Kontakt</h4>' +
+					'<strong>Lukáš Hrdina</strong><br>IČO 14293714<br>Rybná 716/24<br>110 00 Praha 1<br>' +
+					'<a href="tel:+420702081458">702 081 458</a>' +
+					'<div class="bm-footer__pay"><span>Visa</span><span>Mastercard</span><span>GoPay</span><span>Dobírka</span></div>' +
+					'<div class="bm-footer__pay"><span>Zásilkovna</span><span>GLS</span><span>PPL</span></div>' +
+				'</div>' +
+			'</div>' +
+			'<div class="bm-footer__bottom"><span>© 2026 Budman-shop — všechna práva vyhrazena</span><span>Vyrobeno s láskou k dab komunitě 🌿</span></div>';
+		f.insertBefore(sec, f.firstChild);
+	}
+
 	ready(function () {
 		playIntro();
 		injectHero();
+		injectPromo();
+		cleanDemo();
+		topBarMsg();
+		injectFooter();
 		customCursor();
 		reveal();
 		magnetic();

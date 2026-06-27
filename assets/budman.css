@@ -1458,7 +1458,7 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="number"]
 	width: 32px;
 	height: 32px;
 	pointer-events: none;
-	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main/assets/brand/budman-b.png") center / contain no-repeat;
+	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@21d60dc/assets/brand/budman-b.png") center / contain no-repeat;
 	filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
 	opacity: 0;
 	transition: opacity 0.2s ease;
@@ -1480,3 +1480,229 @@ html.bm-has-cursor [contenteditable] { cursor: auto; }
 @media (prefers-reduced-motion: reduce) {
 	.bm-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+
+/* ================================================================== */
+/* =============== V2 PREMIUM POLISH (liquid/glass) ================= */
+/* ================================================================== */
+
+/* --- Liquid blobs v hero (živé, plynulé pozadí) ------------------ */
+.bm-hp-hero__bg::before {
+	content: "";
+	position: absolute;
+	inset: -25%;
+	z-index: 0;
+	background:
+		radial-gradient(closest-side at 32% 34%, rgba(121, 195, 67, 0.26), transparent 70%),
+		radial-gradient(closest-side at 72% 64%, rgba(201, 162, 75, 0.18), transparent 70%),
+		radial-gradient(closest-side at 60% 18%, rgba(150, 220, 90, 0.14), transparent 72%);
+	filter: blur(46px);
+	animation: bmBlob 20s ease-in-out infinite alternate;
+	will-change: transform;
+}
+@keyframes bmBlob {
+	0% { transform: translate3d(-3%, -2%, 0) scale(1) rotate(0deg); }
+	100% { transform: translate3d(5%, 4%, 0) scale(1.14) rotate(8deg); }
+}
+@media (prefers-reduced-motion: reduce) { .bm-hp-hero__bg::before { animation: none; } }
+
+/* --- Horní lišta (byla nedodělaná) ------------------------------- */
+.top-navigation-bar, .header-top {
+	background: rgba(9, 12, 6, 0.72) !important;
+	-webkit-backdrop-filter: blur(10px);
+	        backdrop-filter: blur(10px);
+	border-bottom: 1px solid rgba(201, 162, 75, 0.20) !important;
+	font-size: 0.82rem;
+	min-height: 40px;
+}
+.top-navigation-bar a, .header-top a { color: #c3cab5 !important; transition: color 0.2s ease; }
+.top-navigation-bar a:hover, .header-top a:hover { color: var(--bm-gold-bright) !important; }
+.bm-topmsg {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	color: var(--bm-gold-bright);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+}
+.bm-topmsg svg { width: 15px; height: 15px; flex: none; }
+.bm-topmsg + .bm-topmsg { margin-left: 1.4rem; }
+@media (max-width: 760px) { .bm-topmsg.bm-hide-sm { display: none; } }
+
+/* --- Hlavička: liquid glass + jemný spodní okraj ----------------- */
+header, .header {
+	-webkit-backdrop-filter: blur(8px);
+	        backdrop-filter: blur(8px);
+	border-bottom: 1px solid rgba(201, 162, 75, 0.14) !important;
+}
+/* search jako frosted pill */
+.search input, input.search-text, .header .form-control, .header input[type="text"] {
+	background: rgba(255, 255, 255, 0.07) !important;
+	-webkit-backdrop-filter: blur(6px);
+	        backdrop-filter: blur(6px);
+	border: 1px solid rgba(255, 255, 255, 0.16) !important;
+	border-radius: 999px !important;
+	color: #f2f5ec !important;
+	height: 46px;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.search input:focus, input.search-text:focus {
+	border-color: var(--bm-green-bright) !important;
+	box-shadow: 0 0 0 3px rgba(121, 195, 67, 0.20) !important;
+	background: rgba(255, 255, 255, 0.10) !important;
+}
+.btn-search, button[type="submit"].search, .search button {
+	background: var(--bm-green) !important;
+	border-radius: 999px !important;
+	color: #fff !important;
+}
+.btn-search:hover, .search button:hover { background: var(--bm-green-bright) !important; color: var(--bm-ink) !important; }
+
+/* navigace: liquid podtržení */
+.navigation-in.menu > ul > li > a, .menu .menu-level-0 > li > a { position: relative; }
+.navigation-in.menu > ul > li > a::after, .menu .menu-level-0 > li > a::after {
+	content: "";
+	position: absolute;
+	left: 0.9em; right: 0.9em; bottom: 6px;
+	height: 2px;
+	border-radius: 2px;
+	background: linear-gradient(90deg, var(--bm-green-bright), var(--bm-gold));
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 0.28s var(--bm-ease);
+}
+.navigation-in.menu > ul > li > a:hover::after, .menu .menu-level-0 > li.active > a::after { transform: scaleX(1); }
+
+/* --- Brandové PROMO bannery (injektuje JS) ----------------------- */
+.bm-promo {
+	max-width: 1180px;
+	margin: 0 auto 2.8rem;
+	padding: 0 clamp(1rem, 4vw, 3rem);
+	display: grid;
+	grid-template-columns: 1.5fr 1fr 1fr;
+	grid-auto-rows: 190px;
+	gap: 1rem;
+}
+.bm-promo__tile {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	border-radius: 18px;
+	overflow: hidden;
+	padding: 1.4rem;
+	text-decoration: none;
+	isolation: isolate;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	color: #fff;
+	transition: transform 0.3s var(--bm-ease), box-shadow 0.3s ease;
+	will-change: transform;
+}
+.bm-promo__tile--big { grid-row: span 2; }
+.bm-promo__bg {
+	position: absolute; inset: 0; z-index: -2;
+	background-size: cover; background-position: center;
+	transition: transform 0.5s var(--bm-ease);
+}
+.bm-promo__tile::after { /* tmavý spodní gradient pro čitelnost + liquid sheen */
+	content: ""; position: absolute; inset: 0; z-index: -1;
+	background: linear-gradient(180deg, rgba(8, 11, 5, 0.05) 0%, rgba(8, 11, 5, 0.30) 45%, rgba(8, 11, 5, 0.82) 100%);
+}
+.bm-promo__tile:hover { transform: translateY(-5px); box-shadow: 0 20px 44px rgba(8, 11, 5, 0.4); }
+.bm-promo__tile:hover .bm-promo__bg { transform: scale(1.07); }
+.bm-promo__eyebrow { font-size: 0.72rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--bm-gold-bright); margin: 0 0 0.35rem; }
+.bm-promo__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.2rem, 0.9rem + 1vw, 1.7rem); line-height: 1.1; margin: 0 0 0.4rem; }
+.bm-promo__sub { font-size: 0.9rem; color: #d6dccb; margin: 0 0 0.8rem; max-width: 90%; }
+.bm-promo__cta { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; font-size: 0.9rem; color: var(--bm-green-bright); }
+.bm-promo__cta svg { transition: transform 0.25s ease; }
+.bm-promo__tile:hover .bm-promo__cta svg { transform: translateX(4px); }
+/* liquid sheen přejezd na hover */
+.bm-promo__tile::before {
+	content: ""; position: absolute; top: 0; left: -60%; width: 50%; height: 100%; z-index: -1;
+	background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+	transform: skewX(-18deg);
+	transition: left 0.6s var(--bm-ease);
+}
+.bm-promo__tile:hover::before { left: 130%; }
+@media (max-width: 900px) { .bm-promo { grid-template-columns: 1fr 1fr; } .bm-promo__tile--big { grid-row: span 1; } }
+@media (max-width: 520px) { .bm-promo { grid-template-columns: 1fr; grid-auto-rows: 170px; } }
+
+/* --- USP pruh (benefitBanner): tyrkysové → brand, glass karty ---- */
+.benefitBanner { gap: 1rem !important; }
+.benefitBanner__item {
+	background: rgba(255, 255, 255, 0.66) !important;
+	-webkit-backdrop-filter: blur(10px);
+	        backdrop-filter: blur(10px);
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 16px !important;
+	padding: 1.1rem 1.2rem !important;
+	transition: transform 0.25s var(--bm-ease), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.benefitBanner__item:hover { transform: translateY(-4px); border-color: var(--bm-green) !important; box-shadow: 0 14px 30px rgba(17, 20, 13, 0.12); }
+.benefitBanner__picture, .benefitBanner__img {
+	background: linear-gradient(135deg, var(--bm-green), var(--bm-green-deep)) !important;
+	border-radius: 50% !important;
+}
+.benefitBanner__img {
+	/* obarvit šedotyrkysovou ikonu na bílou (sedne na zelený kruh) */
+	filter: brightness(0) invert(1) !important;
+	padding: 9px !important;
+	width: 44px !important; height: 44px !important;
+}
+.benefitBanner__content strong, .benefitBanner__content b, .benefitBanner__title { color: var(--bm-text) !important; }
+
+/* --- Skrytí Shoptet demo textu na titulce ------------------------ */
+.bm-demo-hidden { display: none !important; }
+
+/* --- Branded „proč u nás" (injekt JS) ---------------------------- */
+.bm-why { max-width: 1180px; margin: 0 auto 2.6rem; padding: 0 clamp(1rem, 4vw, 3rem); }
+.bm-why__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.5rem, 1rem + 2vw, 2.2rem); margin: 0 0 0.4rem; color: var(--bm-text); }
+.bm-why__lead { color: var(--bm-muted); max-width: 46rem; margin: 0 0 1.4rem; }
+
+/* --- PATIČKA (byla holá) — injektovaný rich obsah ---------------- */
+.bm-footer {
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(180deg, #11140d 0%, #0b0e07 100%);
+	color: #b6bdab;
+	padding: 3.2rem clamp(1rem, 4vw, 3rem) 1.4rem;
+	border-top: 2px solid var(--bm-gold);
+}
+.bm-footer::before { /* liquid blob */
+	content: ""; position: absolute; top: -40%; right: -10%; width: 50%; height: 160%;
+	background: radial-gradient(closest-side, rgba(121, 195, 67, 0.12), transparent 70%);
+	filter: blur(40px); pointer-events: none;
+}
+.bm-footer__grid {
+	position: relative; z-index: 1;
+	max-width: 1180px; margin: 0 auto;
+	display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: 2rem;
+}
+.bm-footer__logo { width: 170px; height: 56px; background: center/contain no-repeat; margin-bottom: 0.9rem; }
+.bm-footer__tag { font-size: 0.92rem; line-height: 1.5; color: #aab199; max-width: 22rem; }
+.bm-footer h4 { color: #fff; font-family: "Space Grotesk", sans-serif; font-size: 1rem; letter-spacing: 0.02em; margin: 0 0 1rem; }
+.bm-footer ul { list-style: none; padding: 0; margin: 0; }
+.bm-footer li { margin: 0 0 0.55rem; }
+.bm-footer a { color: #cdd3c4; text-decoration: none; transition: color 0.2s ease; }
+.bm-footer a:hover { color: var(--bm-green-bright); }
+.bm-footer__contact { font-size: 0.92rem; line-height: 1.7; }
+.bm-footer__contact strong { color: #fff; }
+.bm-footer__social { display: flex; gap: 0.6rem; margin-top: 1rem; }
+.bm-footer__social a { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); transition: all 0.2s ease; }
+.bm-footer__social a:hover { background: var(--bm-green); border-color: var(--bm-green); transform: translateY(-2px); }
+.bm-footer__social svg { width: 17px; height: 17px; fill: currentColor; }
+.bm-footer__pay { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.bm-footer__pay span { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: #d6dccb; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 0.35em 0.7em; }
+.bm-footer__age { display: inline-flex; align-items: center; gap: 0.4em; margin-top: 1rem; color: var(--bm-gold-bright); font-weight: 700; font-size: 0.85rem; }
+.bm-footer__age b { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--bm-gold); }
+.bm-footer__bottom {
+	position: relative; z-index: 1;
+	max-width: 1180px; margin: 2.4rem auto 0; padding-top: 1.2rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.10);
+	display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem;
+	font-size: 0.82rem; color: #8b9280;
+}
+@media (max-width: 880px) { .bm-footer__grid { grid-template-columns: 1fr 1fr; gap: 1.6rem; } }
+@media (max-width: 520px) { .bm-footer__grid { grid-template-columns: 1fr; } }
+/* skryj holou nativní patičku (nahrazena naší) */
+.footer .footer-t, .footer-content > .signature { }
