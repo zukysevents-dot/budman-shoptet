@@ -853,10 +853,24 @@ select, option { background: var(--bm-surface); color: var(--bm-text); }
 	border-radius: 16px !important;
 	padding: 0.5rem !important;
 	box-shadow: 0 22px 48px rgba(0, 0, 0, 0.55) !important;
-	min-width: 268px;
+	width: 480px !important;
+	max-width: 92vw;
+	font-size: 0; /* odstraní mezery mezi inline-block; resetne se na položkách */
 }
+/* skryj nativní Shoptet thumbnaily (zůstane jen barevný emoji kroužek) */
+.navigation-in.menu .menu-level-2 .menu-image,
+.menu .menu-level-2 .menu-image,
+.menu-level-2 a.menu-image { display: none !important; }
+/* 2-sloupcová kompaktní mřížka */
 .navigation-in.menu .menu-level-2 > li,
-.menu .menu-level-2 > li { list-style: none; margin: 0; }
+.menu .menu-level-2 > li {
+	list-style: none; margin: 0;
+	display: inline-block !important;
+	width: 50% !important;
+	vertical-align: top;
+	font-size: 0.92rem;
+}
+.menu-level-2 > li > div { display: block; }
 .navigation-in.menu .menu-level-2 a,
 .menu .menu-level-2 a {
 	display: flex !important;
