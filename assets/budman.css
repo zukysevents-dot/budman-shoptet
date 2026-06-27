@@ -1979,7 +1979,13 @@ select, option { background: var(--bm-surface); color: var(--bm-text); }
 @media (prefers-reduced-motion: reduce) { .bm-hp-pin__dot { animation: none; } }
 @media (max-width: 760px) {
 	.bm-hp-pin { display: none; }
-	.bm-hp-bong { right: 0; width: clamp(140px, 40vw, 220px); height: 64%; opacity: 0.96; }
+	.bm-hp-hero { align-items: flex-start; min-height: clamp(540px, 90vh, 700px); }
+	.bm-hp-hero__grid { padding-top: 1.8rem !important; padding-bottom: 0 !important; }
+	.bm-hp-bong {
+		right: auto; left: 50%; transform: translateX(-50%);
+		bottom: 0; width: clamp(165px, 52vw, 240px); height: 48%;
+	}
+	.bm-hp-bong:hover { transform: translateX(-50%) translateY(-3px); }
 	.bm-hp-bong__tag { display: none; }
 }
 

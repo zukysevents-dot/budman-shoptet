@@ -113,9 +113,9 @@
 		hero.innerHTML =
 			'<div class="bm-hp-hero__bg"></div>' +
 			// interaktivní piny na produkty v banneru → proklik na kategorii
-			'<a class="bm-hp-pin" href="/rigy/" style="left:41%;top:47%" data-label="Skleněné rigy"><span class="bm-hp-pin__dot"></span></a>' +
-			'<a class="bm-hp-pin" href="/doplnky-na-extrakty/" style="left:54%;top:84%" data-label="Dab nářadí"><span class="bm-hp-pin__dot"></span></a>' +
-			'<a class="bm-hp-pin" href="/baleni/" style="left:60%;top:32%" data-label="Skladování &amp; balení"><span class="bm-hp-pin__dot"></span></a>' +
+			'<a class="bm-hp-pin" href="/rigy/" style="left:50%;top:42%" data-label="Skleněné rigy"><span class="bm-hp-pin__dot"></span></a>' +
+			'<a class="bm-hp-pin" href="/doplnky-na-extrakty/" style="left:53%;top:85%" data-label="Dab nářadí"><span class="bm-hp-pin__dot"></span></a>' +
+			'<a class="bm-hp-pin" href="/baleni/" style="left:65%;top:33%" data-label="Skladování &amp; balení"><span class="bm-hp-pin__dot"></span></a>' +
 			'<div class="bm-hp-hero__grid">' +
 				'<div class="bm-hp-hero__copy">' +
 					'<p class="bm-hp-hero__eyebrow">Prémiový dab &amp; smoking gear</p>' +
