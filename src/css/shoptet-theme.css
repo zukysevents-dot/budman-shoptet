@@ -130,15 +130,52 @@ input[type="submit"]:hover, .button:hover {
 	margin: 0 0 2rem;
 	border-radius: 16px;
 	overflow: hidden;
-	background: #0e120d url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@07b94e8/assets/hero/hero-dark.jpg") center / cover no-repeat;
+	background: #0e120d;
 }
+/* fotka jako spodní vrstva s pomalým Ken Burns zoomem */
 .bm-hp-hero::before {
 	content: "";
 	position: absolute;
-	inset: 0;
-	background: linear-gradient(180deg, rgba(14, 18, 13, 0.45) 0%, rgba(14, 18, 13, 0.78) 100%);
+	inset: -2%;
+	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@07b94e8/assets/hero/hero-dark.jpg") center / cover no-repeat;
+	z-index: 0;
+	animation: bmKenBurns 26s ease-in-out infinite alternate;
+	will-change: transform;
 }
-.bm-hp-hero__in { position: relative; z-index: 1; padding: 2rem 1.2rem; }
+/* ztmavení pro čitelnost textu */
+.bm-hp-hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(14, 18, 13, 0.4) 0%, rgba(14, 18, 13, 0.78) 100%);
+	z-index: 1;
+}
+.bm-hp-hero__smoke {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+}
+.bm-hp-hero__in { position: relative; z-index: 2; padding: 2rem 1.2rem; }
+
+@keyframes bmKenBurns {
+	from { transform: scale(1); }
+	to { transform: scale(1.09); }
+}
+@keyframes bmRise {
+	from { opacity: 0; transform: translateY(22px); }
+	to { opacity: 1; transform: none; }
+}
+/* intro reveal (hero se vkládá JS, animace naběhne při zobrazení) */
+.bm-hp-hero__eyebrow { animation: bmRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.bm-hp-hero__title { animation: bmRise 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both; }
+.bm-hp-hero__btn { animation: bmRise 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both; }
+
+@media (prefers-reduced-motion: reduce) {
+	.bm-hp-hero::before { animation: none; }
+	.bm-hp-hero__eyebrow, .bm-hp-hero__title, .bm-hp-hero__btn { animation: none; }
+	.bm-hp-hero__smoke { display: none; }
+}
 .bm-hp-hero__eyebrow {
 	color: var(--bm-lime);
 	letter-spacing: 3px;
