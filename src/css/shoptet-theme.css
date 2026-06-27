@@ -1,0 +1,130 @@
+/*
+ * shoptet-theme.css — restyle ŽIVÉ Shoptet šablony (template-11) na tmavý gear + lime.
+ * Cílí na REÁLNÉ třídy Shoptetu (ne na náš preview markup). Servíruje se přes jsDelivr,
+ * bundluje se do assets/budman.css. Iterativně laděno proti ostrému webu.
+ */
+
+/* ===== Brand proměnné (přebarví Shoptet akcenty) =================== */
+:root {
+	--color-primary: #8fc31f;
+	--color-primary-h: 79;
+	--color-primary-s: 73%;
+	--color-primary-l: 44%;
+	--color-primary-hover: #a6d92a;
+	--color-primary-hover-h: 79;
+	--color-primary-hover-s: 70%;
+	--color-primary-hover-l: 51%;
+	--color-header-background: #12170f;
+
+	/* vlastní tokeny pro tenhle theme */
+	--bm-bg: #0e120d;
+	--bm-surface: #12170f;
+	--bm-card: #1c241a;
+	--bm-text: #f2f5ec;
+	--bm-muted: #9aa697;
+	--bm-line: rgba(255, 255, 255, 0.10);
+	--bm-lime: #8fc31f;
+	--bm-lime-bright: #b6e635;
+	--bm-ink: #12160d;
+}
+
+/* ===== Tmavá báze ================================================== */
+body {
+	background: var(--bm-bg) !important;
+	color: var(--bm-text);
+}
+#content, .content-wrapper, .container, .content, main, #main {
+	background: transparent !important;
+	color: var(--bm-text);
+}
+h1, h2, h3, h4, .h1, .h2, .h3 { color: var(--bm-text); }
+p, li, td, dd, dt, span, label { color: inherit; }
+a { color: var(--bm-text); }
+a:hover { color: var(--bm-lime); }
+hr, .separator { border-color: var(--bm-line); }
+
+/* bílé „boxy" → tmavé karty */
+.box, .product, .products .product, .product-box, .info-box, .block, .panel,
+.product-detail, .detail, .category-perex, .navigation-tree, .filter, .filtering {
+	background: var(--bm-card) !important;
+	border-color: var(--bm-line) !important;
+	color: var(--bm-text);
+}
+
+/* ===== Hlavička + logo ============================================= */
+header, .header, .header-top, .header-bottom, .navigation, .navigation-in, .menu {
+	background: var(--bm-surface) !important;
+	border-color: var(--bm-line) !important;
+	color: var(--bm-text);
+}
+.header-top, .header-top a { color: var(--bm-muted); }
+
+/* logo: skryjeme default Shoptet logo a vložíme naše z jsDelivru */
+.site-name a {
+	display: inline-block;
+	width: 190px;
+	max-width: 60vw;
+	height: 56px;
+	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main/assets/brand/budman-logo-web.png") left center / contain no-repeat;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+.site-name img { display: none !important; }
+
+/* navigace */
+.navigation-in.menu a, .menu a { color: #c9d2c2; }
+.navigation-in.menu a:hover, .menu a:hover,
+.menu .menu-level-0 > li.active > a { color: var(--bm-lime); }
+
+/* vyhledávání */
+.search input, input.search-text, .dropdown-toggle {
+	background: var(--bm-card) !important;
+	color: var(--bm-text) !important;
+	border-color: var(--bm-line) !important;
+}
+
+/* ===== Tlačítka ==================================================== */
+.btn, .btn-primary, .btn-conversion, .add-to-cart-button, button.add,
+input[type="submit"], .button {
+	background: var(--bm-lime) !important;
+	border-color: var(--bm-lime) !important;
+	color: var(--bm-ink) !important;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.btn:hover, .btn-primary:hover, .btn-conversion:hover, .add-to-cart-button:hover,
+input[type="submit"]:hover, .button:hover {
+	background: var(--bm-lime-bright) !important;
+	border-color: var(--bm-lime-bright) !important;
+	transform: translateY(-1px);
+}
+/* sekundární / ghost tlačítka */
+.btn-secondary, .btn-default {
+	background: transparent !important;
+	color: var(--bm-text) !important;
+	border: 1px solid var(--bm-line) !important;
+}
+
+/* ===== Produkty =================================================== */
+.products .product, .product-box {
+	border-radius: 14px;
+	transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.products .product:hover, .product-box:hover {
+	transform: translateY(-3px);
+	border-color: var(--bm-lime) !important;
+}
+.p-name, .p-name a, .product-name, .product-name a { color: var(--bm-text) !important; }
+.price, .price-final, .product-price { color: var(--bm-lime) !important; font-weight: 600; }
+.price-standard, .price-before { color: var(--bm-muted) !important; }
+.flag-product, .flag, .flags .flag { background: #e2483f !important; color: #fff !important; }
+.availability-instock, .amount, .stock { color: var(--bm-lime) !important; }
+
+/* ===== Patička ==================================================== */
+.footer, .footer .footer-in, .footer-content {
+	background: var(--bm-surface) !important;
+	border-top: 1px solid var(--bm-line);
+	color: var(--bm-muted);
+}
+.footer a, .footer-content a { color: var(--bm-muted); }
+.footer a:hover { color: var(--bm-lime); }
+.footer h3, .footer h4, .footer .footer-title { color: var(--bm-text); }
