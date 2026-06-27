@@ -982,36 +982,43 @@
  * Cílí na REÁLNÉ třídy Shoptetu. Servíruje se přes jsDelivr, bundluje do assets/budman.css.
  */
 
-/* ===== Brand proměnné (přebarví Shoptet akcenty) =================== */
+/* ===== Brand proměnné — TMAVÝ theme „budMan Dark" ================= */
+/* Teplá zeleno-černá báze à la Dr. Dabber: karty vystoupí z pozadí zesvětlením
+   + hairline rámem MÍSTO bílé plochy. Zelená/lime akce, zlato prémiový akcent. */
 :root {
-	/* zelená = primární (kontrast AA na bílé) */
-	--color-primary: #2e7d1e;
+	--color-primary: #2f8a1e;
 	--color-primary-h: 110;
-	--color-primary-s: 61%;
-	--color-primary-l: 30%;
-	--color-primary-hover: #256a18;
+	--color-primary-s: 64%;
+	--color-primary-l: 33%;
+	--color-primary-hover: #267015;
 	--color-primary-hover-h: 110;
-	--color-primary-hover-s: 63%;
-	--color-primary-hover-l: 25%;
-	--color-header-background: #11140d;
+	--color-primary-hover-s: 68%;
+	--color-primary-hover-l: 26%;
+	--color-header-background: #080b05;
 
-	/* === Brand tokeny === */
-	--bm-green: #2e7d1e;        /* primární zelená (akce, ceny) */
+	/* === Brand tokeny (tmavé) === */
+	--bm-green: #2f8a1e;        /* primární zelená (akce, ceny) */
 	--bm-green-deep: #1f5a14;   /* tmavší zelená (hover, gradienty) */
-	--bm-green-bright: #79c143; /* světlá listová zelená (z loga, akcenty na tmavém) */
-	--bm-gold: #c9a24b;         /* zlato — prémiový akcent (jen na tmavém / dekorace) */
-	--bm-gold-bright: #ddb968;
-	--bm-ink: #11140d;          /* černá (warm) — hlavička/patička */
-	--bm-ink-2: #181c11;        /* o stupeň světlejší tmavá */
+	--bm-green-bright: #8fd64f; /* lime z loga — jas/hover/cena na tmavém */
+	--bm-gold: #d2a955;         /* zlato — prémiový akcent */
+	--bm-gold-bright: #e6c878;
+	--bm-ink: #080b05;          /* hlavička/patička — nejhlubší tmavá */
+	--bm-ink-2: #11150d;
 	--bm-white: #ffffff;
-	--bm-bg: #f7f7f1;           /* krémově bílá — pozadí stránky */
-	--bm-surface: #ffffff;      /* karty, panely */
-	--bm-card: #ffffff;
-	--bm-text: #191b12;         /* tělo textu (skoro černá) */
-	--bm-muted: #6c7163;        /* tlumená zelenošedá */
-	--bm-line: rgba(17, 20, 13, 0.12);       /* hairline na světlém */
-	--bm-line-strong: rgba(17, 20, 13, 0.20);
-	--bm-line-dark: rgba(255, 255, 255, 0.12); /* hairline na tmavém (header/footer) */
+	--bm-bg: #0c0f08;           /* teplá zeleno-černá báze (NE čistá černá) */
+	--bm-surface: #11150d;      /* panely / inputy (o stupeň světlejší) */
+	--bm-card: #161b10;         /* karty (vystoupí z bg) */
+	--bm-card-hover: #1d2316;
+	--bm-text: #e8ece1;         /* světlý text */
+	--bm-heading: #f4f7ee;      /* nadpisy */
+	--bm-muted: #9aa48b;        /* tlumený text (AA na tmavé) */
+	--bm-price: #9bdc5b;        /* cena — svítí na kartě */
+	--bm-cta: #7ec63f;          /* neon lime hlavní CTA */
+	--bm-cta-text: #07120a;
+	--bm-img-panel: #e9e6dd;    /* warm-paper podklad jen pod fotkou produktu */
+	--bm-line: rgba(255, 255, 255, 0.09);
+	--bm-line-strong: rgba(255, 255, 255, 0.18);
+	--bm-line-dark: rgba(255, 255, 255, 0.12);
 	--bm-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1129,7 +1136,7 @@ input[type="submit"]:hover, .button:hover {
 	border-color: var(--bm-green) !important;
 }
 .p-name, .p-name a, .product-name, .product-name a { color: var(--bm-text) !important; }
-.price, .price-final, .product-price { color: var(--bm-green) !important; font-weight: 700; }
+.price, .price-final, .product-price { color: var(--bm-price) !important; font-weight: 700; }
 .price-standard, .price-before { color: var(--bm-muted) !important; }
 /* akce/novinka badge → ZLATO (na palettě, kontrast s ink textem) */
 .flag-product, .flag, .flags .flag {
@@ -1355,7 +1362,7 @@ body { -webkit-font-smoothing: antialiased; }
 
 /* --- Produktové karty: čistší, konzistentní ---------------------- */
 .products .product, .product-box, .products-block .product {
-	background: var(--bm-surface) !important;
+	background: var(--bm-card) !important;
 	border: 1px solid var(--bm-line) !important;
 	border-radius: 16px !important;
 	overflow: hidden;
@@ -1363,35 +1370,39 @@ body { -webkit-font-smoothing: antialiased; }
 }
 .products .product:hover, .product-box:hover {
 	transform: translateY(-4px);
-	border-color: var(--bm-green) !important;
-	box-shadow: 0 14px 32px rgba(17, 20, 13, 0.14);
+	border-color: var(--bm-green-bright) !important;
+	box-shadow: 0 16px 34px rgba(0, 0, 0, 0.55);
 }
-/* fotky produktů na světlém podkladu (ať vyniknou) */
+/* fotky produktů na warm-paper panelu (NE bílá karta — sklo/chrom září) */
 .products .product .image, .products .product .p-image,
-.product-box .image, .image-cover img {
-	background: #ffffff;
+.product-box .image {
+	background: var(--bm-img-panel);
+	border-radius: 12px;
+	overflow: hidden;
 }
 .p-name a, .product-name a { font-weight: 600; }
-.price-final, .price, .product-price { color: var(--bm-green) !important; font-weight: 700; }
+.price-final, .price, .product-price { color: var(--bm-price) !important; font-weight: 700; }
 
 /* --- Detail produktu: rám galerie, větší cena -------------------- */
 .p-detail .p-image, .p-detail .image-cover {
-	background: #ffffff !important;
+	background: var(--bm-img-panel) !important;
 	border-radius: 16px;
 	overflow: hidden;
 	border: 1px solid var(--bm-line);
 }
 .p-detail .price-final { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem) !important; }
 select.form-control, .form-control, textarea.form-control,
-input[type="text"], input[type="email"], input[type="tel"], input[type="number"] {
-	background: #ffffff !important;
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"],
+input[type="password"], input[type="search"] {
+	background: var(--bm-surface) !important;
 	color: var(--bm-text) !important;
 	border: 1px solid var(--bm-line-strong) !important;
 	border-radius: 10px !important;
 }
-.form-control:focus { border-color: var(--bm-green) !important; box-shadow: 0 0 0 3px rgba(46, 125, 30, 0.15) !important; }
-.p-detail .availability-label, .p-detail .stock { color: var(--bm-green) !important; }
-.p-detail__short, .p-short-description { color: #4a4f40; }
+.form-control::placeholder { color: var(--bm-muted) !important; }
+.form-control:focus { border-color: var(--bm-green-bright) !important; box-shadow: 0 0 0 3px rgba(143, 214, 79, 0.18) !important; }
+.p-detail .availability-label, .p-detail .stock { color: var(--bm-green-bright) !important; }
+.p-detail__short, .p-short-description { color: var(--bm-muted); }
 
 /* --- Tlačítka: jemně zaoblená, tučná ----------------------------- */
 .btn, .btn-primary, .btn-conversion, .add-to-cart-button {
@@ -1460,7 +1471,7 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="number"]
 	width: 32px;
 	height: 32px;
 	pointer-events: none;
-	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@21d60dc/assets/brand/budman-b.png") center / contain no-repeat;
+	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@dd8b66b/assets/brand/budman-b.png") center / contain no-repeat;
 	filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
 	opacity: 0;
 	transition: opacity 0.2s ease;
@@ -1633,15 +1644,13 @@ header, .header {
 .benefitBanner { gap: 1rem !important; display: flex !important; flex-wrap: wrap !important; }
 .benefitBanner__item { flex: 1 1 200px !important; }
 .benefitBanner__item {
-	background: rgba(255, 255, 255, 0.66) !important;
-	-webkit-backdrop-filter: blur(10px);
-	        backdrop-filter: blur(10px);
+	background: var(--bm-card) !important;
 	border: 1px solid var(--bm-line) !important;
 	border-radius: 16px !important;
 	padding: 1.1rem 1.2rem !important;
 	transition: transform 0.25s var(--bm-ease), box-shadow 0.25s ease, border-color 0.25s ease;
 }
-.benefitBanner__item:hover { transform: translateY(-4px); border-color: var(--bm-green) !important; box-shadow: 0 14px 30px rgba(17, 20, 13, 0.12); }
+.benefitBanner__item:hover { transform: translateY(-4px); border-color: var(--bm-green-bright) !important; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); }
 .benefitBanner__picture, .benefitBanner__img {
 	background: linear-gradient(135deg, var(--bm-green), var(--bm-green-deep)) !important;
 	border-radius: 50% !important;
@@ -1709,3 +1718,77 @@ header, .header {
 @media (max-width: 520px) { .bm-footer__grid { grid-template-columns: 1fr; } }
 /* skryj holou nativní patičku (nahrazena naší) */
 .footer .footer-t, .footer-content > .signature { }
+
+/* ================================================================== */
+/* ========== V3 DARK POLISH (košík / lišta / horní část) =========== */
+/* ================================================================== */
+
+/* tmavé wrappery — zabít každou zbylou krémovou/bílou plochu */
+.overall-wrapper, .content-wrapper, .middle-content, #wrapper, .wrapper-in,
+.content-wrapper-in, .main-content, .center-content {
+	background: transparent !important;
+}
+body { background: var(--bm-bg) !important; }
+
+/* nadpisy — světlé a ostré */
+h1, h2, h3, h4, .h1, .h2, .h3 { color: var(--bm-heading); }
+
+/* Hlavička + nav: kompaktní tmavá, jemný spodní vlásek */
+.header-bottom, .navigation, .navigation-in.menu {
+	border-bottom: 1px solid var(--bm-line-dark) !important;
+}
+/* horní user-action ikony (přihlášení, účet) světlé */
+.user-action a, .header-top .user-action, .top-navigation-bar a { color: #c8cfbc; }
+.user-action a:hover { color: var(--bm-green-bright); }
+
+/* KOŠÍK — prémiové konverzní tlačítko (lime gradient + glow) */
+.user-action-cart .btn-conversion, .cart-widget-button .btn-conversion,
+.user-action-cart a.btn, a.cart-widget-button {
+	background: linear-gradient(135deg, var(--bm-green-bright), var(--bm-green)) !important;
+	border: none !important;
+	color: var(--bm-cta-text) !important;
+	font-weight: 700 !important;
+	border-radius: 999px !important;
+	box-shadow: 0 6px 18px rgba(143, 214, 79, 0.28) !important;
+	transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.user-action-cart .btn-conversion:hover, .cart-widget-button .btn-conversion:hover {
+	transform: translateY(-1px) !important;
+	box-shadow: 0 11px 28px rgba(143, 214, 79, 0.45) !important;
+}
+.user-action-cart .icon-cart, .cart-widget-button svg, .cart-widget-button i { color: var(--bm-cta-text) !important; }
+/* košík popup dropdown na tmavé */
+.user-action-cart .cart-content, .popup-widget .popup-widget-content, .cart-popup, .header-cart-popup {
+	background: var(--bm-surface) !important;
+	border: 1px solid var(--bm-line) !important;
+	color: var(--bm-text) !important;
+}
+
+/* HLEDAT tlačítko */
+.btn-search, .search-button, button.search, .search button[type="submit"] {
+	background: var(--bm-green) !important;
+	color: #fff !important;
+	border: none !important;
+}
+
+/* Cookie lišta tmavá */
+.cookies-info, #cookiesInfo, .cookie-bar, [class*="cookie"] .cookies {
+	background: var(--bm-surface) !important;
+	color: var(--bm-text) !important;
+	border-top: 1px solid var(--bm-line) !important;
+}
+
+/* CMS/obsah: tabulky, dropdowny, perex na tmavé */
+#content table, .content table, .p-detail table { color: var(--bm-text); }
+#content th, .content th { background: var(--bm-surface) !important; color: var(--bm-text) !important; border-color: var(--bm-line) !important; }
+#content td, #content tr, .content td { border-color: var(--bm-line) !important; }
+.category-perex, .category-description, .perex, .annotation {
+	background: transparent !important; color: var(--bm-text) !important;
+}
+select, option { background: var(--bm-surface); color: var(--bm-text); }
+
+/* skladem / dostupnost — lime */
+.availability-instock, .amount, .stock, .availability { color: var(--bm-green-bright) !important; }
+
+/* nativní Shoptet patička (pod naší) — sjednotit s tmavou */
+.footer, .footer-content { background: var(--bm-ink) !important; }

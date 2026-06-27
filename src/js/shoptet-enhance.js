@@ -14,7 +14,7 @@
 	var CDN = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main';
 	// měnitelné assety pinnuty na commit (jsDelivr @main cache servíruje stale) — bump při změně souboru
 	var RIG_URL = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@3497d21/assets/hero/rig.png';
-	var B_URL = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@21d60dc/assets/brand/budman-b.png';
+	var B_URL = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@dd8b66b/assets/brand/budman-b.png';
 	var CDN_PIN_LOGO = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@e65092b/assets/brand/budman-logo-web.png';
 
 	var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -380,8 +380,8 @@
 				'<div class="bm-footer__contact"><h4>Kontakt</h4>' +
 					'<strong>Lukáš Hrdina</strong><br>IČO 14293714<br>Rybná 716/24<br>110 00 Praha 1<br>' +
 					'<a href="tel:+420702081458">702 081 458</a>' +
-					'<div class="bm-footer__pay"><span>Visa</span><span>Mastercard</span><span>GoPay</span><span>Dobírka</span></div>' +
-					'<div class="bm-footer__pay"><span>Zásilkovna</span><span>GLS</span><span>PPL</span></div>' +
+					'<div class="bm-footer__pay"><span>Visa</span><span>Mastercard</span><span>GoPay</span></div>' +
+					'<div class="bm-footer__pay"><span>Zásilkovna</span><span>PPL</span></div>' +
 				'</div>' +
 			'</div>' +
 			'<div class="bm-footer__bottom"><span>© 2026 Budman-shop — všechna práva vyhrazena</span><span>Vyrobeno s láskou k dab komunitě 🌿</span></div>';
