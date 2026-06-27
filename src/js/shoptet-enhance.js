@@ -206,6 +206,35 @@
 		var tx = window.innerWidth / 2, ty = window.innerHeight / 2, x = tx, y = ty;
 		var scale = 1, tScale = 1, on = false, raf = 0, vis = true;
 
+		// --- kapající rosin (zlatý extrakt stéká z kurzoru) ---
+		var drips = [], dripRaf = 0, dripLastT = 0;
+		function dripLoop(now) {
+			var dt = dripLastT ? Math.min(now - dripLastT, 42) : 16; dripLastT = now;
+			var s = dt / 16;
+			for (var i = drips.length - 1; i >= 0; i--) {
+				var p = drips[i];
+				p.life += dt; p.vy += 0.05 * s; p.y += p.vy * 3.4 * s; p.x += p.vx * s;
+				var t = p.life / p.ttl;
+				var stretch = 1 + Math.min(p.vy * 0.7, 1.5);                 // rychlejší pád → víc protažená (jako med)
+				var op = t < 0.12 ? (t / 0.12) : (t > 0.72 ? (1 - (t - 0.72) / 0.28) : 1);
+				p.el.style.transform = 'translate3d(' + (p.x - p.size / 2).toFixed(1) + 'px,' + p.y.toFixed(1) + 'px,0) scaleY(' + stretch.toFixed(2) + ')';
+				p.el.style.opacity = op < 0 ? '0' : op.toFixed(2);
+				if (p.life >= p.ttl || p.y > window.innerHeight + 30) { p.el.remove(); drips.splice(i, 1); }
+			}
+			dripRaf = drips.length ? window.requestAnimationFrame(dripLoop) : 0;
+		}
+		function spawnDrip() {
+			if (drips.length > 15) return;
+			var size = 5 + Math.random() * 4;
+			var d = document.createElement('div');
+			d.className = 'bm-drip';
+			d.style.width = d.style.height = size.toFixed(1) + 'px';
+			document.body.appendChild(d);
+			drips.push({ el: d, x: x + (Math.random() - 0.5) * 7, y: y + 9, vx: (Math.random() - 0.5) * 0.25, vy: 0.15 + Math.random() * 0.25, life: 0, ttl: 950 + Math.random() * 600, size: size });
+			if (!dripRaf) { dripLastT = 0; dripRaf = window.requestAnimationFrame(dripLoop); }
+		}
+		window.setInterval(function () { if (on && vis && !document.hidden) spawnDrip(); }, 640);
+
 		function move(e) { tx = e.clientX; ty = e.clientY; if (!on) { on = true; el.classList.add('is-on'); } }
 		function over(e) {
 			var t = e.target;

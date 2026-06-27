@@ -506,6 +506,32 @@ input[type="password"], input[type="search"] {
 	will-change: transform;
 }
 .bm-cursor.is-on { opacity: 1; }
+/* Kapající rosin — zlatá medová kapka stékající z kurzoru */
+.bm-drip {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99998;
+	width: 7px;
+	height: 7px;
+	pointer-events: none;
+	border-radius: 50% 50% 52% 52% / 42% 42% 62% 62%;
+	background: radial-gradient(circle at 36% 27%, #f6dc94 0%, #dab85c 32%, #b8902e 66%, #876513 100%);
+	box-shadow: 0 1px 3px rgba(120, 88, 16, 0.45);
+	transform-origin: 50% 0%;
+	will-change: transform, opacity;
+	opacity: 0;
+}
+.bm-drip::after {
+	content: "";
+	position: absolute;
+	top: 15%;
+	left: 24%;
+	width: 30%;
+	height: 26%;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.8);
+}
 html.bm-has-cursor, html.bm-has-cursor a, html.bm-has-cursor button, html.bm-has-cursor .btn { cursor: none; }
 /* na vstupech a v košíku/pokladně vrať systémový kurzor (použitelnost) */
 html.bm-has-cursor input, html.bm-has-cursor textarea, html.bm-has-cursor select,
