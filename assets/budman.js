@@ -436,7 +436,8 @@
 		function rate() { return Math.max(10, Math.min(24, W / 70)); }
 		function spawn() {
 			if (parts.length > 320) return;
-			parts.push({ x: relX * W + rnd(-W * 0.025, W * 0.025), y: relY * H + rnd(-5, 5), vx: rnd(-6, 6), vy: rnd(-30, -48), r: rnd(11, 23), grow: rnd(14, 25), life: 0, max: rnd(3.2, 5.4), seed: Math.random() * 6.28 });
+			// rozměry relativní k velikosti canvasu → konzistentní dým malý i velký
+			parts.push({ x: relX * W + rnd(-W * 0.025, W * 0.025), y: relY * H + rnd(-H * 0.01, H * 0.01), vx: rnd(-W * 0.02, W * 0.02), vy: rnd(-H * 0.07, -H * 0.11), r: rnd(W * 0.045, W * 0.085), grow: rnd(W * 0.05, W * 0.09), life: 0, max: rnd(3.2, 5.4), seed: Math.random() * 6.28 });
 		}
 		function step(t) {
 			if (!last) last = t;
@@ -446,8 +447,8 @@
 			for (var i = parts.length - 1; i >= 0; i--) {
 				var p = parts[i]; p.life += dt;
 				if (p.life >= p.max) { parts.splice(i, 1); continue; }
-				p.vy += -6 * dt;
-				p.vx += (Math.sin(t * 0.0011 + p.seed) * 6 + 1.5) * dt;
+				p.vy += -H * 0.012 * dt;
+				p.vx += (Math.sin(t * 0.0011 + p.seed) * W * 0.02 + W * 0.005) * dt;
 				p.x += p.vx * dt; p.y += p.vy * dt; p.r += p.grow * dt;
 			}
 			ctx.clearRect(0, 0, W, H);
@@ -500,9 +501,21 @@
 						'<a class="bm-btn-ghost" href="/kuracke-potreby/">Celý sortiment</a>' +
 					'</div>' +
 				'</div>' +
-			'</div>';
+			'</div>' +
+			// malý TOP produkt (rig + dým) nad bannerem
+			'<a class="bm-hp-top" href="/watermelon-enhydro-recycler--9-rig-murdocglass/" aria-label="TOP produkt — Watermelon Recycler">' +
+				'<span class="bm-hp-top__label">★ TOP produkt</span>' +
+				'<span class="bm-hp-top__media">' +
+					'<img class="bm-hp-top__rig" src="' + RIG_URL + '" alt="Watermelon Enhydro Recycler rig" loading="eager" decoding="async">' +
+					'<canvas class="bm-hp-top__smoke"></canvas>' +
+				'</span>' +
+				'<span class="bm-hp-top__name">Watermelon Recycler #9</span>' +
+				'<span class="bm-hp-top__price">34 900 Kč</span>' +
+			'</a>';
 		anchor.parentNode.insertBefore(hero, anchor);
 		anchor.style.display = 'none';
+		// dým z náustku malého rigu (canvas přesahuje nad rig → dým stoupá nad widget)
+		startSmoke(hero.querySelector('.bm-hp-top__smoke'), 0.47, 0.36);
 	}
 
 	/* ============================================================ */
@@ -669,19 +682,19 @@
 		var hrefSmoke = findHref(/kuřáck/i, '/kuracke-potreby/');
 		var hrefMerch = findHref(/^merch$/i, '/merch/');
 		var hrefClean = findHref(/cleaning/i, '/kuracke-potreby/');
+		var IMG = 'https://800882.myshoptet.com/user/shop/big/';
 		var tiles = [
-			{ big: true, href: hrefRig, eye: 'Bestseller', t: 'Skleněné rigy &amp; recyclery', s: 'Ruční kousky i kompaktní dab rigy — pečlivě vybrané, skladem.', bg: "radial-gradient(120% 120% at 82% 12%, rgba(121,195,67,0.38), transparent 58%), linear-gradient(135deg,#17220f 0%,#0a0e07 100%)", rig: true },
-			{ href: hrefPuffco, eye: 'Dab gear', t: 'Puffco doplňky', s: 'Atomizéry, nástavce a příslušenství.', bg: "radial-gradient(120% 120% at 78% 18%, rgba(201,162,75,0.32), transparent 60%), linear-gradient(135deg,#2a2410,#0d0f07)" },
-			{ href: hrefSmoke, eye: 'Sortiment', t: 'Kuřácké potřeby', s: 'Vše pro pohodový dab.', bg: "radial-gradient(120% 120% at 78% 18%, rgba(46,125,30,0.42), transparent 60%), linear-gradient(135deg,#143a0e,#0b0e07)" },
-			{ href: hrefMerch, eye: 'Budman', t: 'Merch', s: 'Oblečení a doplňky komunity.', bg: "linear-gradient(135deg,#26271c,#0c0f08)" },
-			{ href: hrefClean, eye: 'Péče', t: 'Cleaning', s: 'Ať sklo září jako nové.', bg: "radial-gradient(120% 120% at 80% 14%, rgba(150,220,90,0.26), transparent 60%), linear-gradient(135deg,#10180b,#0a0e07)" }
+			{ big: true, href: hrefRig, eye: 'Bestseller', t: 'Skleněné rigy &amp; recyclery', s: 'Ruční kousky i kompaktní dab rigy — pečlivě vybrané, skladem.', img: IMG + '213_obrazek-27.jpg', tint: 'rgba(47,138,30,0.50)' },
+			{ href: hrefPuffco, eye: 'Dab gear', t: 'Puffco doplňky', s: 'Atomizéry, nástavce a příslušenství.', img: IMG + '48_puffco-wigwag-opal-drytop.jpg', tint: 'rgba(210,169,85,0.46)' },
+			{ href: hrefSmoke, eye: 'Sortiment', t: 'Kuřácké potřeby', s: 'Vše pro pohodový dab.', img: IMG + '273_high-tower-v2.png', tint: 'rgba(47,138,30,0.50)' },
+			{ href: hrefMerch, eye: 'Budman', t: 'Merch', s: 'Oblečení a doplňky komunity.', img: IMG + '171_cepice-main-scaled.jpg', tint: 'rgba(60,72,40,0.54)' },
+			{ href: hrefClean, eye: 'Péče', t: 'Cleaning', s: 'Ať sklo září jako nové.', img: IMG + '261_green-xl-bath.png', tint: 'rgba(143,214,79,0.42)' }
 		];
 		var sec = document.createElement('section');
 		sec.className = 'bm-promo';
 		sec.innerHTML = tiles.map(function (x) {
 			return '<a class="bm-promo__tile' + (x.big ? ' bm-promo__tile--big' : '') + '" href="' + x.href + '">' +
-				'<span class="bm-promo__bg" style="background:' + x.bg + '"></span>' +
-				(x.rig ? '<img src="' + RIG_URL + '" alt="" aria-hidden="true" style="position:absolute;right:-6%;bottom:-4%;height:108%;width:auto;z-index:-1;opacity:.96;filter:drop-shadow(0 10px 20px rgba(0,0,0,.5))">' : '') +
+				'<span class="bm-promo__bg" style="background-image: linear-gradient(135deg,' + x.tint + ', rgba(8,11,5,0.12)), url(' + x.img + '); background-size: cover; background-position: center;"></span>' +
 				'<p class="bm-promo__eyebrow">' + x.eye + '</p>' +
 				'<h3 class="bm-promo__title">' + x.t + '</h3>' +
 				'<p class="bm-promo__sub">' + x.s + '</p>' +
