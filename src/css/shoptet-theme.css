@@ -1247,9 +1247,11 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 @media (min-width: 981px) {
 	.menu-helper { display: none !important; }                 /* skryj hamburger na desktopu */
 	/* „fitted" JS roztáhne .navigation-in do obří šířky a dá visibility:hidden (měření) → vrátit */
-	.navigation-wrapper > nav, nav.fitted, nav.visible { width: 100% !important; max-width: 100% !important; overflow: visible !important; visibility: visible !important; }
+	.navigation-wrapper > nav, nav.fitted, nav.visible { width: 100% !important; max-width: 100% !important; overflow: visible !important; visibility: visible !important; height: auto !important; min-height: 0 !important; }
 	.navigation-in.menu, .navigation-in.menu * { visibility: visible !important; }
-	.navigation-in.menu { width: 100% !important; max-width: 100% !important; white-space: normal !important; overflow: visible !important; }
+	.navigation-in.menu { width: 100% !important; max-width: 100% !important; white-space: normal !important; overflow: visible !important; height: auto !important; }
+	/* hlavička narůstá s většími pilly (jinak přetékají na banner) */
+	header, .header, header .container.navigation-wrapper { height: auto !important; }
 	.navigation-in.menu > ul.menu-level-1 {
 		display: flex !important;
 		flex-wrap: wrap !important;

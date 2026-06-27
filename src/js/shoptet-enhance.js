@@ -207,7 +207,7 @@
 		document.documentElement.classList.add('bm-has-cursor');
 
 		var tx = window.innerWidth / 2, ty = window.innerHeight / 2, x = tx, y = ty;
-		var scale = 1, tScale = 1, on = false, raf = 0, vis = true;
+		var scale = 0.68, tScale = 0.68, on = false, raf = 0, vis = true;
 
 		// --- kapající rosin (zlatý extrakt stéká z kurzoru) ---
 		var drips = [], dripRaf = 0, dripLastT = 0;
@@ -241,7 +241,7 @@
 		function move(e) { tx = e.clientX; ty = e.clientY; if (!on) { on = true; el.classList.add('is-on'); } }
 		function over(e) {
 			var t = e.target;
-			tScale = (t.closest && t.closest('a, button, .btn, input[type="submit"], .add-to-cart-button, [role="button"]')) ? 1.75 : 1;
+			tScale = (t.closest && t.closest('a, button, .btn, input[type="submit"], .add-to-cart-button, [role="button"]')) ? 0.8 : 0.68;
 		}
 		function loop() {
 			x += (tx - x) * 0.3; y += (ty - y) * 0.3; scale += (tScale - scale) * 0.2;
