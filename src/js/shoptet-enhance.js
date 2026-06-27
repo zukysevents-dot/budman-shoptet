@@ -233,7 +233,7 @@
 			d.className = 'bm-drip';
 			d.style.width = d.style.height = size.toFixed(1) + 'px';
 			document.body.appendChild(d);
-			drips.push({ el: d, x: x + (Math.random() - 0.5) * 7, y: y + 9, vx: (Math.random() - 0.5) * 0.25, vy: 0.15 + Math.random() * 0.25, life: 0, ttl: 950 + Math.random() * 600, size: size });
+			drips.push({ el: d, x: x + (Math.random() - 0.5) * 4, y: y + 1, vx: (Math.random() - 0.5) * 0.25, vy: 0.15 + Math.random() * 0.25, life: 0, ttl: 950 + Math.random() * 600, size: size });
 			if (!dripRaf) { dripLastT = 0; dripRaf = window.requestAnimationFrame(dripLoop); }
 		}
 		window.setInterval(function () { if (on && vis && !document.hidden) spawnDrip(); }, 640);
@@ -245,7 +245,7 @@
 		}
 		function loop() {
 			x += (tx - x) * 0.3; y += (ty - y) * 0.3; scale += (tScale - scale) * 0.2;
-			el.style.transform = 'translate3d(' + (x - 16) + 'px,' + (y - 16) + 'px, 0) scale(' + scale + ')';
+			el.style.transform = 'translate3d(' + (x - 15) + 'px,' + (y - 45) + 'px, 0) scale(' + scale + ')';
 			raf = window.requestAnimationFrame(loop);
 		}
 		document.addEventListener('mousemove', move, { passive: true });

@@ -1471,11 +1471,12 @@ input[type="password"], input[type="search"] {
 	top: 0;
 	left: 0;
 	z-index: 100000;
-	width: 32px;
-	height: 32px;
+	width: 44px;
+	height: 50px;
 	pointer-events: none;
-	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@dd8b66b/assets/brand/budman-b.png") center / contain no-repeat;
-	filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+	background: url("https://rawcdn.githack.com/zukysevents-dot/budman-shoptet/c67557d/assets/brand/dab-tool.svg") center / contain no-repeat;
+	filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.4));
+	transform-origin: 15px 45px;   /* špička dab toolu s rosin (odtud kape) */
 	opacity: 0;
 	transition: opacity 0.2s ease;
 	will-change: transform;
@@ -2085,14 +2086,21 @@ a:hover { color: var(--bm-gold-deep); }
 .top-navigation-bar a:hover, .header-top a:hover { color: var(--bm-gold-bright) !important; }
 .bm-topmsg { color: var(--bm-gold-bright) !important; }
 
-/* hlavička → zelený band (full width), zlatý spodní pruh */
+/* hlavička → zelený band (sladěno s brand zelenou loga), zlatý spodní pruh */
 header, .header, .header-bottom {
-	background: linear-gradient(180deg, #246a18 0%, #1b5311 100%) !important;
+	background: linear-gradient(180deg, #2c7a1d 0%, #1c5512 100%) !important;
 	border-bottom: 3px solid var(--bm-gold) !important;
 }
-header .container.navigation-wrapper { max-width: 1280px; }
 
-/* logo přímo na zelené (bez tmavého chipu) */
+/* === SJEDNOCENÁ ŠÍŘKA OBSAHU — zarovná lištu / hlavičku / hero / obsah === */
+.container { max-width: 1500px !important; }
+header .container.navigation-wrapper { max-width: 1500px !important; }
+.top-navigation-bar > .container { max-width: 1500px !important; }
+.bm-hp-hero { max-width: 1500px !important; margin-left: auto !important; margin-right: auto !important; }
+.bm-promo { max-width: 1500px !important; }
+
+/* logo přímo na zelené (bez tmavého chipu) + VĚTŠÍ */
+.site-name { transform: scale(1.3); transform-origin: left center; }
 .site-name a {
 	background-color: transparent !important;
 	box-shadow: none !important;
@@ -2101,14 +2109,19 @@ header .container.navigation-wrapper { max-width: 1280px; }
 	filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
 }
 
-/* search → bílý pill */
+/* search → bílý pill (větší) */
 .search input, input.search-text, .header .form-control, .header input[type="text"], .search-input-group input {
 	background: #ffffff !important;
 	border: 1px solid rgba(0, 0, 0, 0.05) !important;
 	border-radius: 999px !important;
 	color: var(--bm-text) !important;
-	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+	box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18);
+	height: 56px !important;
+	font-size: 1.04rem !important;
+	padding-left: 1.4rem !important;
 }
+.btn-search, .search button[type="submit"], button.search { min-height: 46px !important; font-size: 0.95rem !important; padding: 0 1.5rem !important; }
+.user-action-cart > a, .cart-content, .cart-widget-button { font-size: 1rem !important; padding: 0.7em 1.3em !important; }
 .search input::placeholder { color: var(--bm-muted) !important; }
 .btn-search, .search button[type="submit"], button.search { background: var(--bm-gold) !important; color: #1a1407 !important; border-radius: 999px !important; }
 
@@ -2135,30 +2148,31 @@ header .container.navigation-wrapper { max-width: 1280px; }
 		width: 100% !important;
 		justify-content: center !important;
 		align-items: stretch;
-		padding: 12px 0 16px !important;
+		padding: 16px 0 20px !important;
 		margin: 0 !important;
 		background: transparent !important;
 		border: 0 !important;
 		list-style: none !important;
+		gap: 10px !important;
 	}
 	.navigation-in.menu > ul.menu-level-1 > li {
 		flex: 1 1 auto !important;
 		display: flex !important;
 		margin: 0 !important;
 		list-style: none !important;
-		min-width: 96px;
+		min-width: 110px;
 	}
 	.navigation-in.menu > ul.menu-level-1 > li > a {
 		display: flex !important;
 		align-items: center !important;
 		justify-content: center !important;
-		gap: 0.4em !important;
+		gap: 0.45em !important;
 		width: 100% !important;
 		white-space: nowrap !important;
-		padding: 0.62em 0.7em !important;
+		padding: 0.82em 0.9em !important;
 		border-radius: 999px !important;
 		font-weight: 800 !important;
-		font-size: 0.85rem !important;
+		font-size: 0.96rem !important;
 		color: #1c2417 !important;
 		text-decoration: none !important;
 		border: 1px solid rgba(0, 0, 0, 0.06) !important;
