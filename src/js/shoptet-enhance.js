@@ -50,10 +50,10 @@
 			canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		}
-		function rate() { return Math.max(5, Math.min(13, W / 120)); }
+		function rate() { return Math.max(7, Math.min(17, W / 95)); }
 		function spawn() {
-			if (parts.length > 200) return;
-			parts.push({ x: relX * W + rnd(-W * 0.018, W * 0.018), y: relY * H + rnd(-4, 4), vx: rnd(-5, 5), vy: rnd(-24, -38), r: rnd(7, 15), grow: rnd(11, 19), life: 0, max: rnd(2.8, 4.8), seed: Math.random() * 6.28 });
+			if (parts.length > 240) return;
+			parts.push({ x: relX * W + rnd(-W * 0.02, W * 0.02), y: relY * H + rnd(-4, 4), vx: rnd(-5, 5), vy: rnd(-26, -42), r: rnd(9, 18), grow: rnd(12, 21), life: 0, max: rnd(3, 5), seed: Math.random() * 6.28 });
 		}
 		function step(t) {
 			if (!last) last = t;
@@ -71,7 +71,7 @@
 			ctx.globalCompositeOperation = 'lighter';
 			for (var j = 0; j < parts.length; j++) {
 				var q = parts[j];
-				var a = Math.sin(Math.PI * (q.life / q.max)) * 0.08;
+				var a = Math.sin(Math.PI * (q.life / q.max)) * 0.13;
 				if (a <= 0) continue;
 				var g = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, q.r);
 				g.addColorStop(0, 'rgba(212, 224, 200,' + a.toFixed(3) + ')');
