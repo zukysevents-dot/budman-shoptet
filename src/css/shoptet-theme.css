@@ -291,6 +291,8 @@ input[type="submit"]:hover, .button:hover {
 .bm-hp-hero__smoke { /* dým z náustku, nad rigem */
 	position: absolute;
 	inset: 0;
+	width: 100%;  /* canvas = replaced element → inset:0 ho neroztáhne, nutná explicitní velikost */
+	height: 100%;
 	z-index: 3;
 	pointer-events: none;
 }

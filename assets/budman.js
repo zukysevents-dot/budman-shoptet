@@ -700,8 +700,14 @@
 	/* Skrýt Shoptet demo text + branded „proč u nás" ---------------- */
 	function cleanDemo() {
 		if (!isHome()) return;
-		[].slice.call(document.querySelectorAll('#content h1, #content h2, #content h3, #content p')).forEach(function (el) {
-			if (/Vítejte v na|zkušebn|Shoptet|30 dní zdarma|registračním emailu|přepsat nebo smazat/i.test(el.textContent || '')) el.classList.add('bm-demo-hidden');
+		var rx = /Vítejte v na|zkušebn|administraci přepsat|30 dní zdarma|registračním emailu|přepsat nebo smazat/i;
+		// celý Shoptet „welcome" demo blok
+		[].slice.call(document.querySelectorAll('.welcome-wrapper, .welcome, .bottom-description, .homepage-text')).forEach(function (el) {
+			if (rx.test(el.textContent || '')) el.classList.add('bm-demo-hidden');
+		});
+		// fallback: jednotlivé demo nadpisy/odstavce (i div.h1)
+		[].slice.call(document.querySelectorAll('h1, h2, h3, h4, p, .h1, .h2, .h3')).forEach(function (el) {
+			if (el.children.length <= 1 && rx.test(el.textContent || '')) el.classList.add('bm-demo-hidden');
 		});
 		if (document.querySelector('.bm-why')) return;
 		var promo = document.querySelector('.bm-promo');
