@@ -2154,6 +2154,21 @@ a:hover { color: var(--bm-gold-deep); }
 .top-navigation-bar, .top-navigation-bar a, .header-top, .header-top a { color: #e6f1de !important; }
 .top-navigation-bar a:hover, .header-top a:hover { color: var(--bm-gold-bright) !important; }
 .bm-topmsg { color: var(--bm-gold-bright) !important; }
+/* FIX: Shoptet dává kontakty/menu boxům BÍLÉ pozadí → text neviditelný; průhledné + světlý text */
+.top-navigation-contacts, .top-navigation-menu, .top-navigation-bar-menu,
+.top-navigation-contacts > *, .top-navigation-menu > div, .top-navigation-bar-menu > li {
+	background: transparent !important;
+	border-color: rgba(255, 255, 255, 0.14) !important;
+	box-shadow: none !important;
+}
+.top-navigation-contacts, .top-navigation-contacts *, .top-navigation-menu,
+.top-navigation-menu a, .top-navigation-bar-menu a, .top-navigation-bar span,
+.top-navigation-bar i, .top-navigation-bar svg { color: #e9f3e1 !important; }
+.top-navigation-menu a:hover, .top-navigation-bar-menu a:hover { color: var(--bm-gold-bright) !important; }
+/* dropdown panel horního menu → tmavě zelený, čitelný */
+.top-navigation-menu ul, .top-navigation-bar-menu ul, .top-navigation-menu .submenu {
+	background: #15440e !important; border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
 
 /* hlavička → zelený band (sladěno s brand zelenou loga), zlatý spodní pruh */
 header, .header, .header-bottom {
@@ -2238,10 +2253,10 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 		gap: 0.45em !important;
 		width: 100% !important;
 		white-space: nowrap !important;
-		padding: 0.82em 0.9em !important;
+		padding: 1em 0.8em !important;
 		border-radius: 999px !important;
 		font-weight: 800 !important;
-		font-size: 0.96rem !important;
+		font-size: 1.02rem !important;
 		color: #1c2417 !important;
 		text-decoration: none !important;
 		border: 1px solid rgba(0, 0, 0, 0.06) !important;
