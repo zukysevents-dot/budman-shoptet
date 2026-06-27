@@ -247,9 +247,9 @@ input[type="submit"]:hover, .button:hover {
 .bm-hp-hero__title span { color: var(--bm-green-bright); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
 .bm-hp-hero__sub {
 	color: #eef2e6;
-	font-size: 1.02rem;
+	font-size: 17px;
 	line-height: 1.55;
-	margin: 0 0 1.7rem;
+	margin: 0 0 18px;
 	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
 }
 .bm-hp-hero__cta { display: flex; flex-wrap: wrap; gap: 0.8rem; }
@@ -1225,12 +1225,12 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 	border-radius: 999px !important;
 	color: var(--bm-text) !important;
 	box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18);
-	height: 56px !important;
-	font-size: 1.04rem !important;
-	padding-left: 1.4rem !important;
+	height: 58px !important;
+	font-size: 16px !important;
+	padding-left: 22px !important;
 }
-.btn-search, .search button[type="submit"], button.search { min-height: 46px !important; font-size: 0.95rem !important; padding: 0 1.5rem !important; }
-.user-action-cart > a, .cart-content, .cart-widget-button { font-size: 1rem !important; padding: 0.7em 1.3em !important; }
+.btn-search, .search button[type="submit"], button.search { min-height: 48px !important; font-size: 15px !important; padding: 0 24px !important; }
+.user-action-cart > a, .cart-content, .cart-widget-button { font-size: 16px !important; padding: 11px 20px !important; }
 .search input::placeholder { color: var(--bm-muted) !important; }
 .btn-search, .search button[type="submit"], button.search { background: var(--bm-gold) !important; color: #1a1407 !important; border-radius: 999px !important; }
 
@@ -1278,10 +1278,10 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 		gap: 0.45em !important;
 		width: 100% !important;
 		white-space: nowrap !important;
-		padding: 1em 0.8em !important;
+		padding: 13px 12px !important;
 		border-radius: 999px !important;
 		font-weight: 800 !important;
-		font-size: 1.02rem !important;
+		font-size: 16px !important;
 		color: #1c2417 !important;
 		text-decoration: none !important;
 		border: 1px solid rgba(0, 0, 0, 0.06) !important;
