@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Budman — Shoptet harness (template-11)</title>
+
+	<!-- ============================================================
+	     HARNESS-ONLY scaffolding: hrubá aproximace Shoptet base layoutu
+	     (template-11 base CSS nemáme lokálně). NENASAZUJE SE. Slouží jen
+	     k tomu, aby reálný bundle (theme + enhance.js) měl do čeho injektovat
+	     a šlo ověřit zarovnání. Vše tady je záměrně minimální/neutrální.
+	     ============================================================ -->
+	<style>
+		* { box-sizing: border-box; }
+		body { margin: 0; font-family: system-ui, Arial, sans-serif; }
+		/* Shoptet má .container bez explicitní šířky v base → simulujeme „full width",
+		   ať je vidět, jestli náš JEDNOTNÝ KONTEJNER fix sjednotí hrany. */
+		.container { width: 100%; margin-inline: auto; padding-inline: 20px; }
+		.header > .container, .header .container { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding-block: 14px; }
+		.header .navigation-wrapper { display: block; }
+		.site-name a { font: 800 26px system-ui; text-decoration: none; color: #fff; }
+		.search { flex: 1 1 260px; }
+		.search form { display: flex; gap: 8px; }
+		.search .search-text { flex: 1; }
+		.user-action { display: flex; gap: 14px; align-items: center; }
+		nav.navigation { display: block; width: 100%; }
+		.navigation-in.menu > ul { display: flex; flex-wrap: wrap; gap: 18px; list-style: none; margin: 0; padding: 10px 0; }
+		/* Shoptet skrývá hlavní menu pod hamburger pod 981px → harness taky, ať neměří fiktivní přetečení */
+		@media (max-width: 980px) { nav.navigation { display: none; } }
+		.menu-level-2 { display: none; } /* submenu skryté (rozbalí JS/hover na reálu) */
+		#content { padding: 24px 0 0; }
+		.banners-row { min-height: 320px; background: #cfd6c4; display: grid; place-items: center; color: #4a5340; }
+		.benefitBanner { display: flex; gap: 16px; margin: 28px 0; }
+		.benefitBanner__item { display: flex; gap: 12px; align-items: center; }
+		.benefitBanner__picture { width: 44px; height: 44px; }
+		.benefitBanner__img { width: 44px; height: 44px; background: #9ad; }
+		.products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 8px 0 40px; }
+		.product { display: flex; flex-direction: column; }
+		.product .image { aspect-ratio: 1; background: #fff; border: 1px solid #eee; }
+		.product .name { padding: 10px 8px 4px; }
+		.product .price { padding: 0 8px 10px; font-weight: 700; }
+		.footer { margin-top: 40px; }
+		.footer > .container { padding-block: 20px; }
+	</style>
+
+	<!-- REÁLNÝ bundle (to, co poběží na živém Shoptetu přes FTP) -->
+	<link rel="stylesheet" href="../assets/budman.css">
+</head>
+<!-- body classes přesně jako Shoptet titulka (isHome() → in-index/type-index) -->
+<body class="in-index type-index ums_homepage_cart_checkout_headings--on">
+
+	<!-- Horní lišta (top-navigation-bar) -->
+	<div class="top-navigation-bar"><div class="top-navigation-bar__in container">
+		<span class="top-links"><a href="/kontakty/">Kontakty</a></span>
+	</div></div>
+
+	<!-- Hlavička -->
+	<header class="header">
+		<div class="container">
+			<span class="site-name"><a href="/">budMan</a></span>
+			<div class="search">
+				<form action="/vyhledavani/">
+					<input class="search-text" type="text" placeholder="Co hledáte?">
+					<button type="submit" class="btn-search">Hledat</button>
+				</form>
+			</div>
+			<div class="user-action">
+				<a href="/prihlaseni/">Přihlásit</a>
+				<a class="cart-content" href="/kosik/">Košík (0)</a>
+			</div>
+		</div>
+		<div class="container navigation-wrapper">
+			<nav class="navigation">
+				<div class="navigation-in menu">
+					<ul class="menu menu-level-1 menu-level-0">
+						<li class="has-children"><a href="/kuracke-potreby/">Kuřácké potřeby</a>
+							<ul class="menu-level-2">
+								<li><a href="/slurpery/">Slurpery</a></li>
+								<li><a href="/puffco-doplnky/">Puffco doplňky</a></li>
+								<li><a href="/doplnky-na-extrakty/">Doplňky na extrakty</a></li>
+							</ul>
+						</li>
+						<li><a href="/rigy/">Rigy</a></li>
+						<li><a href="/mereni/">Měření</a></li>
+						<li><a href="/baleni/">Balení</a></li>
+						<li><a href="/cleaning/">Cleaning</a></li>
+						<li><a href="/merch/">Merch</a></li>
+						<li><a href="/kontakty/">Kontakty</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<!-- Obsah titulky -->
+	<div id="content">
+		<div class="container">
+
+			<!-- Nativní banner (enhance.js ho skryje a vloží .bm-hp-hero PŘED něj) -->
+			<div class="banners-row"><div class="banner">[ nativní Shoptet banner ]</div></div>
+
+			<!-- USP pruh -->
+			<div class="benefitBanner">
+				<div class="benefitBanner__item"><span class="benefitBanner__picture"><img class="benefitBanner__img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt=""></span><span class="benefitBanner__content"><strong>Doprava zdarma</strong> od 1 500 Kč</span></div>
+				<div class="benefitBanner__item"><span class="benefitBanner__picture"><img class="benefitBanner__img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt=""></span><span class="benefitBanner__content"><strong>Skladem</strong>, expedice do 24 h</span></div>
+				<div class="benefitBanner__item"><span class="benefitBanner__picture"><img class="benefitBanner__img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt=""></span><span class="benefitBanner__content"><strong>Ověřeno</strong> 18+</span></div>
+			</div>
+
+			<!-- Bestsellery -->
+			<div class="products-block products-block-bestsellers">
+				<h2 class="products-block-header heading">Nejprodávanější</h2>
+				<div class="products">
+					<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Watermelon Recycler #9</a></div><div class="price">3 200 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+					<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Puffco Opal Dry Top</a></div><div class="price">450 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+					<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Classic Slurper</a></div><div class="price">1 199 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+					<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">High Tower V4</a></div><div class="price">2 480 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+				</div>
+			</div>
+
+			<!-- Shoptet demo „welcome" text (enhance.js cleanDemo() to skryje) -->
+			<div class="welcome-wrapper">
+				<div class="h1">Vítejte v naší zkušební administraci</div>
+				<p>Tento text si můžete v administraci přepsat nebo smazat. Vyzkoušejte si e-shop na 30 dní zdarma.</p>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Patička (nativní prázdná; enhance.js injectFooter() vloží .bm-footer) -->
+	<div class="footer">
+		<div class="container">[ nativní patička ]</div>
+	</div>
+
+	<!-- REÁLNÝ bundle (theme + enhance.js + ostatní) -->
+	<script src="../assets/budman.js" defer></script>
+</body>
+</html>
