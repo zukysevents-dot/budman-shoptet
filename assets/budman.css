@@ -1613,7 +1613,7 @@ header, .header {
 .bm-promo__tile:hover { transform: translateY(-5px); box-shadow: 0 20px 44px rgba(8, 11, 5, 0.4); }
 .bm-promo__tile:hover .bm-promo__bg { transform: scale(1.07); }
 .bm-promo__eyebrow { font-size: 0.72rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--bm-gold-bright); margin: 0 0 0.35rem; }
-.bm-promo__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.2rem, 0.9rem + 1vw, 1.7rem); line-height: 1.1; margin: 0 0 0.4rem; }
+.bm-promo__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.25rem, 0.9rem + 1.1vw, 1.8rem); line-height: 1.1; margin: 0 0 0.4rem; color: #fff !important; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); }
 .bm-promo__sub { font-size: 0.9rem; color: #d6dccb; margin: 0 0 0.8rem; max-width: 90%; }
 .bm-promo__cta { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; font-size: 0.9rem; color: var(--bm-green-bright); }
 .bm-promo__cta svg { transition: transform 0.25s ease; }
@@ -1630,7 +1630,8 @@ header, .header {
 @media (max-width: 520px) { .bm-promo { grid-template-columns: 1fr; grid-auto-rows: 170px; } }
 
 /* --- USP pruh (benefitBanner): tyrkysové → brand, glass karty ---- */
-.benefitBanner { gap: 1rem !important; }
+.benefitBanner { gap: 1rem !important; display: flex !important; flex-wrap: wrap !important; }
+.benefitBanner__item { flex: 1 1 200px !important; }
 .benefitBanner__item {
 	background: rgba(255, 255, 255, 0.66) !important;
 	-webkit-backdrop-filter: blur(10px);
