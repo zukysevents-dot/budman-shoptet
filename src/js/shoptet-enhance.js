@@ -382,6 +382,30 @@
 		f.insertBefore(sec, f.firstChild);
 	}
 
+	/* Menu: emojis ke kategoriím (barevné, hezké) ------------------ */
+	function enhanceMenu() {
+		var EMOJI = {
+			'/merch/': '👕', '/kuracke-potreby/': '🌿', '/rigy/': '⚗️',
+			'/slurpery/': '💎', '/mereni/': '🌡️', '/baleni/': '📦',
+			'/cleaning/': '🧼', '/puffco-doplnky/': '🔋', '/doplnky-na-extrakty/': '🍯',
+			'/kontakty/': '✉️', '/znacky/': '🏷️'
+		};
+		var links = document.querySelectorAll('.navigation a[href], .menu a[href], .mobile-navigation a[href], [class*="mobile"] .menu a[href]');
+		links.forEach(function (a) {
+			if (a.querySelector('.bm-emoji')) return;
+			var txt = (a.textContent || '').trim();
+			if (!txt) return; // přeskoč obrázkové/prázdné odkazy
+			var href = (a.getAttribute('href') || '').replace(/\?.*$/, '');
+			if (href && href.slice(-1) !== '/') href += '/';
+			var e = EMOJI[href];
+			if (!e) return;
+			var span = document.createElement('span');
+			span.className = 'bm-emoji';
+			span.textContent = e;
+			a.insertBefore(span, a.firstChild);
+		});
+	}
+
 	ready(function () {
 		playIntro();
 		injectHero();
@@ -389,8 +413,14 @@
 		cleanDemo();
 		topBarMsg();
 		injectFooter();
+		enhanceMenu();
 		customCursor();
 		reveal();
 		magnetic();
+		// mobilní menu se může dostavět později
+		setTimeout(enhanceMenu, 1200);
+		document.addEventListener('click', function (e) {
+			if (e.target.closest && e.target.closest('[class*="menu-trigger"], .hamburger, [class*="mobile"]')) setTimeout(enhanceMenu, 120);
+		}, true);
 	});
 })();
