@@ -2124,8 +2124,9 @@ header .container.navigation-wrapper { max-width: 1280px; }
 .navigation-in.menu { background: transparent !important; border: 0 !important; box-shadow: none !important; }
 @media (min-width: 981px) {
 	.menu-helper { display: none !important; }                 /* skryj hamburger na desktopu */
-	/* „fitted" JS roztáhne .navigation-in do obří šířky (měření) → omezit na 100 % */
-	.navigation-wrapper > nav, nav.fitted, nav.visible { width: 100% !important; max-width: 100% !important; overflow: visible !important; }
+	/* „fitted" JS roztáhne .navigation-in do obří šířky a dá visibility:hidden (měření) → vrátit */
+	.navigation-wrapper > nav, nav.fitted, nav.visible { width: 100% !important; max-width: 100% !important; overflow: visible !important; visibility: visible !important; }
+	.navigation-in.menu, .navigation-in.menu * { visibility: visible !important; }
 	.navigation-in.menu { width: 100% !important; max-width: 100% !important; white-space: normal !important; overflow: visible !important; }
 	.navigation-in.menu > ul.menu-level-1 {
 		display: flex !important;
