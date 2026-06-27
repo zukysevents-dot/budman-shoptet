@@ -2224,8 +2224,9 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 	/* „fitted" JS roztáhne .navigation-in do obří šířky a dá visibility:hidden (měření) → vrátit */
 	.navigation-wrapper > nav, nav.fitted, nav.visible { width: 100% !important; max-width: 100% !important; overflow: visible !important; visibility: visible !important; height: auto !important; min-height: 0 !important; }
 	.navigation-in.menu, .navigation-in.menu * { visibility: visible !important; }
-	.navigation-in.menu { width: 100% !important; max-width: 100% !important; white-space: normal !important; overflow: visible !important; height: auto !important; }
-	/* hlavička narůstá s většími pilly (jinak přetékají na banner) */
+	/* navIn je u Shoptetu position:absolute → nepřispívá do výšky → větší pilly přetékají na banner.
+	   static + auto výšky → hlavička naroste, obsáhne pilly, hero spadne pod ně (žádný překryv). */
+	.navigation-in.menu { width: 100% !important; max-width: 100% !important; white-space: normal !important; overflow: visible !important; position: static !important; }
 	header, .header, header .container.navigation-wrapper { height: auto !important; }
 	.navigation-in.menu > ul.menu-level-1 {
 		display: flex !important;
