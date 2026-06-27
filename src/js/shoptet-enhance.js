@@ -398,6 +398,54 @@
 	}
 
 	/* Menu: emojis ke kategoriím (barevné, hezké) ------------------ */
+	// Zploští menu: parent „Kuřácké potřeby" pryč, jeho podkategorie jako top-level položky.
+	function flattenMenu() {
+		var SHORT = { '/slurpery/': 'Slurpery', '/puffco-doplnky/': 'Puffco', '/doplnky-na-extrakty/': 'Extrakty', '/kuracke-potreby/': null };
+		var roots = document.querySelectorAll('.menu-level-0, .navigation-in.menu > ul, .mobile-navigation ul.menu, .mobile-navigation > ul');
+		roots.forEach(function (root) {
+			if (!root || root.getAttribute('data-bm-flat')) return;
+			var lis = Array.prototype.slice.call(root.children);
+			var parentLi = null;
+			lis.forEach(function (li) {
+				var a = li.querySelector(':scope > a, a');
+				if (a && (a.getAttribute('href') || '').indexOf('/kuracke-potreby/') > -1) parentLi = parentLi || li;
+			});
+			if (!parentLi) return;
+			// sběr podkategorií (dedup dle href, bez parenta)
+			var seen = {}, subs = [];
+			parentLi.querySelectorAll('a[href]').forEach(function (a) {
+				var href = (a.getAttribute('href') || '').replace(/\?.*$/, '');
+				if (href && href.slice(-1) !== '/') href += '/';
+				if (!href || href.indexOf('/kuracke-potreby/') > -1 || seen[href]) return;
+				var raw = (a.textContent || '').replace(/[\u{1F000}-\u{1FFFF}☀-➿←-⇿️]/gu, '').trim();
+				if (!raw && !SHORT[href]) return;
+				seen[href] = 1;
+				subs.push({ href: href, txt: SHORT[href] || raw });
+			});
+			if (!subs.length) return;
+			// vzor: top-level li bez submenu (Merch), jinak parent
+			var tmpl = null;
+			lis.forEach(function (li) { var a = li.querySelector(':scope > a, a'); if (!tmpl && a && /\/merch\//.test(a.getAttribute('href') || '')) tmpl = li; });
+			tmpl = tmpl || parentLi;
+			var frag = document.createDocumentFragment();
+			subs.forEach(function (s) {
+				var li = tmpl.cloneNode(true);
+				li.querySelectorAll('ul').forEach(function (u) { u.remove(); });
+				['has-children', 'with-submenu', 'active', 'menu-item--active', 'js-menu-item-has-children'].forEach(function (c) { li.classList.remove(c); });
+				var a = li.querySelector(':scope > a, a');
+				if (!a) return;
+				a.setAttribute('href', s.href);
+				a.removeAttribute('title');
+				a.innerHTML = '';
+				a.textContent = s.txt;
+				frag.appendChild(li);
+			});
+			parentLi.parentNode.insertBefore(frag, parentLi);
+			parentLi.remove();
+			root.setAttribute('data-bm-flat', '1');
+		});
+	}
+
 	function enhanceMenu() {
 		var EMOJI = {
 			'/merch/': '👕', '/kuracke-potreby/': '🌿', '/rigy/': '⚗️',
@@ -428,14 +476,15 @@
 		cleanDemo();
 		topBarMsg();
 		injectFooter();
+		flattenMenu();
 		enhanceMenu();
 		customCursor();
 		reveal();
 		magnetic();
 		// mobilní menu se může dostavět později
-		setTimeout(enhanceMenu, 1200);
+		setTimeout(function () { flattenMenu(); enhanceMenu(); }, 1200);
 		document.addEventListener('click', function (e) {
-			if (e.target.closest && e.target.closest('[class*="menu-trigger"], .hamburger, [class*="mobile"]')) setTimeout(enhanceMenu, 120);
+			if (e.target.closest && e.target.closest('[class*="menu-trigger"], .hamburger, [class*="mobile"]')) setTimeout(function () { flattenMenu(); enhanceMenu(); }, 120);
 		}, true);
 	});
 })();

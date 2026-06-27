@@ -1055,6 +1055,13 @@ a:hover { color: var(--bm-gold-deep); }
 /* TOP widget na tmavém hero → cena světlá (zlatá) */
 .bm-hp-top__price { color: var(--bm-gold-bright) !important; }
 
+/* zploštěné menu (více položek) → kompaktnější, ať se vejde na desktop */
+@media (min-width: 981px) {
+	.navigation-in.menu > ul > li > a, .menu-level-0 > li > a { padding-left: 0.72rem !important; padding-right: 0.72rem !important; font-size: 0.92rem !important; white-space: nowrap; }
+	.navigation-in.menu > ul, .menu-level-0 { flex-wrap: wrap; }
+	.navigation-in.menu .bm-emoji { margin-right: 0.28em; }
+}
+
 /* logo na světlé hlavičce: jemný tmavý chip aby bílé „udMan" písmo vyniklo */
 .site-name a {
 	background-color: #14110a;
