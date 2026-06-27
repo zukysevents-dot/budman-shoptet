@@ -86,8 +86,8 @@
 		hero.innerHTML =
 			'<canvas class="bm-hp-hero__smoke"></canvas>' +
 			'<div class="bm-hp-hero__in">' +
-			'<p class="bm-hp-hero__eyebrow">Prémiový headshop gear</p>' +
-			'<h2 class="bm-hp-hero__title">CBD a <span>kuřácké potřeby</span></h2>' +
+			'<p class="bm-hp-hero__eyebrow">Prémiový dab &amp; smoking gear</p>' +
+			'<h2 class="bm-hp-hero__title">Dab rigy a <span>kuřácké potřeby</span></h2>' +
 			'<a class="bm-hp-hero__btn" href="/kuracke-potreby/">Do obchodu</a>' +
 			'</div>';
 		anchor.parentNode.insertBefore(hero, anchor);
