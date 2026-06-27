@@ -157,10 +157,10 @@
 			var b = img.getBoundingClientRect();
 			var logo = logoEl.getBoundingClientRect();
 			if (!b.height || !logo.height) { finish(); return; }
-			// cíl: „bud" je vlevo v logu; B (jen bud) sedne na jeho pozici a velikost
-			var targetCx = logo.left + logo.width * 0.10;
-			var targetCy = logo.top + logo.height * 0.52;
-			var scale = (logo.height * 0.94) / b.height;
+			// cíl: „bud" je vlevo v logu (logo má zapečený okraj); B sedne na jeho pozici a velikost
+			var targetCx = logo.left + logo.width * 0.12;
+			var targetCy = logo.top + logo.height * 0.5;
+			var scale = (logo.height * 0.78) / b.height;
 			var dx = targetCx - (b.left + b.width / 2);
 			var dy = targetCy - (b.top + b.height / 2);
 			img.style.transition = 'transform 1.05s cubic-bezier(0.65, 0, 0.25, 1)';

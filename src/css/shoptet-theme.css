@@ -84,11 +84,12 @@ header, .header, .header-top, .header-bottom, .navigation, .navigation-in, .menu
 .site-name a {
 	display: inline-block;
 	box-sizing: border-box;
-	width: 212px;
+	width: 216px;
 	max-width: 62vw;
-	height: 76px;
-	padding: 12px 0;
-	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main/assets/brand/budman-logo-web.png") left center / contain no-repeat content-box;
+	height: 78px;
+	padding: 6px 0;
+	/* logo má zapečený průhledný okraj → pin na commit (obejde @main stale cache) */
+	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@e65092b/assets/brand/budman-logo-web.png") left center / contain no-repeat content-box;
 	text-indent: -9999px;
 	overflow: visible;
 	transition: opacity 0.5s ease, filter 0.3s ease, transform 0.3s ease;
