@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Budman — Shoptet harness: kategorie</title>
+	<!-- HARNESS-ONLY scaffolding (Shoptet base layout aproximace). NENASAZUJE SE. -->
+	<style>
+		* { box-sizing: border-box; }
+		body { margin: 0; font-family: system-ui, Arial, sans-serif; }
+		.container { width: 100%; margin-inline: auto; padding-inline: 20px; }
+		.header > .container { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding-block: 14px; }
+		.site-name a { font: 800 26px system-ui; text-decoration: none; color: #fff; }
+		.search { flex: 1 1 260px; } .search form { display: flex; gap: 8px; } .search .search-text { flex: 1; }
+		.user-action { display: flex; gap: 14px; align-items: center; }
+		.navigation-in.menu > ul { display: flex; flex-wrap: wrap; gap: 18px; list-style: none; margin: 0; padding: 10px 0; }
+		@media (max-width: 980px) { nav.navigation { display: none; } }
+		#content { padding: 16px 0 0; }
+		.breadcrumbs { padding: 8px 0; }
+		.category-layout { display: grid; grid-template-columns: 260px 1fr; gap: 28px; }
+		.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+		.product { display: flex; flex-direction: column; }
+		.product .image { aspect-ratio: 1; background: #fff; border: 1px solid #eee; }
+		.product .name { padding: 10px 8px 4px; } .product .price { padding: 0 8px 10px; font-weight: 700; }
+		.box, .filter { padding: 14px; margin-bottom: 16px; }
+		.pagination { display: flex; gap: 8px; padding: 24px 0; justify-content: center; }
+		.pagination a, .pagination span { padding: 8px 14px; }
+	</style>
+	<link rel="stylesheet" href="../assets/budman.css">
+</head>
+<body class="in-category type-category">
+
+	<div class="top-navigation-bar"><div class="top-navigation-bar__in container"><span><a href="/kontakty/">Kontakty</a></span></div></div>
+
+	<header class="header">
+		<div class="container">
+			<span class="site-name"><a href="/">budMan</a></span>
+			<div class="search"><form action="/vyhledavani/"><input class="search-text" type="text" placeholder="Co hledáte?"><button type="submit" class="btn-search">Hledat</button></form></div>
+			<div class="user-action"><a href="/prihlaseni/">Přihlásit</a><a class="cart-content" href="/kosik/">Košík (0)</a></div>
+		</div>
+		<div class="container navigation-wrapper"><nav class="navigation"><div class="navigation-in menu"><ul class="menu menu-level-1 menu-level-0">
+			<li class="has-children"><a href="/kuracke-potreby/">Kuřácké potřeby</a><ul class="menu-level-2"><li><a href="/slurpery/">Slurpery</a></li><li><a href="/puffco-doplnky/">Puffco doplňky</a></li><li><a href="/doplnky-na-extrakty/">Doplňky na extrakty</a></li></ul></li>
+			<li><a href="/rigy/">Rigy</a></li><li><a href="/mereni/">Měření</a></li><li><a href="/baleni/">Balení</a></li><li><a href="/cleaning/">Cleaning</a></li><li><a href="/merch/">Merch</a></li><li><a href="/kontakty/">Kontakty</a></li>
+		</ul></div></nav></div>
+	</header>
+
+	<div id="content">
+		<div class="container">
+			<div class="breadcrumbs"><span itemprop="itemListElement"><a href="/">Úvod</a></span> <span class="separator">/</span> <span itemprop="itemListElement"><a href="/kuracke-potreby/">Kuřácké potřeby</a></span> <span class="separator">/</span> <span itemprop="itemListElement"><span>Rigy</span></span></div>
+			<h1>Skleněné rigy</h1>
+			<div class="category-perex"><p>Ručně vyráběné dab rigy a recyclery — pečlivě vybrané kousky skladem. Od kompaktních po sběratelské.</p></div>
+
+			<div class="category-layout">
+				<aside>
+					<div class="box box-categories"><h3>Kategorie</h3><ul><li><a href="/rigy/">Rigy</a></li><li><a href="/slurpery/">Slurpery</a></li><li><a href="/puffco-doplnky/">Puffco doplňky</a></li></ul></div>
+					<div class="filter filtering"><h3>Filtr</h3><label><input type="checkbox"> Skladem</label><br><label><input type="checkbox"> Akce</label></div>
+				</aside>
+				<div>
+					<div class="products">
+						<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Watermelon Enhydro Recycler #9</a></div><div class="price">34 900 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+						<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Dragon Monster Rig</a></div><div class="price">13 500 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+						<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Milky Mini Recycler</a></div><div class="price">11 000 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+						<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Coctail Rig - Hashba</a></div><div class="price">4 200 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+						<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">High Tower V4</a></div><div class="price">2 480 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+						<div class="product"><a href="#" class="image"></a><div class="name"><a href="#">Classic Slurper</a></div><div class="price">1 199 Kč</div><button class="add-to-cart-button btn">Do košíku</button></div>
+					</div>
+					<div class="pagination"><span class="active">1</span><a href="#">2</a><a href="#">3</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer"><div class="container">[ nativní patička ]</div></div>
+	<script src="../assets/budman.js" defer></script>
+</body>
+</html>

@@ -88,6 +88,28 @@ header .container.navigation-wrapper,
 	box-sizing: border-box;
 }
 
+/* ===== ODSTRANĚNÍ GRAFIKY SHOPTETU — plná kontrola ============== */
+/* Cíl: pryč veškerý dekorativní/brandový chrome Shoptetu (default banner,
+   podpis „Vytvořeno na Shoptetu", nativní prázdná patička, dekorace).
+   NESAHÁ na produktové fotky ani funkční prvky (košík, vyhledávání, menu). */
+
+/* nativní patička pryč — necháme jen náš injektovaný .bm-footer */
+.footer > *:not(.bm-footer) { display: none !important; }
+
+/* podpis / kredit / branding Shoptetu kdekoliv */
+.signature, .footer-signature, .web-creator, .created-by, .creator,
+.shoptet-pohoda, .shoptetLogo, .powered-by, .footer-tool,
+.footer a[href*="shoptet.cz"], .copyright a[href*="shoptet"],
+a[href*="www.shoptet.cz"], [class*="shoptet-signature"] { display: none !important; }
+
+/* default homepage bannerový rotátor / slider (nahrazuje ho náš .bm-hp-hero) */
+.banner-rotator, .main-slider, .homepage-banner, .top-banner,
+.banners-row > .banner-image, .homepage-slider { display: none !important; }
+
+/* default dekorace, prázdné nadpisy a „newsletter" placeholder z šablony */
+.welcome-wrapper:empty, .homepage-text:empty,
+.advanced-order, .partners-bar:empty { display: none !important; }
+
 /* ===== Skrytí demo obsahu Shoptet šablony ========================= */
 /* "TOP 10 produktů" sidebar ukazuje template demo (hodinky, mikina…) – skrýt, dokud nejsou reálné bestsellery */
 .box-topProducts { display: none !important; }
