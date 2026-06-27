@@ -12,7 +12,8 @@
 	'use strict';
 
 	var CDN = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main';
-	var RIG_URL = CDN + '/assets/hero/rig.png';
+	// rig.png pinnut na commit (jsDelivr @main cache na mutable cestě servíruje stale) — bump při změně rigu
+	var RIG_URL = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@3497d21/assets/hero/rig.png';
 	var B_URL = CDN + '/assets/brand/budman-b.png';
 
 	var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
