@@ -53,30 +53,30 @@
 }
 
 /* ===== JEDNOTNÝ KONTEJNER — zarovnání celého webu ================= */
-/* Náš injektovaný markup (.bm-*) i nativní Shoptet obsah sdílejí JEDNU
-   šířku a stejný gutter → všechny svislé hrany sedí shora dolů. Vynuceno
-   jen na hlavní layoutové .container (mimo modály / košíkové widgety). */
-.header > .container,
-header .container.navigation-wrapper,
-#content > .container,
-.content-wrapper > .container,
-.breadcrumbs > .container,
-.footer > .container {
+/* OVĚŘENO NA ŽIVÉM DOM (template-11). Šířku drží Shoptet .container
+   (nativně max-width 1500). Sjednotíme ho na --bm-container, takže náš
+   .bm-* markup i nativní obsah sdílejí JEDNU osu (obsah ~152px, pravý ~1272
+   při 1440 vieportu). POZN.: Shoptet má html font-size 62.5% → 3rem = 30px. */
+.overall-wrapper .container,
+#header .container,
+header.header .container {
 	max-width: var(--bm-container) !important;
 	margin-inline: auto !important;
 	padding-inline: var(--bm-gutter) !important;
-	box-sizing: border-box;
+	box-sizing: border-box !important;
 }
-/* Sekce injektované UVNITŘ #content > .container už dostávají šířku i gutter
-   od kontejneru → vynulovat jejich vlastní max-width/horizontální padding,
-   jinak vznikne dvojité odsazení (obsah by utekl dovnitř proti produktům). */
-#content .bm-hp-hero__grid,
-#content .bm-promo,
-#content .bm-why {
-	max-width: none !important;
-	margin-inline: 0 !important;
-	padding-inline: 0 !important;
-}
+/* zrušit dvojité vnitřní paddingy Shoptetu (gutter dává už .container) */
+main.content, .content-wrapper-in, .benefitBanner,
+.header-top, .header-bottom { padding-inline: 0 !important; }
+/* zrušit Shoptet negativní margin na navigaci → pilly kategorií sednou na osu */
+#header #navigation,
+#header .navigation-in.menu,
+#header .navigation-in.menu > ul { margin-inline: 0 !important; }
+
+/* Naše injektované sekce dědí šířku z rodičovského .container (1180) →
+   vlastní max-width/horizontální padding pryč (žádné dvojité odsazení). */
+.bm-hp-hero, .bm-promo, .bm-why { max-width: none !important; margin-inline: 0 !important; }
+.bm-hp-hero__grid, .bm-promo, .bm-why { padding-inline: 0 !important; }
 /* Patička se injektuje MIMO #content (do .footer) → dostane vlastní kontejner
    se stejnou šířkou a gutterem, aby její obsah seděl na stejnou osu (170). */
 .bm-footer { padding-left: 0 !important; padding-right: 0 !important; }
