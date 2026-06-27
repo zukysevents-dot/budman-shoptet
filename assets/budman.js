@@ -394,7 +394,7 @@
 	'use strict';
 
 	var CDN = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main';
-	var RIG_URL = CDN + '/assets/hero/rig.jpg';
+	var RIG_URL = CDN + '/assets/hero/rig.png';
 	var B_URL = CDN + '/assets/brand/budman-b.png';
 
 	var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -505,7 +505,7 @@
 		anchor.parentNode.insertBefore(hero, anchor);
 		anchor.style.display = 'none';
 		// dým z náustku rigu (horní střed obrázku)
-		startSmoke(hero.querySelector('.bm-hp-hero__smoke'), 0.5, 0.14);
+		startSmoke(hero.querySelector('.bm-hp-hero__smoke'), 0.5, 0.13);
 	}
 
 	/* ============================================================ */

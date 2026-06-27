@@ -1239,7 +1239,7 @@ input[type="submit"]:hover, .button:hover {
 	z-index: 2;
 	display: block;
 	justify-self: center;
-	width: clamp(220px, 30vw, 360px);
+	width: clamp(250px, 33vw, 430px);
 	aspect-ratio: 1024 / 768;
 	text-decoration: none;
 }
@@ -1248,7 +1248,7 @@ input[type="submit"]:hover, .button:hover {
 	position: absolute;
 	inset: -14% -8% -6% -8%;
 	z-index: 0;
-	background: radial-gradient(50% 55% at 50% 42%, rgba(190, 214, 90, 0.30) 0%, rgba(120, 195, 67, 0.13) 35%, rgba(12, 17, 8, 0) 70%);
+	background: radial-gradient(46% 54% at 50% 40%, rgba(190, 214, 90, 0.32) 0%, rgba(120, 195, 67, 0.14) 36%, rgba(12, 17, 8, 0) 70%);
 	filter: blur(6px);
 }
 .bm-hp-hero__rig-img {
@@ -1257,8 +1257,10 @@ input[type="submit"]:hover, .button:hover {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
-	mix-blend-mode: screen; /* černé pozadí produktové fotky zmizí, sklo září */
-	filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.55)) saturate(1.08);
+	/* transparentní PNG výřez (černé pozadí odklíčované) → žádné blend artefakty */
+	filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 22px rgba(150, 200, 80, 0.25)) saturate(1.06);
+	-webkit-mask: linear-gradient(to bottom, #000 86%, rgba(0, 0, 0, 0) 100%);
+	        mask: linear-gradient(to bottom, #000 86%, rgba(0, 0, 0, 0) 100%);
 	animation: bmRigFloat 7s ease-in-out infinite alternate;
 	will-change: transform;
 }
