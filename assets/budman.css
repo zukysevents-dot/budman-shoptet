@@ -1200,3 +1200,110 @@ input[type="submit"]:hover, .button:hover {
 .footer a, .footer-content a { color: var(--bm-muted); }
 .footer a:hover { color: var(--bm-lime); }
 .footer h3, .footer h4, .footer .footer-title { color: var(--bm-text); }
+
+/* ================================================================== */
+/* ============== PROFI POLISH (kompletní dotažení) ================= */
+/* ================================================================== */
+
+/* --- Typografie: prémiový grotesk na nadpisy ---------------------- */
+:root { --template-headings-font: "Space Grotesk", sans-serif; }
+h1, h2, h3, h4, .h1, .h2, .h3,
+.p-detail h1, .breadcrumbs + h1, .bm-hp-hero__title {
+	font-family: "Space Grotesk", system-ui, sans-serif !important;
+	letter-spacing: -0.015em;
+	font-weight: 700;
+}
+body { -webkit-font-smoothing: antialiased; }
+
+/* --- Breadcrumb: pryč bílý pruh ----------------------------------- */
+.breadcrumbs, .breadcrumbs-wrapper, .navigation-home-icon-wrapper {
+	background: transparent !important;
+}
+.breadcrumbs, .breadcrumbs a, .breadcrumbs span, .breadcrumbs i {
+	color: var(--bm-muted) !important;
+	border-color: var(--bm-line) !important;
+}
+.breadcrumbs a:hover { color: var(--bm-lime) !important; }
+
+/* --- Hlavička: pill hledání, vzdušnost --------------------------- */
+.header__in, .header-in { padding-block: 0.5rem; }
+.search input, input.search-text, .header .form-control {
+	border-radius: 999px !important;
+	padding-inline: 1.1rem !important;
+}
+.btn-search, button[type="submit"].search { border-radius: 999px !important; }
+
+/* --- Sekce: vzdušnost + lime podtržení nadpisů sekcí ------------- */
+.bm-section, .product-list-heading, .products-block-header,
+.featured-heading, h2.heading {
+	margin-bottom: 1.2rem;
+}
+
+/* --- Produktové karty: čistší, konzistentní ---------------------- */
+.products .product, .product-box, .products-block .product {
+	background: var(--bm-card) !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 16px !important;
+	overflow: hidden;
+	transition: transform 0.22s var(--bm-ease, ease), border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.products .product:hover, .product-box:hover {
+	transform: translateY(-4px);
+	border-color: var(--bm-lime) !important;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+/* fotky produktů na světlém podkladu (ať vyniknou) */
+.products .product .image, .products .product .p-image,
+.product-box .image, .image-cover img {
+	background: #f4f5f0;
+}
+.p-name a, .product-name a { font-weight: 600; }
+.price-final, .price, .product-price { color: var(--bm-lime) !important; font-weight: 700; }
+
+/* --- Detail produktu: rám galerie, větší cena, tmavé inputy ------ */
+.p-detail .p-image, .p-detail .image-cover {
+	background: #f4f5f0 !important;
+	border-radius: 16px;
+	overflow: hidden;
+	border: 1px solid var(--bm-line);
+}
+.p-detail .price-final { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem) !important; }
+select.form-control, .form-control, textarea.form-control {
+	background: var(--bm-card) !important;
+	color: var(--bm-text) !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 10px !important;
+}
+.p-detail .availability-label, .p-detail .stock { color: var(--bm-lime) !important; }
+.p-detail__short, .p-short-description { color: #d5ddcf; }
+
+/* --- Tlačítka: jemně zaoblená, tučná ----------------------------- */
+.btn, .btn-primary, .btn-conversion, .add-to-cart-button {
+	border-radius: 10px !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.01em;
+}
+
+/* --- Sidebar (filtr/kategorie): konzistentní tmavé --------------- */
+.sidebar .box, .sidebar-inner .box {
+	background: var(--bm-surface) !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 14px !important;
+}
+.sidebar a:hover { color: var(--bm-lime) !important; }
+
+/* --- Stránkování --------------------------------------------------- */
+.pagination a, .pagination span, .paging a {
+	background: var(--bm-card) !important;
+	color: var(--bm-text) !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 8px !important;
+}
+.pagination .active, .pagination a:hover, .paging .active {
+	background: var(--bm-lime) !important;
+	color: var(--bm-ink) !important;
+	border-color: var(--bm-lime) !important;
+}
+
+/* --- Cookie lišta: ať ladí --------------------------------------- */
+.cookies-info, #cookiesInfo { border-radius: 14px; }
