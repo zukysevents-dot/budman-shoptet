@@ -184,35 +184,37 @@ input[type="submit"]:hover, .button:hover {
 	isolation: isolate; /* vlastní stacking context kvůli mix-blend rigu */
 	background: #0c1108;
 }
-/* vrstvené gradientové pozadí: hluboká zelená → černá + zlatý nádech */
+/* OSTRÝ klientský banner jako pozadí (1920×1080) + pomalý Ken Burns zoom */
 .bm-hp-hero__bg {
 	position: absolute;
-	inset: 0;
+	inset: -2.5%;
 	z-index: 0;
-	background:
-		radial-gradient(120% 130% at 78% 18%, rgba(58, 138, 46, 0.30) 0%, rgba(12, 17, 8, 0) 55%),
-		radial-gradient(90% 120% at 10% 100%, rgba(201, 162, 75, 0.14) 0%, rgba(12, 17, 8, 0) 50%),
-		linear-gradient(160deg, #10180b 0%, #0b0f07 60%, #080b05 100%);
+	background: url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@73436d2/assets/hero/banner-dark.jpg") center / cover no-repeat;
+	animation: bmKenBurns 30s ease-in-out infinite alternate;
+	will-change: transform;
 }
+.bm-hp-hero__bg::before { display: none !important; } /* žádné liquid blobs přes foto */
+/* levý scrim pro čitelnost textu + spodní ztmavení */
 .bm-hp-hero__bg::after {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: radial-gradient(120% 90% at 50% 0%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, 0.5) 100%);
+	background:
+		linear-gradient(90deg, rgba(8, 11, 5, 0.94) 0%, rgba(8, 11, 5, 0.82) 30%, rgba(8, 11, 5, 0.36) 56%, rgba(8, 11, 5, 0) 80%),
+		linear-gradient(180deg, rgba(8, 11, 5, 0) 58%, rgba(8, 11, 5, 0.55) 100%);
 }
+@keyframes bmKenBurns { from { transform: scale(1); } to { transform: scale(1.08); } }
 .bm-hp-hero__grid {
 	position: relative;
 	z-index: 2;
 	width: 100%;
 	max-width: 1180px;
 	margin: 0 auto;
-	display: grid;
-	grid-template-columns: 1.05fr 0.95fr;
+	display: flex;
 	align-items: center;
-	gap: 1rem;
-	padding: 2.4rem clamp(1.2rem, 4vw, 3rem);
+	padding: 2.4rem clamp(1.4rem, 4vw, 3.2rem);
 }
-.bm-hp-hero__copy { max-width: 30rem; }
+.bm-hp-hero__copy { max-width: 33rem; }
 .bm-hp-hero__eyebrow {
 	color: var(--bm-gold-bright);
 	letter-spacing: 3px;

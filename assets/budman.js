@@ -500,15 +500,9 @@
 						'<a class="bm-btn-ghost" href="/kuracke-potreby/">Celý sortiment</a>' +
 					'</div>' +
 				'</div>' +
-				'<a class="bm-hp-hero__rig" href="/watermelon-enhydro-recycler--9-rig-murdocglass/" aria-label="Watermelon Enhydro Recycler — skleněný dab rig">' +
-					'<img class="bm-hp-hero__rig-img" src="' + RIG_URL + '" alt="Skleněný dab rig Watermelon Enhydro Recycler" loading="eager" decoding="async">' +
-					'<canvas class="bm-hp-hero__smoke"></canvas>' +
-				'</a>' +
 			'</div>';
 		anchor.parentNode.insertBefore(hero, anchor);
 		anchor.style.display = 'none';
-		// dým z náustku rigu (pozice náustku v ořezaném PNG)
-		startSmoke(hero.querySelector('.bm-hp-hero__smoke'), 0.46, 0.07);
 	}
 
 	/* ============================================================ */
