@@ -119,6 +119,62 @@ input[type="submit"]:hover, .button:hover {
 .flag-product, .flag, .flags .flag { background: #e2483f !important; color: #fff !important; }
 .availability-instock, .amount, .stock { color: var(--bm-lime) !important; }
 
+/* ===== Homepage hero (vkládá shoptet-enhance.js) ================== */
+.bm-hp-hero {
+	position: relative;
+	min-height: clamp(360px, 56vh, 600px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	margin: 0 0 2rem;
+	border-radius: 16px;
+	overflow: hidden;
+	background: #0e120d url("https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@07b94e8/assets/hero/hero-dark.jpg") center / cover no-repeat;
+}
+.bm-hp-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(14, 18, 13, 0.45) 0%, rgba(14, 18, 13, 0.78) 100%);
+}
+.bm-hp-hero__in { position: relative; z-index: 1; padding: 2rem 1.2rem; }
+.bm-hp-hero__eyebrow {
+	color: var(--bm-lime);
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	font-size: 0.78rem;
+	margin: 0 0 0.8rem;
+}
+.bm-hp-hero__title {
+	font-family: var(--template-headings-font, inherit);
+	font-size: clamp(2rem, 1.2rem + 4vw, 3.8rem);
+	font-weight: 800;
+	line-height: 1.05;
+	color: #fff !important;
+	margin: 0 0 1.4rem;
+	text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+}
+.bm-hp-hero__title span { color: var(--bm-lime) !important; }
+.bm-hp-hero__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.85em 1.9em;
+	border: 2px solid var(--bm-lime);
+	border-radius: 999px;
+	color: #fff;
+	font-weight: 600;
+	text-decoration: none;
+	background: rgba(143, 195, 31, 0.08);
+	transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.bm-hp-hero__btn:hover {
+	background: var(--bm-lime);
+	color: var(--bm-ink);
+	transform: translateY(-2px);
+}
+
 /* ===== Patička ==================================================== */
 .footer, .footer .footer-in, .footer-content {
 	background: var(--bm-surface) !important;
