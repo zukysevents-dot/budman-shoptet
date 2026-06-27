@@ -347,11 +347,11 @@
 			rigy: findHref(/^rigy$|^rig/i, '/rigy/'),
 			puffco: findHref(/puffco/i, '/kuracke-potreby/'),
 			smoke: findHref(/kuřáck/i, '/kuracke-potreby/'),
+			clean: findHref(/cleaning/i, '/cleaning/'),
 			merch: findHref(/^merch$/i, '/merch/'),
-			znacky: findHref(/značk/i, '/znacky/'),
 			jak: findHref(/jak nakupovat/i, '/jak-nakupovat/'),
 			op: findHref(/obchodní podmínky/i, '/obchodni-podminky/'),
-			gdpr: findHref(/osobních údaj|ochrana/i, '/ochrana-osobnich-udaju/'),
+			gdpr: findHref(/osobních údaj|ochrana/i, '/podminky-ochrany-osobnich-udaju/'),
 			kontakt: findHref(/kontakt/i, '/kontakty/')
 		};
 		var sec = document.createElement('div');
@@ -368,8 +368,8 @@
 					'<li><a href="' + L.rigy + '">Skleněné rigy</a></li>' +
 					'<li><a href="' + L.puffco + '">Puffco doplňky</a></li>' +
 					'<li><a href="' + L.smoke + '">Kuřácké potřeby</a></li>' +
+					'<li><a href="' + L.clean + '">Cleaning</a></li>' +
 					'<li><a href="' + L.merch + '">Merch</a></li>' +
-					'<li><a href="' + L.znacky + '">Značky</a></li>' +
 				'</ul></div>' +
 				'<div><h4>Informace</h4><ul>' +
 					'<li><a href="' + L.jak + '">Jak nakupovat</a></li>' +
