@@ -122,8 +122,8 @@
 			'</div>';
 		anchor.parentNode.insertBefore(hero, anchor);
 		anchor.style.display = 'none';
-		// dým z náustku rigu (horní střed obrázku)
-		startSmoke(hero.querySelector('.bm-hp-hero__smoke'), 0.5, 0.13);
+		// dým z náustku rigu (pozice náustku v ořezaném PNG)
+		startSmoke(hero.querySelector('.bm-hp-hero__smoke'), 0.46, 0.07);
 	}
 
 	/* ============================================================ */

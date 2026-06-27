@@ -18,5 +18,9 @@
 		"migrate": "npm run export && npm run build:all",
 		"seed:fixture": "node migration/lib/seed-fixture.mjs",
 		"build": "node build-template.mjs"
+	},
+	"devDependencies": {
+		"jpeg-js": "^0.4.4",
+		"pngjs": "^7.0.0"
 	}
 }
