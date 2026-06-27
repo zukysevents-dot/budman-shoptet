@@ -410,9 +410,12 @@
 		return /(^|\s)(in-index|type-index)(\s|$)/.test(document.body.className || '');
 	}
 	function isSensitivePage() {
-		var c = document.body.className || '';
-		return /type-cart|type-order|in-cart|ordering|checkout/.test(c) ||
-			/\/(kosik|objednavka|pokladna|order|cart)/i.test(location.pathname);
+		// POZOR: porovnávat CELÉ tokeny tříd — Shoptet má feature-flag třídu
+		// „ums_homepage_cart_checkout_headings--on", která obsahuje podřetězce
+		// „cart"/„checkout" → široká regex by vypnula kurzor na každé stránce.
+		var c = ' ' + (document.body.className || '') + ' ';
+		return / (type-cart|type-order|type-checkout|in-cart) /.test(c) ||
+			/\/(kosik|objednavka|pokladna|order|cart|checkout)(\/|$)/i.test(location.pathname);
 	}
 	function rnd(a, b) { return a + Math.random() * (b - a); }
 
