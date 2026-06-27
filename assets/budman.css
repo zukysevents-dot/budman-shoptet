@@ -982,43 +982,44 @@
  * Cílí na REÁLNÉ třídy Shoptetu. Servíruje se přes jsDelivr, bundluje do assets/budman.css.
  */
 
-/* ===== Brand proměnné — TMAVÝ theme „budMan Dark" ================= */
-/* Teplá zeleno-černá báze à la Dr. Dabber: karty vystoupí z pozadí zesvětlením
-   + hairline rámem MÍSTO bílé plochy. Zelená/lime akce, zlato prémiový akcent. */
+/* ===== Brand proměnné — SVĚTLÝ theme „budMan Gold" =============== */
+/* Krémově bílá báze, ZLATO jako primární akcent, černá text, zelená brand
+   (logo / skladem / košík). Čisté, prémiové, světlé. */
 :root {
-	--color-primary: #2f8a1e;
-	--color-primary-h: 110;
-	--color-primary-s: 64%;
-	--color-primary-l: 33%;
-	--color-primary-hover: #267015;
-	--color-primary-hover-h: 110;
-	--color-primary-hover-s: 68%;
-	--color-primary-hover-l: 26%;
-	--color-header-background: #080b05;
+	--color-primary: #b8902e;
+	--color-primary-h: 42;
+	--color-primary-s: 61%;
+	--color-primary-l: 45%;
+	--color-primary-hover: #9a7620;
+	--color-primary-hover-h: 42;
+	--color-primary-hover-s: 65%;
+	--color-primary-hover-l: 37%;
+	--color-header-background: #ffffff;
 
-	/* === Brand tokeny (tmavé) === */
-	--bm-green: #2f8a1e;        /* primární zelená (akce, ceny) */
-	--bm-green-deep: #1f5a14;   /* tmavší zelená (hover, gradienty) */
-	--bm-green-bright: #8fd64f; /* lime z loga — jas/hover/cena na tmavém */
-	--bm-gold: #d2a955;         /* zlato — prémiový akcent */
-	--bm-gold-bright: #e6c878;
-	--bm-ink: #080b05;          /* hlavička/patička — nejhlubší tmavá */
-	--bm-ink-2: #11150d;
+	/* === Brand tokeny (světlé, zlato-bílá) === */
+	--bm-gold: #b8902e;          /* ZLATO — primární akcent (tlačítka, akcenty) */
+	--bm-gold-bright: #d6b052;   /* světlejší zlato (hover, dekorace) */
+	--bm-gold-deep: #876513;     /* tmavé zlato — text na bílé (AA) */
+	--bm-green: #2e7d1e;         /* brand zelená (logo, košík, skladem) */
+	--bm-green-deep: #1f5a14;
+	--bm-green-bright: #2e7d1e;  /* na světlé = ta samá sytá zelená (AA) */
+	--bm-ink: #161208;          /* nejhlubší tmavá — hero/akcenty (zůstává tmavá) */
+	--bm-ink-2: #2a2417;
 	--bm-white: #ffffff;
-	--bm-bg: #0c0f08;           /* teplá zeleno-černá báze (NE čistá černá) */
-	--bm-surface: #11150d;      /* panely / inputy (o stupeň světlejší) */
-	--bm-card: #161b10;         /* karty (vystoupí z bg) */
-	--bm-card-hover: #1d2316;
-	--bm-text: #e8ece1;         /* světlý text */
-	--bm-heading: #f4f7ee;      /* nadpisy */
-	--bm-muted: #9aa48b;        /* tlumený text (AA na tmavé) */
-	--bm-price: #9bdc5b;        /* cena — svítí na kartě */
-	--bm-cta: #7ec63f;          /* neon lime hlavní CTA */
-	--bm-cta-text: #07120a;
-	--bm-img-panel: #ffffff;    /* čistě bílý podklad fotky — splyne s bílými okraji/pozadím fotek (produkt na bílé) */
-	--bm-line: rgba(255, 255, 255, 0.09);
-	--bm-line-strong: rgba(255, 255, 255, 0.18);
-	--bm-line-dark: rgba(255, 255, 255, 0.12);
+	--bm-bg: #f6f3ea;           /* krémově bílá báze */
+	--bm-surface: #ffffff;      /* karty / panely / inputy — bílé */
+	--bm-card: #ffffff;
+	--bm-card-hover: #fffdf5;
+	--bm-text: #211d13;         /* tělo textu (skoro černá) */
+	--bm-heading: #161109;      /* nadpisy */
+	--bm-muted: #7c7666;        /* tlumený text */
+	--bm-price: #161109;        /* cena — tmavá (sytá, čitelná) */
+	--bm-cta: #b8902e;          /* zlaté hlavní CTA */
+	--bm-cta-text: #1a1407;     /* tmavý text na zlatě */
+	--bm-img-panel: #ffffff;    /* bílý podklad fotky — na světlé kartě splyne */
+	--bm-line: rgba(23, 20, 13, 0.12);     /* tmavý hairline na světlém */
+	--bm-line-strong: rgba(23, 20, 13, 0.20);
+	--bm-line-dark: rgba(23, 20, 13, 0.10);
 	--bm-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1938,4 +1939,104 @@ select, option { background: var(--bm-surface); color: var(--bm-text); }
 /* promo dlaždice s obrázkem: silnější spodní scrim pro čitelnost textu */
 .bm-promo__tile::after {
 	background: linear-gradient(180deg, rgba(8, 11, 5, 0.08) 0%, rgba(8, 11, 5, 0.45) 48%, rgba(8, 11, 5, 0.90) 100%) !important;
+}
+
+/* ================================================================== */
+/* ====== SVĚTLÝ THEME — přepnutí dříve tmavých prvků na světlé ===== */
+/* (hero banner + TOP widget zůstávají tmavé — je to fotka) ========= */
+/* ================================================================== */
+
+/* HLAVIČKA + navigace → bílá, tmavý text, zlatý hover */
+header, .header, .header-bottom, .navigation, .navigation-in, .navigation-in.menu {
+	background: #ffffff !important;
+	border-color: var(--bm-line) !important;
+}
+.header-bottom, .navigation-in.menu { border-bottom: 1px solid var(--bm-line) !important; }
+.navigation-in.menu a, .menu a, .navigation-in.menu > ul > li > a { color: var(--bm-text) !important; }
+.navigation-in.menu a:hover, .menu a:hover, .menu .menu-level-0 > li.active > a,
+.navigation-in.menu > ul > li > a:hover { color: var(--bm-gold-deep) !important; }
+.navigation-in.menu > ul > li > a::after, .menu .menu-level-0 > li > a::after {
+	background: linear-gradient(90deg, var(--bm-gold), var(--bm-gold-bright)) !important;
+}
+.user-action a, .user-action-in a { color: var(--bm-text); }
+.user-action a:hover { color: var(--bm-gold-deep); }
+
+/* SEARCH v hlavičce → světlý input */
+.search input, input.search-text, .header .form-control, .header input[type="text"] {
+	background: #f1ece0 !important;
+	border: 1px solid var(--bm-line-strong) !important;
+	color: var(--bm-text) !important;
+	-webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+}
+.search input::placeholder, input.search-text::placeholder { color: var(--bm-muted) !important; }
+
+/* HORNÍ LIŠTA → světlá */
+.top-navigation-bar, .header-top {
+	background: #efeadc !important;
+	-webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+	border-bottom: 1px solid var(--bm-line) !important;
+}
+.top-navigation-bar a, .header-top a { color: var(--bm-muted) !important; }
+.top-navigation-bar a:hover, .header-top a:hover { color: var(--bm-gold-deep) !important; }
+.bm-topmsg { color: var(--bm-gold-deep) !important; }
+
+/* PATIČKA (nativní + injektovaná) → světlá */
+.footer, .footer-content, .footer .footer-in,
+.bm-footer { background: #efeadc !important; border-top: 2px solid var(--bm-gold) !important; }
+.footer, .footer-content, .footer a, .footer-content a,
+.bm-footer__tag, .bm-footer__contact, .bm-footer__bottom { color: var(--bm-muted) !important; }
+.footer a:hover, .bm-footer a:hover { color: var(--bm-gold-deep) !important; }
+.bm-footer h4, .bm-footer__contact strong, .footer h3, .footer h4 { color: var(--bm-heading) !important; }
+.bm-footer a { color: var(--bm-muted) !important; }
+.bm-footer__social a { background: rgba(23, 20, 13, 0.05) !important; border: 1px solid var(--bm-line) !important; }
+.bm-footer__social a svg { fill: var(--bm-text); }
+.bm-footer__social a:hover { background: var(--bm-gold) !important; border-color: var(--bm-gold) !important; }
+.bm-footer__social a:hover svg { fill: #fff; }
+.bm-footer__pay span { color: var(--bm-text) !important; background: rgba(23, 20, 13, 0.04) !important; border: 1px solid var(--bm-line) !important; }
+.bm-footer__bottom { border-top-color: var(--bm-line) !important; }
+.bm-footer__age { color: var(--bm-gold-deep) !important; }
+.bm-footer__age b { border-color: var(--bm-gold) !important; }
+.bm-footer::before { background: radial-gradient(closest-side, rgba(184, 144, 46, 0.14), transparent 70%) !important; }
+
+/* TLAČÍTKA: hlavní = ZLATO; košík/„do košíku"/skladem = ZELENÁ (konverze) */
+.btn, .btn-primary, input[type="submit"], .button {
+	background: var(--bm-gold) !important; border-color: var(--bm-gold) !important; color: var(--bm-cta-text) !important;
+}
+.btn:hover, .btn-primary:hover, input[type="submit"]:hover, .button:hover {
+	background: var(--bm-gold-bright) !important; border-color: var(--bm-gold-bright) !important; color: var(--bm-cta-text) !important;
+}
+.btn-conversion, .add-to-cart-button, button.add,
+.user-action-cart .btn-conversion, .cart-widget-button .btn-conversion {
+	background: var(--bm-green) !important; border-color: var(--bm-green) !important; color: #fff !important;
+}
+.btn-conversion:hover, .add-to-cart-button:hover { background: var(--bm-green-deep) !important; color: #fff !important; }
+.btn-search, .search button[type="submit"], button.search { background: var(--bm-green) !important; color: #fff !important; }
+
+/* breadcrumb, sekce, USP na světlé */
+.breadcrumbs, .breadcrumbs a, .breadcrumbs span, .breadcrumbs i { color: var(--bm-muted) !important; }
+.breadcrumbs a:hover { color: var(--bm-gold-deep) !important; }
+.benefitBanner__picture, .benefitBanner__img { background: linear-gradient(135deg, var(--bm-gold), var(--bm-gold-deep)) !important; }
+.benefitBanner__item { background: #ffffff !important; border-color: var(--bm-line) !important; }
+.products .product:hover, .product-box:hover, .benefitBanner__item:hover { border-color: var(--bm-gold) !important; box-shadow: 0 14px 30px rgba(23, 20, 13, 0.10) !important; }
+
+/* ceny tmavé, skladem zelená, akce badge zlatá */
+.price, .price-final, .product-price { color: var(--bm-price) !important; }
+.availability-instock, .amount, .stock, .p-detail .availability-label, .p-detail .stock { color: var(--bm-green) !important; }
+.flag-product, .flag, .flags .flag { background: var(--bm-gold) !important; color: var(--bm-cta-text) !important; }
+.pagination .active, .pagination a:hover, .paging .active { background: var(--bm-gold) !important; border-color: var(--bm-gold) !important; color: var(--bm-cta-text) !important; }
+
+/* odkazy v těle → tmavé, hover zlatý */
+a { color: var(--bm-text); }
+a:hover { color: var(--bm-gold-deep); }
+#content a:not(.btn):not(.bm-btn-primary):not(.bm-btn-ghost):not(.bm-promo__tile):hover { color: var(--bm-gold-deep); }
+
+/* TOP widget na tmavém hero → cena světlá (zlatá) */
+.bm-hp-top__price { color: var(--bm-gold-bright) !important; }
+
+/* logo na světlé hlavičce: jemný tmavý chip aby bílé „udMan" písmo vyniklo */
+.site-name a {
+	background-color: #14110a;
+	border-radius: 12px;
+	padding: 8px 14px !important;
+	box-shadow: 0 4px 14px rgba(23, 20, 13, 0.18);
 }
