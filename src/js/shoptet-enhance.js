@@ -452,10 +452,15 @@
 			var sep = item.nextElementSibling;
 			if (sep && /separator|arrow|delimiter|navigation-separator/i.test(sep.className || '')) sep.style.display = 'none';
 		});
-		// zbylé odkazy na parent v sidebaru → skrýt řádek
+		// sidebar (.box-categories): skryj „Kuřácké potřeby" řádek (.topic), děti odsaď nahoru
 		document.querySelectorAll('.box-categories a[href*="kuracke-potreby"]').forEach(function (a) {
-			var li = a.closest('li');
-			if (li) li.style.display = 'none';
+			var topic = a.closest('.topic') || a.closest('li');
+			if (topic) topic.style.display = 'none';
+			var cat = a.closest('.categories');
+			if (cat) {
+				cat.querySelectorAll('ul').forEach(function (ul) { ul.style.margin = '0'; ul.style.padding = '0'; ul.style.listStyle = 'none'; });
+				cat.classList.remove('expandable');
+			}
 		});
 	}
 
