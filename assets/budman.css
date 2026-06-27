@@ -1015,7 +1015,7 @@
 	--bm-price: #9bdc5b;        /* cena — svítí na kartě */
 	--bm-cta: #7ec63f;          /* neon lime hlavní CTA */
 	--bm-cta-text: #07120a;
-	--bm-img-panel: #e9e6dd;    /* warm-paper podklad jen pod fotkou produktu */
+	--bm-img-panel: #07090a;    /* tmavý podklad fotky — černé pozadí produktů splyne (sklo vynikne) */
 	--bm-line: rgba(255, 255, 255, 0.09);
 	--bm-line-strong: rgba(255, 255, 255, 0.18);
 	--bm-line-dark: rgba(255, 255, 255, 0.12);
