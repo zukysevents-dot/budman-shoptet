@@ -1003,6 +1003,10 @@
 	--bm-ink: #12160d;
 }
 
+/* ===== Skrytí demo obsahu Shoptet šablony ========================= */
+/* "TOP 10 produktů" sidebar ukazuje template demo (hodinky, mikina…) – skrýt, dokud nejsou reálné bestsellery */
+.box-topProducts { display: none !important; }
+
 /* ===== Tmavá báze ================================================== */
 body {
 	background: var(--bm-bg) !important;
