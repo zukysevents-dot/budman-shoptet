@@ -783,7 +783,7 @@
 	// Zploští menu: parent „Kuřácké potřeby" pryč, jeho podkategorie jako top-level položky.
 	function flattenMenu() {
 		var SHORT = { '/slurpery/': 'Slurpery', '/puffco-doplnky/': 'Puffco', '/doplnky-na-extrakty/': 'Extrakty', '/kuracke-potreby/': null };
-		var roots = document.querySelectorAll('.menu-level-0, .navigation-in.menu > ul, .mobile-navigation ul.menu, .mobile-navigation > ul');
+		var roots = document.querySelectorAll('.menu-level-0, .navigation-in.menu > ul, .mobile-navigation ul.menu, .mobile-navigation > ul, .box-categories ul');
 		roots.forEach(function (root) {
 			if (!root || root.getAttribute('data-bm-flat')) return;
 			var lis = Array.prototype.slice.call(root.children);
@@ -825,6 +825,19 @@
 			parentLi.parentNode.insertBefore(frag, parentLi);
 			parentLi.remove();
 			root.setAttribute('data-bm-flat', '1');
+		});
+		// drobečková navigace: skryj „Kuřácké potřeby" článek (+ navazující oddělovač)
+		document.querySelectorAll('.breadcrumbs a[href*="kuracke-potreby"], .breadcrumb a[href*="kuracke-potreby"]').forEach(function (a) {
+			var item = a.closest('[itemprop="itemListElement"]') || a.parentElement;
+			if (!item) return;
+			item.style.display = 'none';
+			var sep = item.nextElementSibling;
+			if (sep && /separator|arrow|delimiter|navigation-separator/i.test(sep.className || '')) sep.style.display = 'none';
+		});
+		// zbylé odkazy na parent v sidebaru → skrýt řádek
+		document.querySelectorAll('.box-categories a[href*="kuracke-potreby"]').forEach(function (a) {
+			var li = a.closest('li');
+			if (li) li.style.display = 'none';
 		});
 	}
 
