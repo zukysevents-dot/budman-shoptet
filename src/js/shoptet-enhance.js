@@ -95,5 +95,49 @@
 		startSmoke(hero.querySelector('.bm-hp-hero__smoke'), 0.22, 0.18);
 	}
 
-	ready(injectHero);
+	// Intro: „B" z loga přiletí do loga vlevo nahoře (1× za session).
+	function playIntro() {
+		if (reduce) return;
+		try { if (sessionStorage.getItem('bm_intro')) return; sessionStorage.setItem('bm_intro', '1'); } catch (e) {}
+		var logoEl = document.querySelector('.site-name a, .site-name img, .logo a, .logo img');
+		if (!logoEl) return;
+
+		var ov = document.createElement('div');
+		ov.className = 'bm-intro';
+		var img = document.createElement('img');
+		img.className = 'bm-intro__b';
+		img.alt = '';
+		img.src = 'https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@main/assets/brand/budman-b.png';
+		ov.appendChild(img);
+		document.body.appendChild(ov);
+
+		function fly() {
+			var b = img.getBoundingClientRect();
+			var logo = logoEl.getBoundingClientRect();
+			if (!b.height || !logo.height) { setTimeout(remove, 600); return; }
+			var targetCx = logo.left + logo.width * 0.2;
+			var targetCy = logo.top + logo.height * 0.52;
+			var scale = (logo.height * 1.15) / b.height;
+			var dx = targetCx - (b.left + b.width / 2);
+			var dy = targetCy - (b.top + b.height / 2);
+			img.style.transition = 'transform 1.05s cubic-bezier(0.65, 0, 0.25, 1)';
+			img.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + scale + ')';
+			setTimeout(function () {
+				ov.style.transition = 'opacity 0.5s ease';
+				ov.style.opacity = '0';
+				setTimeout(remove, 520);
+			}, 980);
+		}
+		function remove() { if (ov && ov.parentNode) ov.parentNode.removeChild(ov); }
+
+		// počkat na intro-in animaci, pak letět
+		if (img.complete) setTimeout(fly, 650);
+		else img.onload = function () { setTimeout(fly, 650); };
+		setTimeout(remove, 3000); // pojistka
+	}
+
+	ready(function () {
+		playIntro();
+		injectHero();
+	});
 })();
