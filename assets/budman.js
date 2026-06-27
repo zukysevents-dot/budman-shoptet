@@ -694,11 +694,13 @@
 		sec.className = 'bm-promo';
 		sec.innerHTML = tiles.map(function (x) {
 			return '<a class="bm-promo__tile' + (x.big ? ' bm-promo__tile--big' : '') + '" href="' + x.href + '">' +
-				'<span class="bm-promo__bg" style="background-image: linear-gradient(135deg,' + x.tint + ', rgba(8,11,5,0.12)), url(' + x.img + '); background-size: cover; background-position: center;"></span>' +
-				'<p class="bm-promo__eyebrow">' + x.eye + '</p>' +
-				'<h3 class="bm-promo__title">' + x.t + '</h3>' +
-				'<p class="bm-promo__sub">' + x.s + '</p>' +
-				'<span class="bm-promo__cta">Prohlédnout ' + ICON.arrow + '</span>' +
+				'<span class="bm-promo__img" style="background-image: url(' + x.img + ');"></span>' +
+				'<span class="bm-promo__body">' +
+					'<p class="bm-promo__eyebrow">' + x.eye + '</p>' +
+					'<h3 class="bm-promo__title">' + x.t + '</h3>' +
+					'<p class="bm-promo__sub">' + x.s + '</p>' +
+					'<span class="bm-promo__cta">Prohlédnout ' + ICON.arrow + '</span>' +
+				'</span>' +
 				'</a>';
 		}).join('');
 		hero.parentNode.insertBefore(sec, hero.nextSibling);

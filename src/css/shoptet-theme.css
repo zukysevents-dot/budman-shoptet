@@ -621,52 +621,49 @@ header, .header {
 	padding: 0 clamp(1rem, 4vw, 3rem);
 	display: grid;
 	grid-template-columns: 1.5fr 1fr 1fr;
-	grid-auto-rows: 190px;
+	grid-auto-rows: 234px;
 	gap: 1rem;
 }
 .bm-promo__tile {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-end;
 	border-radius: 18px;
 	overflow: hidden;
-	padding: 1.4rem;
 	text-decoration: none;
-	isolation: isolate;
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	color: #fff;
-	transition: transform 0.3s var(--bm-ease), box-shadow 0.3s ease;
+	background: var(--bm-surface);
+	border: 1px solid var(--bm-line);
+	box-shadow: 0 2px 10px rgba(23, 20, 13, 0.05);
+	color: var(--bm-text);
+	transition: transform 0.3s var(--bm-ease), box-shadow 0.3s ease, border-color 0.3s ease;
 	will-change: transform;
 }
 .bm-promo__tile--big { grid-row: span 2; }
-.bm-promo__bg {
-	position: absolute; inset: 0; z-index: -2;
-	background-size: cover; background-position: center;
+.bm-promo__img {
+	flex: 1 1 auto;
+	min-height: 100px;
+	background-color: #ffffff;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	border-bottom: 1px solid var(--bm-line);
 	transition: transform 0.5s var(--bm-ease);
 }
-.bm-promo__tile::after { /* tmavý spodní gradient pro čitelnost + liquid sheen */
-	content: ""; position: absolute; inset: 0; z-index: -1;
-	background: linear-gradient(180deg, rgba(8, 11, 5, 0.05) 0%, rgba(8, 11, 5, 0.30) 45%, rgba(8, 11, 5, 0.82) 100%);
+.bm-promo__tile:hover { transform: translateY(-5px); border-color: var(--bm-gold); box-shadow: 0 18px 40px rgba(23, 20, 13, 0.13); }
+.bm-promo__body {
+	padding: 0.95rem 1.2rem 1.15rem;
+	display: flex;
+	flex-direction: column;
 }
-.bm-promo__tile:hover { transform: translateY(-5px); box-shadow: 0 20px 44px rgba(8, 11, 5, 0.4); }
-.bm-promo__tile:hover .bm-promo__bg { transform: scale(1.07); }
-.bm-promo__eyebrow { font-size: 0.72rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--bm-gold-bright); margin: 0 0 0.35rem; }
-.bm-promo__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.25rem, 0.9rem + 1.1vw, 1.8rem); line-height: 1.1; margin: 0 0 0.4rem; color: #fff !important; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); }
-.bm-promo__sub { font-size: 0.9rem; color: #d6dccb; margin: 0 0 0.8rem; max-width: 90%; }
-.bm-promo__cta { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; font-size: 0.9rem; color: var(--bm-green-bright); }
+.bm-promo__eyebrow { font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--bm-gold-deep); font-weight: 800; margin: 0 0 0.25rem; }
+.bm-promo__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.1rem, 0.9rem + 0.7vw, 1.45rem); line-height: 1.12; margin: 0 0 0.3rem; color: var(--bm-heading); text-shadow: none; }
+.bm-promo__tile--big .bm-promo__title { font-size: clamp(1.4rem, 1rem + 1.1vw, 1.9rem); }
+.bm-promo__sub { font-size: 0.86rem; color: var(--bm-muted); margin: 0 0 0.55rem; }
+.bm-promo__cta { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; font-size: 0.88rem; color: var(--bm-green); margin-top: auto; }
 .bm-promo__cta svg { transition: transform 0.25s ease; }
 .bm-promo__tile:hover .bm-promo__cta svg { transform: translateX(4px); }
-/* liquid sheen přejezd na hover */
-.bm-promo__tile::before {
-	content: ""; position: absolute; top: 0; left: -60%; width: 50%; height: 100%; z-index: -1;
-	background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.14), transparent);
-	transform: skewX(-18deg);
-	transition: left 0.6s var(--bm-ease);
-}
-.bm-promo__tile:hover::before { left: 130%; }
 @media (max-width: 900px) { .bm-promo { grid-template-columns: 1fr 1fr; } .bm-promo__tile--big { grid-row: span 1; } }
-@media (max-width: 520px) { .bm-promo { grid-template-columns: 1fr; grid-auto-rows: 170px; } }
+@media (max-width: 520px) { .bm-promo { grid-template-columns: 1fr; grid-auto-rows: 250px; } }
 
 /* --- USP pruh (benefitBanner): tyrkysové → brand, glass karty ---- */
 .benefitBanner { gap: 1rem !important; display: flex !important; flex-wrap: wrap !important; }
