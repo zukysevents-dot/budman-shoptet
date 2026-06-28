@@ -1023,6 +1023,22 @@
 	--bm-line-dark: rgba(23, 20, 13, 0.10);
 	--bm-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
+	/* === LIMETKOVÁ paleta z loga (LOAD JARS NOT GUNS bud) === */
+	--bm-lime-bright: #e0f030;   /* chartreuse highlight z loga */
+	--bm-lime: #b6e635;          /* zářivá limetka */
+	--bm-lime-2: #8fd14f;        /* limetka → zelená přechod */
+	--bm-grass: #5fb01a;         /* sytá travní zelená */
+	--bm-grass-deep: #2e7d1e;    /* hluboká zelená */
+	--bm-leaf-ink: #14400d;      /* tmavě zelená (obrys/„ink") */
+
+	/* === Brandové GRADIENTY (žádné ploché barvy) === */
+	--bm-grad-lime: linear-gradient(135deg, #e0f030 0%, #b6e635 38%, #6cc024 100%);
+	--bm-grad-lime-soft: linear-gradient(135deg, #eaf86a 0%, #b6e635 100%);
+	--bm-grad-green: linear-gradient(135deg, #6cc024 0%, #2e7d1e 100%);
+	--bm-grad-header: linear-gradient(115deg, #163e0c 0%, #2e7d1e 42%, #5fb01a 100%);
+	--bm-grad-ink: linear-gradient(135deg, #1c2417 0%, #0c1208 100%);
+	--bm-grad-loader: radial-gradient(circle at 50% 40%, #eaf86a 0%, #b6e635 24%, #5fb01a 54%, #1f5a14 100%);
+
 	/* JEDNOTNÁ šířka obsahu (zarovnání celého webu) — náš markup i nativní Shoptet */
 	--bm-container: 1180px;
 	--bm-gutter: clamp(1rem, 4vw, 3rem);
@@ -2383,3 +2399,94 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 .navigation-in.menu li:has(> a[href*="/kontakty"]),
 .navigation-in.menu li:has(> a[href*="/login"]),
 .navigation-in.menu li:has(> a[href*="/prihlaseni"]) { display: none !important; }
+
+/* ============================================================ */
+/* LIMETKOVÝ REDESIGN dle loga (LOAD JARS NOT GUNS) — gradienty  */
+/* ============================================================ */
+
+/* ---- Načítací obrazovka (bud odznak) ---- */
+html.bm-loading { overflow: hidden; }
+.bm-loader {
+	position: fixed; inset: 0; z-index: 100000;
+	display: grid; place-items: center;
+	background: var(--bm-grad-loader);
+	transition: opacity 0.55s var(--bm-ease), visibility 0.55s;
+}
+.bm-loader.is-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.bm-loader__badge { position: relative; width: clamp(190px, 32vw, 300px); aspect-ratio: 1; }
+.bm-loader__badge img {
+	width: 100%; height: 100%; object-fit: contain; display: block;
+	animation: bmBadgePulse 1.5s var(--bm-ease) infinite;
+	filter: drop-shadow(0 16px 40px rgba(12, 18, 8, 0.45));
+}
+.bm-loader__ring {
+	position: absolute; inset: -7%; border-radius: 50%;
+	border: 3px solid rgba(20, 64, 13, 0.18); border-top-color: #14400d;
+	animation: bmSpin 1s linear infinite;
+}
+@keyframes bmBadgePulse { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(1.05); } }
+@keyframes bmSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .bm-loader__badge img, .bm-loader__ring { animation: none !important; } }
+
+/* ---- Hlavní tlačítka / CTA / košík / hledat → limetkový gradient ---- */
+.bm-btn-primary, .btn, .btn-primary, .btn-conversion, .add-to-cart-button,
+button.add, input[type="submit"], .button,
+.btn-search, .search button[type="submit"], button.search,
+.cart-content, .cart-widget-button, .user-action-cart > a {
+	background: var(--bm-grad-lime) !important;
+	color: #14280a !important;
+	border: 0 !important;
+}
+.cart-content *, .cart-widget-button *, .user-action-cart > a * { color: #14280a !important; }
+.bm-btn-primary:hover, .btn:hover, .btn-primary:hover, .btn-conversion:hover,
+.add-to-cart-button:hover, input[type="submit"]:hover, .button:hover,
+.btn-search:hover, .search button[type="submit"]:hover, button.search:hover,
+.cart-content:hover, .cart-widget-button:hover, .user-action-cart > a:hover {
+	background: var(--bm-grad-green) !important;
+	color: #ffffff !important;
+	box-shadow: 0 12px 30px rgba(46, 125, 30, 0.40);
+}
+.cart-content:hover *, .user-action-cart > a:hover * { color: #ffffff !important; }
+.bm-btn-ghost { border: 2px solid var(--bm-lime) !important; color: #eaffd0 !important; background: rgba(20,64,13,0.18) !important; }
+.bm-btn-ghost:hover { background: var(--bm-grad-lime) !important; color: #14280a !important; border-color: transparent !important; }
+
+/* ---- Hlavička: bohatý zeleno-limetkový gradient ---- */
+#header { background-image: var(--bm-grad-header) !important; }
+.top-navigation-bar { background-image: linear-gradient(90deg, #10300a 0%, #1f5a14 100%) !important; }
+
+/* ---- Pilly kategorie (dokud jsou) → limetkový gradient ---- */
+@media (min-width: 981px) {
+	.navigation-in.menu > ul.menu-level-1 > li > a {
+		background: var(--bm-grad-lime-soft) !important;
+		color: #163e0c !important;
+		border-color: rgba(20, 64, 13, 0.22) !important;
+	}
+	.navigation-in.menu > ul.menu-level-1 > li > a:hover,
+	.navigation-in.menu > ul.menu-level-1 > li.active > a {
+		background: var(--bm-grad-green) !important; color: #ffffff !important;
+	}
+}
+
+/* ---- Akcenty: podtrh nadpisů, hero slovo, ceny ---- */
+.products-block-header::after, .product-list-heading::after, h2.heading::after {
+	background: var(--bm-grad-lime) !important;
+}
+.bm-hp-hero__title span {
+	background: var(--bm-grad-lime);
+	-webkit-background-clip: text; background-clip: text;
+	-webkit-text-fill-color: transparent; color: transparent;
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.55));
+	text-shadow: none;
+}
+.bm-hp-hero__eyebrow { color: var(--bm-lime) !important; }
+
+/* ---- USP pruh ikony: limetkový gradient kruh ---- */
+.benefitBanner__picture, .benefitBanner__img {
+	background: var(--bm-grad-lime) !important;
+}
+
+/* ---- Skladem / akce → gradient pill ---- */
+.flag, .flag-discount, .bm-badge--sale {
+	background: linear-gradient(135deg, #ff7a3d, #e2483f) !important; color: #fff !important; border: 0 !important;
+}
+.availability-instock, .amount, .stock { color: var(--bm-grass) !important; }

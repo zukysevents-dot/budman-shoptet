@@ -142,6 +142,30 @@
 	/* ============================================================ */
 	/* Intro: „B" doletí a MORPHNE do hlavičkového loga.            */
 	/* ============================================================ */
+	/* ============================================================ */
+	/* Načítací obrazovka: bud odznak z loga (1× za session).       */
+	/* ============================================================ */
+	function playLoader() {
+		var BADGE = 'https://rawcdn.githack.com/zukysevents-dot/budman-shoptet/b13cdf9/assets/brand/budman-bud-badge.png';
+		try { if (sessionStorage.getItem('bm_loader')) return; sessionStorage.setItem('bm_loader', '1'); } catch (e) {}
+		var ov = document.createElement('div');
+		ov.className = 'bm-loader';
+		ov.innerHTML = '<div class="bm-loader__badge"><span class="bm-loader__ring"></span>' +
+			'<img src="' + BADGE + '" alt="budMan — Load jars, not guns" decoding="async"></div>';
+		document.documentElement.classList.add('bm-loading');
+		(document.body || document.documentElement).appendChild(ov);
+		var done = false;
+		function finish() {
+			if (done) return; done = true;
+			ov.classList.add('is-out');
+			document.documentElement.classList.remove('bm-loading');
+			setTimeout(function () { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 650);
+		}
+		if (document.readyState === 'complete') setTimeout(finish, 850);
+		else window.addEventListener('load', function () { setTimeout(finish, 450); });
+		setTimeout(finish, 2800); // pojistka
+	}
+
 	function playIntro() {
 		if (reduce) return;
 		var logoEl = document.querySelector('.site-name a, .site-name img, .logo a, .logo img');
@@ -520,7 +544,7 @@
 	}
 
 	ready(function () {
-		playIntro();
+		playLoader();
 		injectHero();
 		injectPromo();
 		cleanDemo();
