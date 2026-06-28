@@ -144,6 +144,23 @@
 	/* Intro: „B" doletí a MORPHNE do hlavičkového loga.            */
 	/* ============================================================ */
 	/* ============================================================ */
+	/* Favicon z loga (přepíše nativní Shoptet ikonu).              */
+	/* ============================================================ */
+	function setFavicon() {
+		var BASE = 'https://rawcdn.githack.com/zukysevents-dot/budman-shoptet/ad507e8/assets/favicon/';
+		[].slice.call(document.querySelectorAll('link[rel~="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]')).forEach(function (l) { if (l.parentNode) l.parentNode.removeChild(l); });
+		function add(rel, href, sizes) {
+			var l = document.createElement('link');
+			l.rel = rel; l.href = href; l.type = 'image/png';
+			if (sizes) l.setAttribute('sizes', sizes);
+			document.head.appendChild(l);
+		}
+		add('icon', BASE + 'favicon-32.png', '32x32');
+		add('icon', BASE + 'favicon-192.png', '192x192');
+		add('apple-touch-icon', BASE + 'favicon-180.png', '180x180');
+	}
+
+	/* ============================================================ */
 	/* Načítací obrazovka: bud odznak z loga (1× za session).       */
 	/* ============================================================ */
 	function playLoader() {
@@ -630,6 +647,7 @@
 	}
 
 	ready(function () {
+		setFavicon();
 		playLoader();
 		injectHero();
 		injectPromo();
