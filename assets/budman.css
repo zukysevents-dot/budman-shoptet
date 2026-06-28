@@ -1035,7 +1035,7 @@
 	--bm-grad-lime: linear-gradient(135deg, #e0f030 0%, #b6e635 38%, #6cc024 100%);
 	--bm-grad-lime-soft: linear-gradient(135deg, #eaf86a 0%, #b6e635 100%);
 	--bm-grad-green: linear-gradient(135deg, #6cc024 0%, #2e7d1e 100%);
-	--bm-grad-header: linear-gradient(115deg, #163e0c 0%, #2e7d1e 42%, #5fb01a 100%);
+	--bm-grad-header: linear-gradient(180deg, #143d0c 0%, #266916 58%, #2e7d1e 100%);
 	--bm-grad-ink: linear-gradient(135deg, #1c2417 0%, #0c1208 100%);
 	--bm-grad-loader: radial-gradient(circle at 50% 40%, #eaf86a 0%, #b6e635 24%, #5fb01a 54%, #1f5a14 100%);
 
@@ -2451,8 +2451,10 @@ button.add, input[type="submit"], .button,
 .bm-btn-ghost:hover { background: var(--bm-grad-lime) !important; color: #14280a !important; border-color: transparent !important; }
 
 /* ---- Hlavička: bohatý zeleno-limetkový gradient ---- */
-#header { background-image: var(--bm-grad-header) !important; }
-.top-navigation-bar { background-image: linear-gradient(90deg, #10300a 0%, #1f5a14 100%) !important; }
+/* hlavička = JEDEN spojitý vertikální gradient (horní lišta navazuje barvou) */
+#header { background: var(--bm-grad-header) !important; }
+.top-navigation-bar { background: #143d0c !important; border: 0 !important; }
+.top-navigation-bar, #header { box-shadow: none !important; }
 
 /* ---- Pilly kategorie (dokud jsou) → limetkový gradient ---- */
 @media (min-width: 981px) {

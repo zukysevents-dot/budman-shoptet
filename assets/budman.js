@@ -712,7 +712,8 @@
 		truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v11H1zM14 8h4l3 3v3h-7"/><circle cx="5.5" cy="17" r="1.6"/><circle cx="17.5" cy="17" r="1.6"/></svg>',
 		box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v10l8 4 8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>',
 		ig: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.7 0 3 0 4.1.1 1 0 1.7.2 2.3.4.6.3 1.1.6 1.6 1.1.5.5.8 1 1.1 1.6.2.6.4 1.3.4 2.3.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.7-.4 2.3a4.6 4.6 0 0 1-1.1 1.6 4.6 4.6 0 0 1-1.6 1.1c-.6.2-1.3.4-2.3.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.7-.2-2.3-.4a4.6 4.6 0 0 1-1.6-1.1 4.6 4.6 0 0 1-1.1-1.6c-.2-.6-.4-1.3-.4-2.3C2 15 2 14.7 2 12s0-3 .1-4.1c0-1 .2-1.7.4-2.3.3-.6.6-1.1 1.1-1.6.5-.5 1-.8 1.6-1.1.6-.2 1.3-.4 2.3-.4C9 2 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.4 6.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>',
-		fb: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>'
+		fb: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>',
+		gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7S11 2 8 2 5 5 7.5 7M12 7s1-5 4-5 1 5-3.5 5"/></svg>'
 	};
 
 	/* Horní lišta: doplnit USP (doprava zdarma / skladem) ----------- */
@@ -723,6 +724,7 @@
 		host.className = 'bm-topmsg-host';
 		host.style.cssText = 'display:inline-flex;align-items:center;gap:1.4rem;margin-right:auto;padding-right:1rem';
 		host.innerHTML = '<span class="bm-topmsg">' + ICON.truck + 'Doprava zdarma od 1 500 Kč</span>' +
+			'<span class="bm-topmsg bm-hide-sm">' + ICON.gift + 'Dárek zdarma k objednávce nad 2 000 Kč</span>' +
 			'<span class="bm-topmsg bm-hide-sm">' + ICON.box + 'Skladem, expedice do 24 h</span>';
 		var inner = bar.querySelector('.top-navigation-bar__in, .header-top__in, .container, .wrapper') || bar;
 		inner.insertBefore(host, inner.firstChild);
@@ -838,7 +840,7 @@
 	/* Menu: emojis ke kategoriím (barevné, hezké) ------------------ */
 	// Zploští menu: parent „Kuřácké potřeby" pryč, jeho podkategorie jako top-level položky.
 	function flattenMenu() {
-		var SHORT = { '/slurpery/': 'Slurpery', '/puffco-doplnky/': 'Puffco', '/doplnky-na-extrakty/': 'Extrakty', '/kuracke-potreby/': null };
+		var SHORT = { '/slurpery/': 'Slurpery', '/puffco-doplnky/': 'Puffco', '/doplnky-na-extrakty/': 'Doplňky na extrakty', '/kuracke-potreby/': null };
 		var roots = document.querySelectorAll('.menu-level-0, .navigation-in.menu > ul, .mobile-navigation ul.menu, .mobile-navigation > ul, .box-categories ul');
 		roots.forEach(function (root) {
 			if (!root || root.getAttribute('data-bm-flat')) return;
