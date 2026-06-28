@@ -1049,6 +1049,8 @@ main.content, .content-wrapper-in, .benefitBanner,
 #header #navigation,
 #header .navigation-in.menu,
 #header .navigation-in.menu > ul { margin-inline: 0 !important; }
+/* breadcrumb má nativně margin-left:-20px (home-icon offset) → na osu 152 */
+.breadcrumbs, .breadcrumbs.navigation-home-icon-wrapper { margin-left: 0 !important; }
 
 /* Naše injektované sekce dědí šířku z rodičovského .container (1180) →
    vlastní max-width/horizontální padding pryč (žádné dvojité odsazení). */
