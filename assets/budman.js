@@ -532,9 +532,10 @@
 		try { if (sessionStorage.getItem('bm_loader')) return; sessionStorage.setItem('bm_loader', '1'); } catch (e) {}
 		var ov = document.createElement('div');
 		ov.className = 'bm-loader';
-		// jen „B" (černé) — finální B dodá grafik, zatím typograficky
+		// oficiální logo mark (olivový kruh + bílý bud „B")
+		var MARK = 'https://rawcdn.githack.com/zukysevents-dot/budman-shoptet/17eb2d5/assets/brand/budman-mark.png';
 		ov.innerHTML = '<div class="bm-loader__badge"><span class="bm-loader__ring"></span>' +
-			'<span class="bm-loader__b">B</span></div>';
+			'<img src="' + MARK + '" alt="budMan" decoding="async"></div>';
 		document.documentElement.classList.add('bm-loading');
 		(document.body || document.documentElement).appendChild(ov);
 		var done = false;
@@ -643,8 +644,8 @@
 			drips.push({ el: d, x: x + (Math.random() - 0.5) * 4, y: y + 1, vx: (Math.random() - 0.5) * 0.25, vy: 0.15 + Math.random() * 0.25, life: 0, ttl: 950 + Math.random() * 600, size: size });
 			if (!dripRaf) { dripLastT = 0; dripRaf = window.requestAnimationFrame(dripLoop); }
 		}
-		// kapky vypnuty kvůli plynulosti (DOM spawn + rAF každých 640 ms = škubání); kurzor zůstává
-		void spawnDrip;
+		// kapky (rosin) zpět dle přání; trochu střídměji kvůli plynulosti
+		window.setInterval(function () { if (on && vis && !document.hidden) spawnDrip(); }, 720);
 
 		function move(e) { tx = e.clientX; ty = e.clientY; if (!on) { on = true; el.classList.add('is-on'); } }
 		function over(e) {
