@@ -1226,12 +1226,13 @@ input[type="submit"]:hover, .button:hover {
 	min-height: clamp(520px, 72vh, 760px);
 	display: flex;
 	align-items: center;
-	/* FULL-BLEED přes celou šířku okna (banner protáhnutý), text uvnitř zarovnaný na osu */
-	width: 100vw;
-	max-width: 100vw;
-	margin-left: calc(50% - 50vw);
-	margin-right: calc(50% - 50vw);
-	margin-bottom: 2.4rem;
+	/* FULL-BLEED přes celou šířku okna (banner protáhnutý), text uvnitř zarovnaný na osu.
+	   !important: přebít alignment reset marginů (.bm-* margin-inline:0). */
+	width: 100vw !important;
+	max-width: 100vw !important;
+	margin-left: calc(50% - 50vw) !important;
+	margin-right: calc(50% - 50vw) !important;
+	margin-bottom: 2.4rem !important;
 	border-radius: 0;
 	overflow: hidden;
 	isolation: isolate; /* vlastní stacking context kvůli mix-blend rigu */
