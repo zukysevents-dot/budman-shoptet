@@ -59,7 +59,9 @@
    při 1440 vieportu). POZN.: Shoptet má html font-size 62.5% → 3rem = 30px. */
 .overall-wrapper .container,
 #header .container,
-header.header .container {
+header.header .container,
+.top-navigation-bar .container,
+.top-navigation-bar__in {
 	max-width: var(--bm-container) !important;
 	margin-inline: auto !important;
 	padding-inline: var(--bm-gutter) !important;
