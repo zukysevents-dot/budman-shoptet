@@ -2547,9 +2547,10 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 }
 .bm-catmenu.is-open .bm-catmenu__panel { opacity: 1; visibility: visible; transform: none; }
 .bm-catmenu__panel ul { list-style: none; margin: 0; padding: 0; }
+/* !important: catmenu je uvnitř .header-top, kde „.header-top a" vynucuje světlou barvu */
 .bm-catmenu__panel a {
 	display: block; padding: 11px 16px; border-radius: 10px; text-decoration: none;
-	color: #1c2417; font-weight: 700; font-size: 15px;
+	color: #1c2417 !important; font-weight: 700; font-size: 15px;
 	transition: background 0.15s ease, color 0.15s ease;
 }
-.bm-catmenu__panel a:hover { background: var(--bm-grad-lime-soft); color: #14280a; }
+.bm-catmenu__panel a:hover { background: var(--bm-grad-lime-soft); color: #14280a !important; }
