@@ -164,7 +164,6 @@
 	/* Načítací obrazovka: bud odznak z loga (1× za session).       */
 	/* ============================================================ */
 	function playLoader() {
-		try { if (sessionStorage.getItem('bm_loader')) return; sessionStorage.setItem('bm_loader', '1'); } catch (e) {}
 		var ov = document.createElement('div');
 		ov.className = 'bm-loader';
 		// oficiální logo mark (olivový kruh + bílý bud „B")
