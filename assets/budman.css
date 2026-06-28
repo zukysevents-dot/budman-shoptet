@@ -1065,7 +1065,10 @@ main.content, .content-wrapper-in, .benefitBanner,
 /* Naše injektované sekce dědí šířku z rodičovského .container (1180) →
    vlastní max-width/horizontální padding pryč (žádné dvojité odsazení). */
 .bm-promo, .bm-why { max-width: none !important; margin-inline: 0 !important; padding-inline: 0 !important; }
-/* hero = full-bleed; šířku/padding si řeší v hero sekci (viz .bm-hp-hero / __grid) */
+/* hero = full-bleed; šířku/padding si řeší v hero sekci (viz .bm-hp-hero / __grid).
+   full-bleed (100vw) přesahuje o šířku scrollbaru → ořízni vodorovně.
+   overflow-x:clip (ne hidden) NEzruší position:sticky a nevytvoří posuvník. */
+.overall-wrapper { overflow-x: clip; }
 /* Patička se injektuje MIMO #content (do .footer) → dostane vlastní kontejner
    se stejnou šířkou a gutterem, aby její obsah seděl na stejnou osu (170). */
 .bm-footer { padding-left: 0 !important; padding-right: 0 !important; }
@@ -1231,11 +1234,16 @@ input[type="submit"]:hover, .button:hover {
 	display: flex;
 	align-items: center;
 	/* FULL-BLEED přes celou šířku okna (banner protáhnutý), text uvnitř zarovnaný na osu.
-	   !important: přebít alignment reset marginů (.bm-* margin-inline:0). */
+	   left:50% + translateX místo negativních marginů → spolehlivé i se scrollbarem
+	   (negativní margin selhával podle rodiče). Přesah ~scrollbaru ořízne
+	   overflow-x:clip na .overall-wrapper (viz níže). */
 	width: 100vw !important;
 	max-width: 100vw !important;
-	margin-left: calc(50% - 50vw) !important;
-	margin-right: calc(50% - 50vw) !important;
+	left: 50% !important;
+	right: auto !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	transform: translateX(-50%);
 	margin-bottom: 2.4rem !important;
 	border-radius: 0;
 	overflow: hidden;
