@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Space+Grotesk:wght@500;600;700&display=swap');
 /*
  * shoptet-theme.css — restyle ŽIVÉ Shoptet šablony (template-11).
  * BRAND: zelená / zlatá / bílá / černá (ladí k logu budMan + dab komunitě).
@@ -50,6 +50,11 @@
 	/* JEDNOTNÁ šířka obsahu (zarovnání celého webu) — náš markup i nativní Shoptet */
 	--bm-container: 1180px;
 	--bm-gutter: clamp(1rem, 4vw, 3rem);
+
+	/* Display/nadpisový font — prémiový grotesk s charakterem (Czech ✅) */
+	--bm-font-head: "Bricolage Grotesque", "Space Grotesk", system-ui, sans-serif;
+	/* jasný zelený akcent pro text NA TMAVÉM (hero) — brand zelená by splývala */
+	--bm-on-dark-green: #93d84e;
 }
 
 /* ===== JEDNOTNÝ KONTEJNER — zarovnání celého webu ================= */
@@ -301,22 +306,24 @@ input[type="submit"]:hover, .button:hover {
 	display: inline-block;
 }
 .bm-hp-hero__title {
-	font-family: "Space Grotesk", system-ui, sans-serif;
-	font-size: clamp(2.1rem, 1.1rem + 4.4vw, 4rem);
+	font-family: var(--bm-font-head);
+	font-size: clamp(2.6rem, 1.1rem + 5.4vw, 4.8rem);
 	font-weight: 800;
-	line-height: 1.04;
-	letter-spacing: -0.02em;
+	line-height: 0.98;
+	letter-spacing: -0.025em;
 	color: #fff;
-	margin: 0 0 1.1rem;
-	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85), 0 1px 28px rgba(0, 0, 0, 0.6);
+	margin: 0 0 1.15rem;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 6px 26px rgba(0, 0, 0, 0.5);
 }
-.bm-hp-hero__title span { color: var(--bm-green-bright); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
+/* zvýrazněné slovo — JASNÁ zelená, ať na tmavém banneru pořádně svítí */
+.bm-hp-hero__title span { color: var(--bm-on-dark-green); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 22px rgba(147, 216, 78, 0.35); }
 .bm-hp-hero__sub {
-	color: #eef2e6;
-	font-size: 17px;
-	line-height: 1.55;
-	margin: 0 0 18px;
-	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
+	color: #f0f3ea;
+	font-size: clamp(1rem, 0.95rem + 0.4vw, 1.18rem);
+	line-height: 1.62;
+	max-width: 34rem;
+	margin: 0 0 22px;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
 }
 .bm-hp-hero__cta { display: flex; flex-wrap: wrap; gap: 0.8rem; }
 .bm-btn-primary, .bm-btn-ghost {
@@ -412,12 +419,12 @@ input[type="submit"]:hover, .button:hover {
 /* ================================================================== */
 
 /* --- Typografie: prémiový grotesk na nadpisy ---------------------- */
-:root { --template-headings-font: "Space Grotesk", sans-serif; }
+:root { --template-headings-font: var(--bm-font-head); }
 h1, h2, h3, h4, .h1, .h2, .h3,
 .p-detail h1, .breadcrumbs + h1, .bm-hp-hero__title {
-	font-family: "Space Grotesk", system-ui, sans-serif !important;
+	font-family: var(--bm-font-head) !important;
 	letter-spacing: -0.015em;
-	font-weight: 700;
+	font-weight: 800;
 }
 body { -webkit-font-smoothing: antialiased; }
 
@@ -751,7 +758,7 @@ header, .header {
 	flex-direction: column;
 }
 .bm-promo__eyebrow { font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--bm-gold-deep); font-weight: 800; margin: 0 0 0.25rem; }
-.bm-promo__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.1rem, 0.9rem + 0.7vw, 1.45rem); line-height: 1.12; margin: 0 0 0.3rem; color: var(--bm-heading); text-shadow: none; }
+.bm-promo__title { font-family: var(--bm-font-head); font-weight: 800; font-size: clamp(1.1rem, 0.9rem + 0.7vw, 1.45rem); line-height: 1.12; margin: 0 0 0.3rem; color: var(--bm-heading); text-shadow: none; }
 .bm-promo__tile--big .bm-promo__title { font-size: clamp(1.4rem, 1rem + 1.1vw, 1.9rem); }
 .bm-promo__sub { font-size: 0.86rem; color: var(--bm-muted); margin: 0 0 0.55rem; }
 .bm-promo__cta { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; font-size: 0.88rem; color: var(--bm-green); margin-top: auto; }
@@ -788,7 +795,7 @@ header, .header {
 
 /* --- Branded „proč u nás" (injekt JS) ---------------------------- */
 .bm-why { max-width: 1180px; margin: 0 auto 2.6rem; padding: 0 clamp(1rem, 4vw, 3rem); }
-.bm-why__title { font-family: "Space Grotesk", sans-serif; font-weight: 800; font-size: clamp(1.5rem, 1rem + 2vw, 2.2rem); margin: 0 0 0.4rem; color: var(--bm-text); }
+.bm-why__title { font-family: var(--bm-font-head); font-weight: 800; font-size: clamp(1.5rem, 1rem + 2vw, 2.2rem); margin: 0 0 0.4rem; color: var(--bm-text); }
 .bm-why__lead { color: var(--bm-muted); max-width: 46rem; margin: 0 0 1.4rem; }
 
 /* --- PATIČKA (byla holá) — injektovaný rich obsah ---------------- */
@@ -812,7 +819,7 @@ header, .header {
 }
 .bm-footer__logo { width: 170px; height: 56px; background: center/contain no-repeat; margin-bottom: 0.9rem; }
 .bm-footer__tag { font-size: 0.92rem; line-height: 1.5; color: #aab199; max-width: 22rem; }
-.bm-footer h4 { color: #fff; font-family: "Space Grotesk", sans-serif; font-size: 1rem; letter-spacing: 0.02em; margin: 0 0 1rem; }
+.bm-footer h4 { color: #fff; font-family: var(--bm-font-head); font-size: 1rem; letter-spacing: 0.02em; margin: 0 0 1rem; }
 .bm-footer ul { list-style: none; padding: 0; margin: 0; }
 .bm-footer li { margin: 0 0 0.55rem; }
 .bm-footer a { color: #cdd3c4; text-decoration: none; transition: color 0.2s ease; }

@@ -22,7 +22,18 @@ function bundle(srcDir, ext, outName) {
 		const body = fs.readFileSync(path.join(dir, f), 'utf8');
 		return `/* ${srcDir}/${f} */\n${body}`;
 	});
-	const out = parts.join('\n\n');
+	let out = parts.join('\n\n');
+	// CSS: @import musí být PŘED ostatními pravidly. Bundle řadí soubory abecedně,
+	// takže @import z prostředku by prohlížeč ignoroval → vytáhneme je na začátek.
+	if (ext === '.css') {
+		const imports = [];
+		const body = out.replace(/^[ \t]*@import\b.*;[ \t]*$/gm, (m) => {
+			const t = m.trim();
+			if (!imports.includes(t)) imports.push(t);
+			return '';
+		});
+		out = (imports.length ? imports.join('\n') + '\n' : '') + body;
+	}
 	fs.writeFileSync(path.join(ASSETS, outName), out, 'utf8');
 	const hash = crypto.createHash('md5').update(out).digest('hex').slice(0, 8);
 	console.log(`✓ ${srcDir}/*${ext} (${files.length}) → assets/${outName} (${out.length} B, v=${hash})`);
