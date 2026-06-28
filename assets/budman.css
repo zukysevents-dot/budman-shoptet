@@ -2256,10 +2256,12 @@ a:hover { color: var(--bm-gold-deep); }
 /* (à la vycesano.cz: logo sedí do zelené, vše rovnoměrně po šířce) == */
 /* ================================================================== */
 
-/* horní lišta → tmavě zelená, USP po celé šířce */
-.top-navigation-bar, .header-top {
-	background: #14400d !important;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+/* horní lišta + řada loga/hledání: ŽÁDNÉ vlastní pozadí ani předělová linka
+   → projde jednotný gradient #header (vše splývá do jedné zeleně) */
+.top-navigation-bar, .header-top, .header-bottom {
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
 }
 .top-navigation-bar, .top-navigation-bar a, .header-top, .header-top a { color: #e6f1de !important; }
 .top-navigation-bar a:hover, .header-top a:hover { color: var(--bm-gold-bright) !important; }
