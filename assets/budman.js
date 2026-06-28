@@ -1027,6 +1027,145 @@
 		document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
 	}
 
+	/* ============================================================ */
+	/* Vícejazyčnost: překlad NAŠEHO injektovaného obsahu + vlajky.  */
+	/* Produkty/kategorie/košík = obsah Shoptetu → jazykové mutace   */
+	/* v adminu; tohle překládá jen custom .bm-* obsah.             */
+	/* ============================================================ */
+	var LANG = (function () {
+		try { var s = localStorage.getItem('bm_lang'); if (s) return s; } catch (e) {}
+		var h = (document.documentElement.lang || '').slice(0, 2).toLowerCase();
+		return /^(en|de|es)$/.test(h) ? h : 'cs';
+	})();
+
+	var I18N = {
+		cs: {
+			topmsg: ['Doprava zdarma od 1 500 Kč', 'Dárek zdarma k nákupu nad 2 000 Kč', 'Skladem, expedice do 24 h'],
+			heroEye: 'Prémiový dab & smoking gear', heroTitle: 'Skleněné <span>dab rigy</span> ruční práce',
+			heroSub: 'Recyclery, slurpery a kuřácké potřeby pro dab komunitu — pečlivě vybrané kousky skladem.',
+			ctaRigs: 'Prohlédnout rigy', ctaAll: 'Celý sortiment', cat: 'Kategorie',
+			promoEye: ['Prémiové kousky', 'Dab gear', 'Sortiment', 'Péče', 'Budman'],
+			promoTitle: ['Skleněné rigy & recyclery', 'Puffco doplňky', 'Kuřácké potřeby', 'Cleaning', 'Merch'],
+			promoSub: ['Ruční kousky i kompaktní dab rigy — pečlivě vybrané, skladem.', 'Atomizéry, nástavce a příslušenství.', 'Vše pro pohodový dab.', 'Ať sklo září jako nové.', 'Oblečení a doplňky komunity.'],
+			promoCta: 'Prohlédnout', whyTitle: 'Headshop pro dab komunitu',
+			whyLead: 'Skleněné rigy, recyclery a kvalitní kuřácké potřeby vybírané s citem pro detail. Skladové zásoby, expedice do 24 hodin a férové ceny — od kompaktních kousků po sběratelské ručně foukané sklo.',
+			footTag: 'Prémiový dab & smoking gear. Skleněné rigy, Puffco doplňky a kuřácké potřeby pro českou dab komunitu.',
+			footAge: ' Prodej pouze osobám starším 18 let', footH: ['Nakupování', 'Informace', 'Kontakt'],
+			footShop: ['Skleněné rigy', 'Puffco doplňky', 'Kuřácké potřeby', 'Cleaning', 'Merch'],
+			footInfo: ['Jak nakupovat', 'Obchodní podmínky', 'Ochrana osobních údajů', 'Kontakt'],
+			footCopy: '© 2026 Budman-shop — všechna práva vyhrazena', footMade: 'Vyrobeno s láskou k dab komunitě 🌿'
+		},
+		en: {
+			topmsg: ['Free shipping over 1,500 CZK', 'Free gift on orders over 2,000 CZK', 'In stock, ships within 24 h'],
+			heroEye: 'Premium dab & smoking gear', heroTitle: 'Hand-blown <span>dab rigs</span>',
+			heroSub: 'Recyclers, slurpers and smoking accessories for the dab community — hand-picked pieces in stock.',
+			ctaRigs: 'Browse rigs', ctaAll: 'Full range', cat: 'Categories',
+			promoEye: ['Premium pieces', 'Dab gear', 'Range', 'Care', 'Budman'],
+			promoTitle: ['Glass rigs & recyclers', 'Puffco accessories', 'Smoking accessories', 'Cleaning', 'Merch'],
+			promoSub: ['Handmade and compact dab rigs — hand-picked, in stock.', 'Atomizers, attachments and accessories.', 'Everything for a smooth dab.', 'Keep your glass shining like new.', 'Community clothing and accessories.'],
+			promoCta: 'View', whyTitle: 'Headshop for the dab community',
+			whyLead: 'Glass rigs, recyclers and quality smoking gear chosen with an eye for detail. In-stock inventory, dispatch within 24 hours and fair prices — from compact pieces to collectible hand-blown glass.',
+			footTag: 'Premium dab & smoking gear. Glass rigs, Puffco accessories and smoking gear for the Czech dab community.',
+			footAge: ' Sales only to persons over 18', footH: ['Shopping', 'Information', 'Contact'],
+			footShop: ['Glass rigs', 'Puffco accessories', 'Smoking accessories', 'Cleaning', 'Merch'],
+			footInfo: ['How to shop', 'Terms & conditions', 'Privacy policy', 'Contact'],
+			footCopy: '© 2026 Budman-shop — all rights reserved', footMade: 'Made with love for the dab community 🌿'
+		},
+		de: {
+			topmsg: ['Kostenloser Versand ab 1.500 CZK', 'Gratis Geschenk ab 2.000 CZK', 'Auf Lager, Versand in 24 h'],
+			heroEye: 'Premium Dab- & Rauchzubehör', heroTitle: 'Mundgeblasene <span>Dab-Rigs</span>',
+			heroSub: 'Recycler, Slurper und Rauchzubehör für die Dab-Community — sorgfältig ausgewählte Stücke auf Lager.',
+			ctaRigs: 'Rigs ansehen', ctaAll: 'Ganzes Sortiment', cat: 'Kategorien',
+			promoEye: ['Premium-Stücke', 'Dab-Gear', 'Sortiment', 'Pflege', 'Budman'],
+			promoTitle: ['Glas-Rigs & Recycler', 'Puffco-Zubehör', 'Rauchzubehör', 'Cleaning', 'Merch'],
+			promoSub: ['Handgemachte und kompakte Dab-Rigs — ausgewählt, auf Lager.', 'Atomizer, Aufsätze und Zubehör.', 'Alles für einen entspannten Dab.', 'Damit das Glas wie neu glänzt.', 'Kleidung und Accessoires der Community.'],
+			promoCta: 'Ansehen', whyTitle: 'Headshop für die Dab-Community',
+			whyLead: 'Glas-Rigs, Recycler und hochwertiges Rauchzubehör mit Liebe zum Detail ausgewählt. Lagerbestand, Versand innerhalb von 24 Stunden und faire Preise — von kompakten Stücken bis zu mundgeblasenen Sammlerstücken.',
+			footTag: 'Premium Dab- & Rauchzubehör. Glas-Rigs, Puffco-Zubehör und Rauchzubehör für die tschechische Dab-Community.',
+			footAge: ' Verkauf nur an Personen über 18 Jahre', footH: ['Einkaufen', 'Informationen', 'Kontakt'],
+			footShop: ['Glas-Rigs', 'Puffco-Zubehör', 'Rauchzubehör', 'Cleaning', 'Merch'],
+			footInfo: ['Wie man kauft', 'AGB', 'Datenschutz', 'Kontakt'],
+			footCopy: '© 2026 Budman-shop — alle Rechte vorbehalten', footMade: 'Mit Liebe für die Dab-Community gemacht 🌿'
+		},
+		es: {
+			topmsg: ['Envío gratis desde 1.500 CZK', 'Regalo gratis en compras desde 2.000 CZK', 'En stock, envío en 24 h'],
+			heroEye: 'Equipo premium para dab y fumar', heroTitle: '<span>Dab rigs</span> soplados a mano',
+			heroSub: 'Recyclers, slurpers y accesorios para fumar para la comunidad dab — piezas seleccionadas en stock.',
+			ctaRigs: 'Ver rigs', ctaAll: 'Catálogo completo', cat: 'Categorías',
+			promoEye: ['Piezas premium', 'Dab gear', 'Catálogo', 'Cuidado', 'Budman'],
+			promoTitle: ['Rigs de vidrio & recyclers', 'Accesorios Puffco', 'Accesorios para fumar', 'Limpieza', 'Merch'],
+			promoSub: ['Piezas hechas a mano y rigs compactos — seleccionados, en stock.', 'Atomizadores, boquillas y accesorios.', 'Todo para un dab relajado.', 'Que el vidrio brille como nuevo.', 'Ropa y accesorios de la comunidad.'],
+			promoCta: 'Ver', whyTitle: 'Headshop para la comunidad dab',
+			whyLead: 'Rigs de vidrio, recyclers y accesorios de calidad elegidos con atención al detalle. Stock disponible, envío en 24 horas y precios justos — desde piezas compactas hasta vidrio soplado a mano de coleccionista.',
+			footTag: 'Equipo premium para dab y fumar. Rigs de vidrio, accesorios Puffco y accesorios para la comunidad dab checa.',
+			footAge: ' Venta solo a mayores de 18 años', footH: ['Compras', 'Información', 'Contacto'],
+			footShop: ['Rigs de vidrio', 'Accesorios Puffco', 'Accesorios para fumar', 'Limpieza', 'Merch'],
+			footInfo: ['Cómo comprar', 'Términos y condiciones', 'Política de privacidad', 'Contacto'],
+			footCopy: '© 2026 Budman-shop — todos los derechos reservados', footMade: 'Hecho con amor para la comunidad dab 🌿'
+		}
+	};
+
+	function applyLang(lang) {
+		var d = I18N[lang] || I18N.cs;
+		document.documentElement.setAttribute('data-bm-lang', lang);
+		var $ = function (s) { return document.querySelector(s); };
+		function txt(el, s) { if (el && s != null) el.textContent = s; }
+		function html(el, s) { if (el && s != null) el.innerHTML = s; }
+		function node(el, s) { if (!el || s == null) return; for (var i = 0; i < el.childNodes.length; i++) { var n = el.childNodes[i]; if (n.nodeType === 3 && (n.nodeValue || '').trim()) { n.nodeValue = s; return; } } el.insertBefore(document.createTextNode(s), el.firstChild); }
+		function each(sel, arr, mode) { var e = document.querySelectorAll(sel); for (var i = 0; i < e.length; i++) { if (arr[i] == null) continue; if (mode === 'node') node(e[i], arr[i]); else e[i].textContent = arr[i]; } }
+		each('.bm-topmsg', d.topmsg, 'node');
+		txt($('.bm-hp-hero__eyebrow'), d.heroEye);
+		html($('.bm-hp-hero__title'), d.heroTitle);
+		txt($('.bm-hp-hero__sub'), d.heroSub);
+		txt($('.bm-hp-hero__cta .bm-btn-primary'), d.ctaRigs);
+		txt($('.bm-hp-hero__cta .bm-btn-ghost'), d.ctaAll);
+		txt($('.bm-catmenu__btn > span:not(.bm-catmenu__bars):not(.bm-catmenu__chev)'), d.cat);
+		each('.bm-promo__eyebrow', d.promoEye);
+		each('.bm-promo__title', d.promoTitle);
+		each('.bm-promo__sub', d.promoSub);
+		[].forEach.call(document.querySelectorAll('.bm-promo__cta'), function (el) { node(el, d.promoCta + ' '); });
+		txt($('.bm-why__title'), d.whyTitle);
+		txt($('.bm-why__lead'), d.whyLead);
+		txt($('.bm-footer__tag'), d.footTag);
+		node($('.bm-footer__age'), d.footAge);
+		each('.bm-footer h4', d.footH);
+		var uls = document.querySelectorAll('.bm-footer__grid ul');
+		if (uls[0]) [].forEach.call(uls[0].querySelectorAll('a'), function (a, i) { if (d.footShop[i] != null) a.textContent = d.footShop[i]; });
+		if (uls[1]) [].forEach.call(uls[1].querySelectorAll('a'), function (a, i) { if (d.footInfo[i] != null) a.textContent = d.footInfo[i]; });
+		var fb = document.querySelectorAll('.bm-footer__bottom span');
+		if (fb[0]) txt(fb[0], d.footCopy); if (fb[1]) txt(fb[1], d.footMade);
+	}
+
+	function setLang(lg) {
+		LANG = lg;
+		try { localStorage.setItem('bm_lang', lg); } catch (e) {}
+		applyLang(lg);
+		[].forEach.call(document.querySelectorAll('.bm-lang'), function (b) { b.classList.toggle('is-active', b.getAttribute('data-lang') === lg); });
+	}
+
+	function buildLangSwitch() {
+		var bar = document.querySelector('.top-navigation-bar, .header-top');
+		if (!bar || bar.querySelector('.bm-langs')) return;
+		var FLAGS = {
+			cs: '<svg viewBox="0 0 6 4"><rect width="6" height="2" fill="#fff"/><rect y="2" width="6" height="2" fill="#d7141a"/><path d="M0 0 3 2 0 4Z" fill="#11457e"/></svg>',
+			en: '<svg viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0 0 60 30M60 0 0 30" stroke="#fff" stroke-width="6"/><path d="M0 0 60 30M60 0 0 30" stroke="#c8102e" stroke-width="3"/><path d="M30 0V30M0 15H60" stroke="#fff" stroke-width="10"/><path d="M30 0V30M0 15H60" stroke="#c8102e" stroke-width="6"/></svg>',
+			de: '<svg viewBox="0 0 5 3"><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#dd0000"/><rect y="2" width="5" height="1" fill="#ffce00"/></svg>',
+			es: '<svg viewBox="0 0 6 4"><rect width="6" height="4" fill="#c60b1e"/><rect y="1" width="6" height="2" fill="#ffc400"/></svg>'
+		};
+		var box = document.createElement('div');
+		box.className = 'bm-langs';
+		['cs', 'en', 'de', 'es'].forEach(function (lg) {
+			var b = document.createElement('button');
+			b.type = 'button'; b.className = 'bm-lang' + (lg === LANG ? ' is-active' : '');
+			b.setAttribute('data-lang', lg); b.setAttribute('aria-label', lg.toUpperCase()); b.title = lg.toUpperCase();
+			b.innerHTML = FLAGS[lg];
+			b.addEventListener('click', function () { setLang(lg); });
+			box.appendChild(b);
+		});
+		var inner = bar.querySelector('.top-navigation-bar__in, .container, .wrapper') || bar;
+		inner.appendChild(box);
+	}
+
 	ready(function () {
 		setFavicon();
 		playLoader();
@@ -1039,11 +1178,13 @@
 		flattenMenu();
 		enhanceMenu();
 		buildCategoryDropdown();
+		buildLangSwitch();
+		applyLang(LANG);
 		customCursor();
 		reveal();
 		magnetic();
 		// mobilní menu se může dostavět později
-		setTimeout(function () { flattenMenu(); enhanceMenu(); buildCategoryDropdown(); }, 1200);
+		setTimeout(function () { flattenMenu(); enhanceMenu(); buildCategoryDropdown(); applyLang(LANG); }, 1200);
 		document.addEventListener('click', function (e) {
 			if (e.target.closest && e.target.closest('[class*="menu-trigger"], .hamburger, [class*="mobile"]')) setTimeout(function () { flattenMenu(); enhanceMenu(); }, 120);
 		}, true);

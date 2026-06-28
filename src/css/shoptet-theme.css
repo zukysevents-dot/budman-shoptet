@@ -1591,3 +1591,15 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 	-webkit-backdrop-filter: none !important;
 	        backdrop-filter: none !important;
 }
+
+/* ---- Vlajkový přepínač jazyků (CS/EN/DE/ES) v horní liště ---- */
+.bm-langs { display: inline-flex; gap: 7px; align-items: center; margin-left: 14px; }
+.bm-lang {
+	width: 24px; height: 16px; padding: 0; border: 1px solid rgba(255, 255, 255, 0.35);
+	border-radius: 3px; overflow: hidden; cursor: pointer; background: none; line-height: 0;
+	opacity: 0.55; transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.bm-lang svg { width: 100%; height: 100%; display: block; }
+.bm-lang:hover { opacity: 1; transform: translateY(-1px); }
+.bm-lang.is-active { opacity: 1; border-color: var(--bm-lime); box-shadow: 0 0 0 1px var(--bm-lime); }
+@media (max-width: 760px) { .bm-langs { margin-left: 8px; gap: 5px; } .bm-lang { width: 22px; height: 15px; } }
