@@ -1604,11 +1604,10 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 .bm-lang svg { width: 100%; height: 100%; display: block; }
 .bm-lang:hover { opacity: 1; transform: translateY(-1px); }
 .bm-lang.is-active { opacity: 1; border-color: var(--bm-lime); box-shadow: 0 0 0 1px var(--bm-lime); }
-/* mobil/tablet: lišta se přeskupuje → vlajky pevně vpravo nahoře, vždy viditelné */
+/* mobil/tablet: lišta se přeskupuje → vlajky vlastní řádek vpravo, vždy viditelné */
 @media (max-width: 980px) {
-	.top-navigation-bar, .top-navigation-bar .container, .top-navigation-bar__in { position: relative; }
-	.bm-langs { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); margin: 0 !important; gap: 5px; z-index: 40; }
-	.bm-lang { width: 22px; height: 15px; }
+	.bm-langs { display: flex !important; width: 100%; justify-content: flex-end; margin: 5px 0 !important; padding-right: 12px; gap: 6px; box-sizing: border-box; }
+	.bm-lang { width: 24px; height: 16px; }
 }
 
 /* ---- „Přihlášení" (login) IDENTICKÉ s „Jak nakupovat" (13px/400/UPPERCASE).
