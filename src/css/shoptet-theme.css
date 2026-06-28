@@ -1373,10 +1373,10 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 		color: #ffffff !important;
 		border-color: var(--bm-green) !important;
 	}
-	/* pryč ne-kategorie pilly z desktop řádku (Kontakty má lišta+patička, přihlášení ikona účtu) */
-	.navigation-in.menu > ul.menu-level-1 > li:has(> a[href*="/kontakty"]),
-	.navigation-in.menu > ul.menu-level-1 > li:has(> a[href*="/login"]),
-	.navigation-in.menu > ul.menu-level-1 > li:has(> a[href*="/prihlaseni"]) { display: none !important; }
 }
 /* pryč emoji z menu (čistý brandový vzhled) */
 .bm-emoji { display: none !important; }
+/* pryč ne-kategorie položky z menu (Kontakty má lišta+patička, přihlášení ikona účtu) */
+.navigation-in.menu li:has(> a[href*="/kontakty"]),
+.navigation-in.menu li:has(> a[href*="/login"]),
+.navigation-in.menu li:has(> a[href*="/prihlaseni"]) { display: none !important; }
