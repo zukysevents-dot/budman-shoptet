@@ -2415,11 +2415,18 @@ html.bm-loading { overflow: hidden; }
 	transition: opacity 0.55s var(--bm-ease), visibility 0.55s;
 }
 .bm-loader.is-out { opacity: 0; visibility: hidden; pointer-events: none; }
-.bm-loader__badge { position: relative; width: clamp(190px, 32vw, 300px); aspect-ratio: 1; }
+.bm-loader__badge { position: relative; width: clamp(190px, 32vw, 300px); aspect-ratio: 1; display: grid; place-items: center; }
 .bm-loader__badge img {
 	width: 100%; height: 100%; object-fit: contain; display: block;
 	animation: bmBadgePulse 1.5s var(--bm-ease) infinite;
 	filter: drop-shadow(0 16px 40px rgba(12, 18, 8, 0.45));
+}
+/* „B" v načítačce (černé — finální dodá grafik) */
+.bm-loader__b {
+	font-family: var(--bm-font-head); font-weight: 800; line-height: 1;
+	font-size: clamp(120px, 24vw, 210px); color: #0c1208;
+	animation: bmBadgePulse 1.5s var(--bm-ease) infinite;
+	text-shadow: 0 10px 26px rgba(12, 18, 8, 0.30);
 }
 .bm-loader__ring {
 	position: absolute; inset: -7%; border-radius: 50%;
@@ -2428,7 +2435,7 @@ html.bm-loading { overflow: hidden; }
 }
 @keyframes bmBadgePulse { 0%, 100% { transform: scale(0.95); } 50% { transform: scale(1.05); } }
 @keyframes bmSpin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .bm-loader__badge img, .bm-loader__ring { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .bm-loader__badge img, .bm-loader__b, .bm-loader__ring { animation: none !important; } }
 
 /* ---- Hlavní tlačítka / CTA / košík / hledat → limetkový gradient ---- */
 .bm-btn-primary, .btn, .btn-primary, .btn-conversion, .add-to-cart-button,

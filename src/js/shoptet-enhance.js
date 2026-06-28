@@ -115,12 +115,12 @@
 			// interaktivní piny na produkty v banneru → proklik na kategorii
 			'<a class="bm-hp-pin" href="/rigy/" style="left:50%;top:42%" data-label="Skleněné rigy"><span class="bm-hp-pin__dot"></span></a>' +
 			'<a class="bm-hp-pin" href="/doplnky-na-extrakty/" style="left:53%;top:85%" data-label="Dab nářadí"><span class="bm-hp-pin__dot"></span></a>' +
-			'<a class="bm-hp-pin" href="/baleni/" style="left:65%;top:33%" data-label="Skladování &amp; balení"><span class="bm-hp-pin__dot"></span></a>' +
+			'<a class="bm-hp-pin" href="/baleni/" style="left:65%;top:33%" data-label="Balení"><span class="bm-hp-pin__dot"></span></a>' +
 			'<div class="bm-hp-hero__grid">' +
 				'<div class="bm-hp-hero__copy">' +
 					'<p class="bm-hp-hero__eyebrow">Prémiový dab &amp; smoking gear</p>' +
 					'<h2 class="bm-hp-hero__title">Skleněné <span>dab rigy</span> ruční práce</h2>' +
-					'<p class="bm-hp-hero__sub">Recyclery, Puffco gear a kuřácké potřeby pro dab komunitu — pečlivě vybrané kousky skladem.</p>' +
+					'<p class="bm-hp-hero__sub">Recyclery, slurpery a kuřácké potřeby pro dab komunitu — pečlivě vybrané kousky skladem.</p>' +
 					'<div class="bm-hp-hero__cta">' +
 						'<a class="bm-btn-primary" href="/rigy/">Prohlédnout rigy</a>' +
 						'<a class="bm-btn-ghost" href="/kuracke-potreby/">Celý sortiment</a>' +
@@ -146,12 +146,12 @@
 	/* Načítací obrazovka: bud odznak z loga (1× za session).       */
 	/* ============================================================ */
 	function playLoader() {
-		var BADGE = 'https://rawcdn.githack.com/zukysevents-dot/budman-shoptet/fdb3fad/assets/brand/budman-bud-badge.png';
 		try { if (sessionStorage.getItem('bm_loader')) return; sessionStorage.setItem('bm_loader', '1'); } catch (e) {}
 		var ov = document.createElement('div');
 		ov.className = 'bm-loader';
+		// jen „B" (černé) — finální B dodá grafik, zatím typograficky
 		ov.innerHTML = '<div class="bm-loader__badge"><span class="bm-loader__ring"></span>' +
-			'<img src="' + BADGE + '" alt="budMan — Load jars, not guns" decoding="async"></div>';
+			'<span class="bm-loader__b">B</span></div>';
 		document.documentElement.classList.add('bm-loading');
 		(document.body || document.documentElement).appendChild(ov);
 		var done = false;
@@ -397,8 +397,8 @@
 			{ big: true, href: hrefRig, eye: 'Prémiové kousky', t: 'Skleněné rigy &amp; recyclery', s: 'Ruční kousky i kompaktní dab rigy — pečlivě vybrané, skladem.', img: IMG + '81_dragon-monster-rig-hashba.jpg', tint: 'rgba(47,138,30,0.50)' },
 			{ href: hrefPuffco, eye: 'Dab gear', t: 'Puffco doplňky', s: 'Atomizéry, nástavce a příslušenství.', img: IMG + '48_puffco-wigwag-opal-drytop.jpg', tint: 'rgba(210,169,85,0.46)' },
 			{ href: hrefSmoke, eye: 'Sortiment', t: 'Kuřácké potřeby', s: 'Vše pro pohodový dab.', img: IMG + '273_high-tower-v2.png', tint: 'rgba(47,138,30,0.50)' },
-			{ href: hrefMerch, eye: 'Budman', t: 'Merch', s: 'Oblečení a doplňky komunity.', img: IMG + '171_cepice-main-scaled.jpg', tint: 'rgba(60,72,40,0.54)' },
-			{ href: hrefClean, eye: 'Péče', t: 'Cleaning', s: 'Ať sklo září jako nové.', img: IMG + '261_green-xl-bath.png', tint: 'rgba(143,214,79,0.42)' }
+			{ href: hrefClean, eye: 'Péče', t: 'Cleaning', s: 'Ať sklo září jako nové.', img: IMG + '261_green-xl-bath.png', tint: 'rgba(143,214,79,0.42)' },
+			{ href: hrefMerch, eye: 'Budman', t: 'Merch', s: 'Oblečení a doplňky komunity.', img: IMG + '171_cepice-main-scaled.jpg', tint: 'rgba(60,72,40,0.54)' }
 		];
 		var sec = document.createElement('section');
 		sec.className = 'bm-promo';
@@ -492,7 +492,7 @@
 	/* Menu: emojis ke kategoriím (barevné, hezké) ------------------ */
 	// Zploští menu: parent „Kuřácké potřeby" pryč, jeho podkategorie jako top-level položky.
 	function flattenMenu() {
-		var SHORT = { '/slurpery/': 'Slurpery', '/puffco-doplnky/': 'Puffco', '/doplnky-na-extrakty/': 'Doplňky na extrakty', '/kuracke-potreby/': null };
+		var SHORT = { '/slurpery/': 'Slurpery', '/puffco-doplnky/': 'Puffco doplňky', '/doplnky-na-extrakty/': 'Doplňky na extrakty', '/kuracke-potreby/': null };
 		var roots = document.querySelectorAll('.menu-level-0, .navigation-in.menu > ul, .mobile-navigation ul.menu, .mobile-navigation > ul, .box-categories ul');
 		roots.forEach(function (root) {
 			if (!root || root.getAttribute('data-bm-flat')) return;
@@ -599,6 +599,9 @@
 			seen[href] = 1; cats.push({ href: href, txt: txt });
 		});
 		if (cats.length < 2) return;
+		// pořadí dle přání klienta: Rigy/Slurpery první, Merch poslední
+		var ORDER = { '/rigy/': 1, '/slurpery/': 2, '/doplnky-na-extrakty/': 3, '/mereni/': 4, '/baleni/': 5, '/cleaning/': 6, '/puffco-doplnky/': 7, '/merch/': 99 };
+		cats.sort(function (a, b) { return (ORDER[a.href] || 50) - (ORDER[b.href] || 50); });
 		var box = document.createElement('div');
 		box.className = 'bm-catmenu';
 		box.innerHTML =
