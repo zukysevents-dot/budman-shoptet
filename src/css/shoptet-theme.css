@@ -1604,12 +1604,15 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 .bm-lang.is-active { opacity: 1; border-color: var(--bm-lime); box-shadow: 0 0 0 1px var(--bm-lime); }
 @media (max-width: 760px) { .bm-langs { margin-left: 8px; gap: 5px; } .bm-lang { width: 22px; height: 15px; } }
 
-/* ---- „Přihlášení" (login) STEJNĚ velké jako „Jak nakupovat" (top-nav 13px/400) ---- */
+/* ---- „Přihlášení" (login) IDENTICKÉ s „Jak nakupovat" (13px/400/UPPERCASE) ---- */
 .top-navigation-bar a[href*="/login"], .top-navigation-bar a[href*="prihlaseni"],
 .header-top a[href*="/login"], .header a[href*="/login"], a[href*="/login/?backTo"],
 .login a, .user-login a, .login-info a {
 	font-size: 13px !important;
 	font-weight: 400 !important;
-	color: #eef3e6 !important;
-	-webkit-text-fill-color: #eef3e6 !important;
+	text-transform: uppercase !important;
+	letter-spacing: normal !important;
+	line-height: 18px !important;
+	color: #e9f3e1 !important;
+	-webkit-text-fill-color: #e9f3e1 !important;
 }
