@@ -342,7 +342,7 @@
 		host.className = 'bm-topmsg-host';
 		host.style.cssText = 'display:inline-flex;align-items:center;gap:1.4rem;margin-right:auto;padding-right:1rem';
 		host.innerHTML = '<span class="bm-topmsg">' + ICON.truck + 'Doprava zdarma od 1 500 Kč</span>' +
-			'<span class="bm-topmsg bm-hide-sm">' + ICON.gift + 'Dárek k objednávce nad 2K</span>' +
+			'<span class="bm-topmsg bm-hide-sm">' + ICON.gift + 'Dárek zdarma k nákupu nad 2 000 Kč</span>' +
 			'<span class="bm-topmsg bm-hide-sm">' + ICON.box + 'Skladem, expedice do 24 h</span>';
 		var inner = bar.querySelector('.top-navigation-bar__in, .header-top__in, .container, .wrapper') || bar;
 		inner.insertBefore(host, inner.firstChild);
@@ -376,7 +376,7 @@
 			// dárek: srovnat podmínku na „nad 2K" (nativní „ke každé objednávce" si protiřečí)
 			if (key === 'gift') {
 				[].forEach.call(item.querySelectorAll('*'), function (el) {
-					if (!el.children.length && /každ|kazd/i.test(el.textContent || '')) el.textContent = 'K objednávce nad 2K';
+					if (!el.children.length && /každ|kazd/i.test(el.textContent || '')) el.textContent = 'Při nákupu nad 2 000 Kč';
 				});
 			}
 		});
