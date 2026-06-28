@@ -1322,7 +1322,7 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 	font-size: 16px !important;
 	padding-left: 22px !important;
 }
-.btn-search, .search button[type="submit"], button.search { min-height: 48px !important; font-size: 15px !important; padding: 0 24px !important; }
+.btn-search, .search button[type="submit"], button.search { height: 58px !important; min-height: 58px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 15px !important; padding: 0 26px !important; }
 .user-action-cart > a, .cart-content, .cart-widget-button { font-size: 16px !important; padding: 11px 20px !important; }
 .search input::placeholder { color: var(--bm-muted) !important; }
 .btn-search, .search button[type="submit"], button.search { background: var(--bm-gold) !important; color: #1a1407 !important; border-radius: 999px !important; }
