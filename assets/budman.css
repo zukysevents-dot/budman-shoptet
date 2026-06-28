@@ -2493,7 +2493,10 @@ button.add, input[type="submit"], .button,
 
 /* ---- Rozbalovací menu „KATEGORIE ▾" (varianta B; nahrazuje pill bubliny) ---- */
 html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !important; }
-.bm-catmenu { display: none; }
+/* hlavička nad hero (hero má vlastní stacking context kvůli full-bleed left:50%
+   + isolation) → dropdown panel se NEpřekrývá s bannerem */
+#header { position: relative; z-index: 100; }
+.bm-catmenu { display: none; z-index: 101; }
 @media (min-width: 981px) { .bm-catmenu { position: relative; display: inline-flex; margin: 10px 0 14px; } }
 .bm-catmenu__btn {
 	display: inline-flex; align-items: center; gap: 0.6em;
