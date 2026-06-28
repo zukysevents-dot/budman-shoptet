@@ -348,6 +348,34 @@
 		inner.insertBefore(host, inner.firstChild);
 	}
 
+	/* USP pruh (benefitBanner): nahradit rozbité Shoptet ikony čistými SVG ---- */
+	function enhanceBenefits() {
+		var items = document.querySelectorAll('.benefitBanner__item');
+		if (!items.length) return;
+		var SVG = {
+			shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>',
+			gift: ICON.gift,
+			pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+			truck: ICON.truck,
+			clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+		};
+		items.forEach(function (item) {
+			if (item.querySelector('.bm-usp-ico')) return;
+			var txt = (item.textContent || '').toLowerCase();
+			var key = /dárek|darek/.test(txt) ? 'gift'
+				: /výdej|vydej|míst|mist|pobočk|pobock|zásilk|zasilk|ppl/.test(txt) ? 'pin'
+				: /druh(ý|y|ého|eho) dne|následující|nasledujic|do 24|expedi|rychl/.test(txt) ? 'truck'
+				: /garanc|nepoškoz|neposkoz|kvalit|ověř|over|18|vrácení|vraceni/.test(txt) ? 'shield'
+				: 'clock';
+			var img = item.querySelector('.benefitBanner__img'); if (img) img.style.display = 'none';
+			var pic = item.querySelector('.benefitBanner__picture') || item;
+			var ico = document.createElement('span');
+			ico.className = 'bm-usp-ico';
+			ico.innerHTML = SVG[key];
+			pic.insertBefore(ico, pic.firstChild);
+		});
+	}
+
 	/* Brandové PROMO bannery (titulka, za hero) --------------------- */
 	function injectPromo() {
 		if (!isHome() || document.querySelector('.bm-promo')) return;
@@ -592,6 +620,7 @@
 		injectPromo();
 		cleanDemo();
 		topBarMsg();
+		enhanceBenefits();
 		injectFooter();
 		flattenMenu();
 		enhanceMenu();

@@ -2482,10 +2482,16 @@ button.add, input[type="submit"], .button,
 }
 .bm-hp-hero__eyebrow { color: var(--bm-lime) !important; }
 
-/* ---- USP pruh ikony: limetkový gradient kruh ---- */
-.benefitBanner__picture, .benefitBanner__img {
-	background: var(--bm-grad-lime) !important;
+/* ---- USP pruh ikony: nahradit rozbité Shoptet ikony vlastními SVG ---- */
+.benefitBanner__img { display: none !important; }                 /* pryč „srpek" */
+.benefitBanner__picture { background: transparent !important; border-radius: 0 !important; padding: 0 !important; width: auto !important; height: auto !important; }
+.bm-usp-ico {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%;
+	background: var(--bm-grad-lime);
+	box-shadow: 0 5px 14px rgba(46, 125, 30, 0.32);
 }
+.bm-usp-ico svg { width: 25px; height: 25px; stroke: #14280a; fill: none; }
 
 /* ---- Skladem / akce → gradient pill ---- */
 .flag, .flag-discount, .bm-badge--sale {
