@@ -425,7 +425,8 @@
 	function startSmoke(canvas, relX, relY) {
 		if (reduce || !canvas || !canvas.getContext) return;
 		var ctx = canvas.getContext('2d');
-		var dpr = Math.min(window.devicePixelRatio || 1, 2);
+		// nižší DPR strop = výrazně levnější fill (radiální gradient/částici) bez viditelné ztráty
+		var dpr = Math.min(window.devicePixelRatio || 1, 1.25);
 		var W = 0, H = 0, parts = [], raf = 0, running = false, inView = false, vis = !document.hidden, last = 0, acc = 0;
 
 		function size() {
@@ -436,9 +437,9 @@
 			canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		}
-		function rate() { return Math.max(10, Math.min(24, W / 70)); }
+		function rate() { return Math.max(6, Math.min(14, W / 95)); }
 		function spawn() {
-			if (parts.length > 320) return;
+			if (parts.length > 130) return;
 			// rozměry relativní k velikosti canvasu → konzistentní dým malý i velký
 			parts.push({ x: relX * W + rnd(-W * 0.025, W * 0.025), y: relY * H + rnd(-H * 0.01, H * 0.01), vx: rnd(-W * 0.02, W * 0.02), vy: rnd(-H * 0.07, -H * 0.11), r: rnd(W * 0.045, W * 0.085), grow: rnd(W * 0.05, W * 0.09), life: 0, max: rnd(3.2, 5.4), seed: Math.random() * 6.28 });
 		}
@@ -642,7 +643,8 @@
 			drips.push({ el: d, x: x + (Math.random() - 0.5) * 4, y: y + 1, vx: (Math.random() - 0.5) * 0.25, vy: 0.15 + Math.random() * 0.25, life: 0, ttl: 950 + Math.random() * 600, size: size });
 			if (!dripRaf) { dripLastT = 0; dripRaf = window.requestAnimationFrame(dripLoop); }
 		}
-		window.setInterval(function () { if (on && vis && !document.hidden) spawnDrip(); }, 640);
+		// kapky vypnuty kvůli plynulosti (DOM spawn + rAF každých 640 ms = škubání); kurzor zůstává
+		void spawnDrip;
 
 		function move(e) { tx = e.clientX; ty = e.clientY; if (!on) { on = true; el.classList.add('is-on'); } }
 		function over(e) {

@@ -1578,3 +1578,14 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 	transition: background 0.15s ease, color 0.15s ease;
 }
 .bm-catmenu__panel a:hover { background: var(--bm-grad-lime-soft); color: #14280a !important; }
+
+/* ============================================================ */
+/* PERF: plynulost — pryč GPU-náročný backdrop-filter blur.      */
+/* Hlavička/hledání/košík jsou plné/gradientové → blur netřeba,  */
+/* a blur nad animovaným hero (Ken Burns) se přepočítává každý   */
+/* frame → škubání. Globální vypnutí = čistý výkonový zisk.      */
+/* ============================================================ */
+*, *::before, *::after {
+	-webkit-backdrop-filter: none !important;
+	        backdrop-filter: none !important;
+}
