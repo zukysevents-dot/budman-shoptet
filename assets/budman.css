@@ -1051,6 +1051,10 @@ header.header .container,
 /* zrušit dvojité vnitřní paddingy Shoptetu (gutter dává už .container) */
 main.content, .content-wrapper-in, .benefitBanner,
 .header-top, .header-bottom { padding-inline: 0 !important; }
+/* hlavička = JEDNO celoplošné zelené pozadí (#header gradient). Vnitřní řady
+   nesmí mít vlastní bg, jinak po zúžení kontejneru vznikne tmavší „panel"
+   jen přes šířku obsahu a po stranách prosvítá jiná zelená. */
+.header-top, .header-bottom { background: transparent !important; }
 /* zrušit Shoptet negativní margin na navigaci → pilly kategorií sednou na osu */
 #header #navigation,
 #header .navigation-in.menu,
