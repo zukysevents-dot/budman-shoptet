@@ -993,7 +993,10 @@
 					return '<li role="none"><a role="menuitem" href="' + c.href + '">' + c.txt + '</a></li>';
 				}).join('') + '</ul>' +
 			'</div>';
-		wrap.insertBefore(box, wrap.firstChild);
+		// umísti KATEGORIE vedle loga (do řady s logem/hledáním); fallback = nad nav
+		var anchor = document.querySelector('.header-top .site-name-wrapper, .header-top .site-name, .site-name-wrapper, .site-name');
+		if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(box, anchor.nextSibling);
+		else wrap.insertBefore(box, wrap.firstChild);
 		document.documentElement.classList.add('bm-has-catmenu'); // CSS skryje pilly
 		var btn = box.querySelector('.bm-catmenu__btn');
 		function setOpen(o) { box.classList.toggle('is-open', o); btn.setAttribute('aria-expanded', o ? 'true' : 'false'); }

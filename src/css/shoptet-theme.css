@@ -1531,7 +1531,11 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
    + isolation) → dropdown panel se NEpřekrývá s bannerem */
 #header { position: relative; z-index: 100; }
 .bm-catmenu { display: none; z-index: 101; }
-@media (min-width: 981px) { .bm-catmenu { position: relative; display: inline-flex; margin: 10px 0 14px; } }
+@media (min-width: 981px) {
+	.bm-catmenu { position: relative; display: inline-flex; flex: 0 0 auto; align-self: center; margin: 0 0 0 1.4rem; }
+	/* logo + KATEGORIE drží spolu vlevo, vyhledávání zůstává uprostřed */
+	.header-top { align-items: center !important; }
+}
 .bm-catmenu__btn {
 	display: inline-flex; align-items: center; gap: 0.6em;
 	font-family: var(--bm-font-head); font-weight: 800; font-size: 15px; line-height: 1;
