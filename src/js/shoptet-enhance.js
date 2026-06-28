@@ -363,9 +363,9 @@
 			if (item.querySelector('.bm-usp-ico')) return;
 			var txt = (item.textContent || '').toLowerCase();
 			var key = /dárek|darek/.test(txt) ? 'gift'
-				: /výdej|vydej|míst|mist|pobočk|pobock|zásilk|zasilk|ppl/.test(txt) ? 'pin'
-				: /druh(ý|y|ého|eho) dne|následující|nasledujic|do 24|expedi|rychl/.test(txt) ? 'truck'
-				: /garanc|nepoškoz|neposkoz|kvalit|ověř|over|18|vrácení|vraceni/.test(txt) ? 'shield'
+				: /garanc|nepoškoz|neposkoz|kvalit|ověř|over|18|vrácen|vracen|originál|original/.test(txt) ? 'shield'
+				: /druh(ý|y|ého|eho)\s*dne|následující|nasledujic|do 24|expedi|rychl/.test(txt) ? 'truck'
+				: /výdej|vydej|míst|mist|pobočk|pobock|zásilk|zasilk|ppl|doprav/.test(txt) ? 'pin'
 				: 'clock';
 			var img = item.querySelector('.benefitBanner__img'); if (img) img.style.display = 'none';
 			var pic = item.querySelector('.benefitBanner__picture') || item;
