@@ -2579,3 +2579,13 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 .bm-lang:hover { opacity: 1; transform: translateY(-1px); }
 .bm-lang.is-active { opacity: 1; border-color: var(--bm-lime); box-shadow: 0 0 0 1px var(--bm-lime); }
 @media (max-width: 760px) { .bm-langs { margin-left: 8px; gap: 5px; } .bm-lang { width: 22px; height: 15px; } }
+
+/* ---- „Přihlášení" (login) v liště/hlavičce — větší a čitelnější (jako ostatní top odkazy) ---- */
+.top-navigation-bar a[href*="/login"], .top-navigation-bar a[href*="prihlaseni"],
+.header-top a[href*="/login"], .header a[href*="/login"], a[href*="/login/?backTo"],
+.login a, .user-login a, .login-info a {
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	color: #eef3e6 !important;
+	-webkit-text-fill-color: #eef3e6 !important;
+}

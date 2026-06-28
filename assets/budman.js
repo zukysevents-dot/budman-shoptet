@@ -835,7 +835,7 @@
 		why.className = 'bm-why';
 		why.innerHTML = '<h2 class="bm-why__title">Headshop pro dab komunitu</h2>' +
 			'<p class="bm-why__lead">Skleněné rigy, recyclery a kvalitní kuřácké potřeby vybírané s citem pro detail. ' +
-			'Skladové zásoby, expedice do 24 hodin a férové ceny — od kompaktních kousků po sběratelské ruční skleničky.</p>';
+			'Skladové zásoby, expedice do 24 hodin a férové ceny — od kompaktních kousků po ručně foukané sklo.</p>';
 		var usp = document.querySelector('.benefitBanner');
 		if (usp && usp.parentNode) usp.parentNode.insertBefore(why, usp);
 		else if (promo && promo.parentNode) promo.parentNode.insertBefore(why, promo.nextSibling);
@@ -863,7 +863,7 @@
 				'<div>' +
 					'<div class="bm-footer__logo" style="background-image:url(\'' + CDN_PIN_LOGO + '\')" role="img" aria-label="budMan"></div>' +
 					'<p class="bm-footer__tag">Prémiový dab &amp; smoking gear. Skleněné rigy, Puffco doplňky a kuřácké potřeby pro českou dab komunitu.</p>' +
-					'<div class="bm-footer__social"><a href="' + L.kontakt + '" aria-label="Instagram">' + ICON.ig + '</a><a href="' + L.kontakt + '" aria-label="Facebook">' + ICON.fb + '</a></div>' +
+					'<div class="bm-footer__social"><a href="https://www.instagram.com/budman_eshop" target="_blank" rel="noopener" aria-label="Instagram">' + ICON.ig + '</a><a href="https://www.facebook.com/profile.php?id=61591606974769" target="_blank" rel="noopener" aria-label="Facebook">' + ICON.fb + '</a></div>' +
 					'<span class="bm-footer__age"><b>18+</b> Prodej pouze osobám starším 18 let</span>' +
 				'</div>' +
 				'<div><h4>Nakupování</h4><ul>' +
