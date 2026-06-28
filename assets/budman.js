@@ -528,7 +528,7 @@
 	/* Načítací obrazovka: bud odznak z loga (1× za session).       */
 	/* ============================================================ */
 	function playLoader() {
-		var BADGE = 'https://rawcdn.githack.com/zukysevents-dot/budman-shoptet/b13cdf9/assets/brand/budman-bud-badge.png';
+		var BADGE = 'https://rawcdn.githack.com/zukysevents-dot/budman-shoptet/fdb3fad/assets/brand/budman-bud-badge.png';
 		try { if (sessionStorage.getItem('bm_loader')) return; sessionStorage.setItem('bm_loader', '1'); } catch (e) {}
 		var ov = document.createElement('div');
 		ov.className = 'bm-loader';
@@ -925,6 +925,47 @@
 		});
 	}
 
+	/* ============================================================ */
+	/* Rozbalovací menu „KATEGORIE ▾" (nahrazuje pill bubliny).      */
+	/* ============================================================ */
+	function buildCategoryDropdown() {
+		var menu = document.querySelector('.navigation-in.menu');
+		if (!menu) return;
+		var wrap = document.querySelector('header .container.navigation-wrapper') || menu.closest('.navigation-wrapper') || menu.parentNode;
+		if (!wrap || wrap.querySelector('.bm-catmenu')) return;
+		// posbírej kategorie z (zploštělého) menu
+		var links = [].slice.call(menu.querySelectorAll('ul.menu-level-1 > li > a, ul > li > a'));
+		var seen = {}, cats = [];
+		links.forEach(function (a) {
+			var href = (a.getAttribute('href') || '').replace(/\?.*$/, '');
+			if (href && href.slice(-1) !== '/') href += '/';
+			var txt = (a.textContent || '').replace(/[\u{1F000}-\u{1FFFF}☀-➿←-⇿️]/gu, '').trim();
+			if (!href || !txt || seen[href]) return;
+			if (/\/(kontakty|login|prihlaseni|prihlaseni)/i.test(href)) return;
+			seen[href] = 1; cats.push({ href: href, txt: txt });
+		});
+		if (cats.length < 2) return;
+		var box = document.createElement('div');
+		box.className = 'bm-catmenu';
+		box.innerHTML =
+			'<button type="button" class="bm-catmenu__btn" aria-expanded="false" aria-haspopup="true">' +
+				'<span class="bm-catmenu__bars" aria-hidden="true"><span></span><span></span><span></span></span>' +
+				'<span>Kategorie</span><span class="bm-catmenu__chev" aria-hidden="true"></span>' +
+			'</button>' +
+			'<div class="bm-catmenu__panel" role="menu">' +
+				'<ul>' + cats.map(function (c) {
+					return '<li role="none"><a role="menuitem" href="' + c.href + '">' + c.txt + '</a></li>';
+				}).join('') + '</ul>' +
+			'</div>';
+		wrap.insertBefore(box, wrap.firstChild);
+		document.documentElement.classList.add('bm-has-catmenu'); // CSS skryje pilly
+		var btn = box.querySelector('.bm-catmenu__btn');
+		function setOpen(o) { box.classList.toggle('is-open', o); btn.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+		btn.addEventListener('click', function (e) { e.stopPropagation(); setOpen(!box.classList.contains('is-open')); });
+		document.addEventListener('click', function (e) { if (!box.contains(e.target)) setOpen(false); });
+		document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+	}
+
 	ready(function () {
 		playLoader();
 		injectHero();
@@ -934,11 +975,12 @@
 		injectFooter();
 		flattenMenu();
 		enhanceMenu();
+		buildCategoryDropdown();
 		customCursor();
 		reveal();
 		magnetic();
 		// mobilní menu se může dostavět později
-		setTimeout(function () { flattenMenu(); enhanceMenu(); }, 1200);
+		setTimeout(function () { flattenMenu(); enhanceMenu(); buildCategoryDropdown(); }, 1200);
 		document.addEventListener('click', function (e) {
 			if (e.target.closest && e.target.closest('[class*="menu-trigger"], .hamburger, [class*="mobile"]')) setTimeout(function () { flattenMenu(); enhanceMenu(); }, 120);
 		}, true);

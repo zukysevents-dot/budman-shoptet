@@ -2490,3 +2490,36 @@ button.add, input[type="submit"], .button,
 	background: linear-gradient(135deg, #ff7a3d, #e2483f) !important; color: #fff !important; border: 0 !important;
 }
 .availability-instock, .amount, .stock { color: var(--bm-grass) !important; }
+
+/* ---- Rozbalovací menu „KATEGORIE ▾" (varianta B; nahrazuje pill bubliny) ---- */
+html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !important; }
+.bm-catmenu { display: none; }
+@media (min-width: 981px) { .bm-catmenu { position: relative; display: inline-flex; margin: 10px 0 14px; } }
+.bm-catmenu__btn {
+	display: inline-flex; align-items: center; gap: 0.6em;
+	font-family: var(--bm-font-head); font-weight: 800; font-size: 15px; line-height: 1;
+	text-transform: uppercase; letter-spacing: 0.06em;
+	color: #14280a; background: var(--bm-grad-lime); border: 0; cursor: pointer;
+	padding: 14px 24px; border-radius: 999px; box-shadow: 0 4px 14px rgba(20, 64, 13, 0.35);
+	transition: transform 0.18s var(--bm-ease), box-shadow 0.18s ease, filter 0.18s ease;
+}
+.bm-catmenu__btn:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(20, 64, 13, 0.42); filter: brightness(1.04); }
+.bm-catmenu__bars { display: inline-flex; flex-direction: column; gap: 3px; width: 18px; }
+.bm-catmenu__bars span { height: 2.5px; border-radius: 2px; background: #14280a; display: block; }
+.bm-catmenu__chev { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #14280a; transition: transform 0.2s ease; }
+.bm-catmenu.is-open .bm-catmenu__chev { transform: rotate(180deg); }
+.bm-catmenu__panel {
+	position: absolute; top: calc(100% + 10px); left: 0; z-index: 60;
+	min-width: 300px; background: #ffffff; border-radius: 16px; padding: 8px;
+	box-shadow: 0 22px 54px rgba(12, 18, 8, 0.30); border: 1px solid var(--bm-line);
+	opacity: 0; visibility: hidden; transform: translateY(-8px);
+	transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.bm-catmenu.is-open .bm-catmenu__panel { opacity: 1; visibility: visible; transform: none; }
+.bm-catmenu__panel ul { list-style: none; margin: 0; padding: 0; }
+.bm-catmenu__panel a {
+	display: block; padding: 11px 16px; border-radius: 10px; text-decoration: none;
+	color: #1c2417; font-weight: 700; font-size: 15px;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+.bm-catmenu__panel a:hover { background: var(--bm-grad-lime-soft); color: #14280a; }
