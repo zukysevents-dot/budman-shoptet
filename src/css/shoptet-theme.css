@@ -1429,17 +1429,17 @@ header .container.navigation-wrapper { max-width: 1500px !important; }
 	padding-left: 22px !important;
 }
 .btn-search, .search button[type="submit"], button.search { height: 58px !important; min-height: 58px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 15px !important; padding: 0 26px !important; }
-.user-action-cart > a, .cart-content, .cart-widget-button { font-size: 16px !important; padding: 11px 20px !important; }
+.user-action-cart > a, .user-action-cart .cart-content, .cart-widget-button { font-size: 16px !important; padding: 11px 20px !important; }
 .search input::placeholder { color: var(--bm-muted) !important; }
 .btn-search, .search button[type="submit"], button.search { background: var(--bm-gold) !important; color: #1a1407 !important; border-radius: 999px !important; }
 
 /* akce v hlavičce → bílý text, košík zlatý pill */
 .user-action a, .user-action-in a, .user-action span, .header-actions a { color: #f4f7ee !important; }
 .user-action a:hover { color: var(--bm-gold-bright) !important; }
-.cart-content, .cart-widget-button, .user-action-cart > a {
+.user-action-cart .cart-content, .cart-widget-button, .user-action-cart > a {
 	background: var(--bm-gold) !important; color: #1a1407 !important; border-radius: 999px !important;
 }
-.cart-content *, .cart-widget-button * { color: #1a1407 !important; }
+.user-action-cart .cart-content *, .cart-widget-button * { color: #1a1407 !important; }
 
 /* === barevné zaoblené pill kategorie, rovnoměrně po celé šířce (jen desktop) === */
 .navigation-in.menu { background: transparent !important; border: 0 !important; box-shadow: none !important; }
@@ -1553,23 +1553,157 @@ html.bm-loading { overflow: hidden; }
 .bm-btn-primary, .btn, .btn-primary, .btn-conversion, .add-to-cart-button,
 button.add, input[type="submit"], .button,
 .btn-search, .search button[type="submit"], button.search,
-.cart-content, .cart-widget-button, .user-action-cart > a {
+.user-action-cart .cart-content, .cart-widget-button, .user-action-cart > a {
 	background: var(--bm-grad-lime) !important;
 	color: #14280a !important;
 	border: 0 !important;
 }
-.cart-content *, .cart-widget-button *, .user-action-cart > a * { color: #14280a !important; }
+.user-action-cart .cart-content *, .cart-widget-button *, .user-action-cart > a * { color: #14280a !important; }
 .bm-btn-primary:hover, .btn:hover, .btn-primary:hover, .btn-conversion:hover,
 .add-to-cart-button:hover, input[type="submit"]:hover, .button:hover,
 .btn-search:hover, .search button[type="submit"]:hover, button.search:hover,
-.cart-content:hover, .cart-widget-button:hover, .user-action-cart > a:hover {
+.user-action-cart .cart-content:hover, .cart-widget-button:hover, .user-action-cart > a:hover {
 	background: var(--bm-grad-green) !important;
 	color: #ffffff !important;
 	box-shadow: 0 12px 30px rgba(46, 125, 30, 0.40);
 }
-.cart-content:hover *, .user-action-cart > a:hover * { color: #ffffff !important; }
+.user-action-cart .cart-content:hover *, .user-action-cart > a:hover * { color: #ffffff !important; }
 .bm-btn-ghost { border: 2px solid var(--bm-lime) !important; color: #eaffd0 !important; background: rgba(20,64,13,0.18) !important; }
 .bm-btn-ghost:hover { background: var(--bm-grad-lime) !important; color: #14280a !important; border-color: transparent !important; }
+
+/* ---- Kosik: Shoptet pouziva .cart-content i pro obsah stranky ---- */
+body.in-kosik #content-wrapper {
+	max-width: 1280px !important;
+	margin-top: 34px !important;
+	margin-bottom: 70px !important;
+	padding-inline: var(--bm-gutter) !important;
+}
+body.in-kosik .content-wrapper-in,
+body.in-kosik #content {
+	width: 100% !important;
+	max-width: none !important;
+}
+body.in-kosik .cart-inner {
+	width: 100% !important;
+}
+body.in-kosik .cart-heading {
+	margin: 0 0 1rem !important;
+	padding-inline: 0 !important;
+	line-height: 1.12 !important;
+}
+body.in-kosik .cart-row {
+	display: flex !important;
+	align-items: flex-start !important;
+	gap: 28px !important;
+	margin: 0 !important;
+	width: 100% !important;
+}
+body.in-kosik .cart-row > [class*="col-"] {
+	float: none !important;
+	padding: 0 !important;
+}
+body.in-kosik .cart-row > .col-md-8 {
+	flex: 1 1 auto !important;
+	width: auto !important;
+	min-width: 0 !important;
+}
+body.in-kosik .cart-row > .col-md-4 {
+	flex: 0 0 340px !important;
+	width: 340px !important;
+	min-width: 0 !important;
+}
+body.in-kosik .cart-content {
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	color: var(--bm-text) !important;
+	padding: 0 !important;
+	overflow-x: auto;
+}
+body.in-kosik .cart-table,
+body.in-kosik .cart-items,
+body.in-kosik .cart-content > table {
+	width: 100% !important;
+	background: #ffffff !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 8px !important;
+	overflow: hidden !important;
+}
+body.in-kosik .cart-content td,
+body.in-kosik .cart-content th,
+body.in-kosik .cart-table-row,
+body.in-kosik .cart-item {
+	background: #ffffff !important;
+	border-color: var(--bm-line) !important;
+	vertical-align: middle !important;
+}
+body.in-kosik .cart-content img {
+	max-width: 92px !important;
+	height: auto !important;
+	object-fit: contain !important;
+}
+body.in-kosik .cart-content .availability-instock,
+body.in-kosik .cart-content .stock,
+body.in-kosik .cart-content [class*="availability"] {
+	color: var(--bm-grass) !important;
+	-webkit-text-fill-color: var(--bm-grass) !important;
+}
+body.in-kosik .cart-content .price,
+body.in-kosik .cart-content .price-final,
+body.in-kosik .cart-content .price-primary {
+	color: var(--bm-text) !important;
+	-webkit-text-fill-color: var(--bm-text) !important;
+	font-weight: 800 !important;
+}
+body.in-kosik .cart-row > .col-md-4 .cart-content,
+body.in-kosik .cart-row > .col-md-4 .box {
+	background: #ffffff !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 8px !important;
+	box-shadow: none !important;
+	padding: 18px !important;
+}
+body.in-kosik .contact-box {
+	padding-left: 0 !important;
+	min-height: 0 !important;
+}
+body.in-kosik .contact-box img {
+	display: none !important;
+}
+body.in-kosik .contact-box ul {
+	margin: 0.55rem 0 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+}
+body.in-kosik .contact-box li {
+	margin: 0.4rem 0 !important;
+}
+body.in-kosik .contact-box a {
+	color: var(--bm-text) !important;
+	-webkit-text-fill-color: var(--bm-text) !important;
+	word-break: break-word;
+}
+body.in-kosik .btn,
+body.in-kosik .btn-conversion,
+body.in-kosik .button,
+body.in-kosik input[type="submit"] {
+	border-radius: 8px !important;
+}
+@media (max-width: 980px) {
+	body.in-kosik #content-wrapper {
+		margin-top: 24px !important;
+	}
+	body.in-kosik .cart-row {
+		flex-direction: column !important;
+		gap: 18px !important;
+	}
+	body.in-kosik .cart-row > .col-md-8,
+	body.in-kosik .cart-row > .col-md-4 {
+		flex: 1 1 auto !important;
+		width: 100% !important;
+	}
+}
 
 /* ---- Hlavička: bohatý zeleno-limetkový gradient ---- */
 /* hlavička = JEDEN spojitý vertikální gradient (horní lišta navazuje barvou) */
