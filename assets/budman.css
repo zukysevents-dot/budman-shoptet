@@ -2602,6 +2602,7 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
    + isolation) → dropdown panel se NEpřekrývá s bannerem */
 #header { position: relative; z-index: 100; }
 @media (max-width: 980px) {
+	body.type-category.ums_mobile_header_v1--on #header,
 	body.type-category.ums_mobile_header_v1 #header {
 		top: 0 !important;
 		margin-top: 50px !important;
