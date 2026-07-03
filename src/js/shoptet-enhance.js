@@ -415,7 +415,7 @@
 		var tiles = [
 			{ big: true, href: hrefRig, eye: 'Prémiové kousky', t: 'Skleněné rigy &amp; recyclery', s: 'Ruční kousky i kompaktní dab rigy — pečlivě vybrané, skladem.', img: IMG + '81_dragon-monster-rig-hashba.jpg', tint: 'rgba(47,138,30,0.50)' },
 			{ href: hrefPuffco, eye: 'Dab gear', t: 'Puffco doplňky', s: 'Atomizéry, nástavce a příslušenství.', img: IMG + '48_puffco-wigwag-opal-drytop.jpg', tint: 'rgba(210,169,85,0.46)' },
-			{ href: hrefSmoke, eye: 'Sortiment', t: 'Kuřácké potřeby', s: 'Vše pro pohodový dab.', img: IMG + '273_high-tower-v2.png', tint: 'rgba(47,138,30,0.50)' },
+			{ href: hrefSmoke, eye: 'Sortiment', t: 'Kuřácké potřeby', s: 'Vše pro pohodový dab.', img: 'https://cdn.myshoptet.com/usr/www.budman-shop.cz/user/shop/big/129_cigrawcob.jpg?6a3f02e9', tint: 'rgba(47,138,30,0.50)' },
 			{ href: hrefClean, eye: 'Péče', t: 'Cleaning', s: 'Ať sklo září jako nové.', img: IMG + '261_green-xl-bath.png', tint: 'rgba(143,214,79,0.42)' },
 			{ href: hrefMerch, eye: 'Budman', t: 'Merch', s: 'Oblečení a doplňky komunity.', img: IMG + '171_cepice-main-scaled.jpg', tint: 'rgba(60,72,40,0.54)' }
 		];

@@ -254,7 +254,7 @@ function main() {
 		c.description = cc.description || c.description || '';
 		c.seoTitle = cc.seoTitle || `${c.title} | Budman`;
 		c.metaDescription = cc.metaDescription || c.description || `${c.title} – skladem u Budman.`;
-		c.imageUrl = c.image || repImage[c.slug] || '';
+		c.imageUrl = cc.imageUrl || c.image || repImage[c.slug] || '';
 	}
 	// Nadřazené kategorie bez fotky → vezmi obrázek z první podkategorie.
 	for (const c of keptCats) {

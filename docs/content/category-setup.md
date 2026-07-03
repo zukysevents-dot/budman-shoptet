@@ -6,11 +6,11 @@ popis je nutné doplnit ručně. Je to **9 kategorií**, na kopírování níže
 **Kde:** *Položky → Kategorie →* klikni na kategorii → vyplň pole **Horní popis**, **Dolní popis**,
 sekce **SEO** (Titulek + Meta popis) a **Obrázek** (nahraj soubor z `assets/category/<slug>.jpg`).
 
-> Obrázky `baleni.jpg` a `kuracke-potreby.jpg` jsou nízké kvality (malá zdrojová fotka) — doporučuji vyměnit.
+> Obrázek `baleni.jpg` je nízké kvality (malá zdrojová fotka) — doporučuji vyměnit. `kuracke-potreby.jpg` je nově RAW Connoisseur box.
 
 ---
 
-## 1. Kuřácké potřeby  · obrázek: `kuracke-potreby.jpg` (vyměnit)
+## 1. Kuřácké potřeby  · obrázek: `kuracke-potreby.jpg` (RAW Connoisseur box)
 **Horní popis:** Kompletní výbava pro dabbery i kuřáky — rigy, slurpery, bangery, Puffco doplňky, měření, balení i čištění.
 **Dolní popis:** U Budman najdeš pečlivě vybraný headshop gear na jednom místě. Od skleněných dab rigů a quartz slurperů přes carb capy, terp pearls a měření až po papírky, filtry a čištění. Ověřené značky, rychlé odeslání a parta, která konopné kultuře fakt rozumí.
 **SEO titulek:** Kuřácké potřeby – headshop gear | Budman
