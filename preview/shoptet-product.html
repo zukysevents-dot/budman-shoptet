@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Budman — Shoptet harness: detail produktu (template-11)</title>
+	<!-- HARNESS-ONLY: věrná aproximace ŽIVÉHO Shoptet detailu (třídy staženy z budman-shop.cz).
+	     NENASAZUJE SE. Slouží k ověření polish (detail produktu + košíkový popup). -->
+	<style>
+		* { box-sizing: border-box; }
+		body { margin: 0; font-family: system-ui, Arial, sans-serif; }
+		.container { width: 100%; max-width: 1500px; margin-inline: auto; padding-inline: 20px; }
+		.header > .container, .header-top { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding-block: 12px; }
+		.site-name a { font: 800 26px system-ui; text-decoration: none; color: #fff; }
+		.search { flex: 1 1 260px; } .search form { display: flex; gap: 8px; } .search .search-text { flex: 1; }
+		.user-action { display: flex; gap: 14px; align-items: center; position: relative; }
+		.navigation-in.menu > ul { display: flex; flex-wrap: wrap; gap: 12px; list-style: none; margin: 0; padding: 10px 0; }
+		@media (max-width: 980px) { nav.navigation { display: none; } }
+		#content { padding: 16px 0 40px; }
+		.breadcrumbs { padding: 10px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+		.product-top { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+		.p-image-wrapper { background: #fff; border: 1px solid #eee; border-radius: 12px; aspect-ratio: 1; display: grid; place-items: center; }
+		.p-image-wrapper img { max-width: 78%; }
+		.p-final-price-wrapper { margin: 12px 0; }
+		.price-final { font-size: 30px; font-weight: 800; }
+		table.detail-parameters { width: 100%; border-collapse: collapse; margin-top: 14px; }
+		.detail-parameters th, .detail-parameters td { text-align: left; padding: 7px 0; border-bottom: 1px solid #eee; font-weight: 500; }
+		.quantity { display: inline-flex; align-items: stretch; }
+		.quantity input.amount { width: 56px; text-align: center; }
+		.shp-tabs { display: flex; gap: 4px; list-style: none; padding: 0; margin: 30px 0 0; border-bottom: 1px solid #ddd; }
+		.shp-tab-link { display: inline-block; padding: 12px 18px; text-decoration: none; }
+		.layout-wrapper { display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
+		.box-categories, .box { border: 1px solid #eee; border-radius: 12px; padding: 16px; margin-bottom: 18px; }
+		.box-categories .categories { list-style: none; }
+		.box-categories .topic a { display: block; padding: 8px 6px; text-decoration: none; }
+		.footer { margin-top: 40px; }
+		/* košíkový popup skeleton (Shoptet ho plní AJAXem — tady mock reálné struktury) */
+		.user-action-cart.cart-widget { position: relative; }
+		.popup-widget-inner.place-cart-here { position: absolute; top: calc(100% + 10px); right: 0; width: 360px; z-index: 200; }
+		.cart-widget-button { }
+	</style>
+	<link rel="stylesheet" href="../assets/budman.css">
+</head>
+<!-- body classes PŘESNĚ jako živý Shoptet detail -->
+<body class="desktop id-723 in-mereni template-11 type-product type-detail multiple-columns-body columns-3 ums_homepage_cart_checkout_headings--on ums_mobile_header_v1--on">
+
+	<div class="top-navigation-bar" data-testid="topNavigationBar">
+		<div class="container">
+			<div class="top-navigation-contacts"><a href="tel:+420702081458">702 081 458</a></div>
+			<div class="top-navigation-tools"><button type="button" class="top-nav-button top-nav-button-login"><span>Přihlášení</span></button></div>
+		</div>
+	</div>
+
+	<header id="header" class="header">
+		<div class="container header-top">
+			<span class="site-name site-name-wrapper"><a href="/">budMan</a></span>
+			<div class="search"><form action="/vyhledavani/"><input class="search-text" type="text" placeholder="Napište, co hledáte"><button type="submit" class="btn-search">Hledat</button></form></div>
+			<div class="user-action navigation-buttons">
+				<a href="/prihlaseni/">Přihlásit</a>
+				<!-- KOŠÍK widget (reálná struktura template-11) -->
+				<div class="user-action-cart popup-widget cart-widget loader-wrapper">
+					<a class="btn btn-icon toggle-window cart-count cart-widget-button" href="/kosik/" data-testid="buttonCartToggle">
+						<span class="cart-count-value">1</span>
+						<span class="cart-price visible-lg-inline-block">1 299 Kč</span>
+					</a>
+					<div class="popup-widget-inner cart-widget-inner place-cart-here" role="dialog" aria-hidden="false">
+						<div class="cart-inner">
+							<table class="table cart-preview">
+								<tbody>
+									<tr class="removeItem">
+										<td class="image"><img src="https://cdn.myshoptet.com/usr/www.budman-shop.cz/user/shop/big/243_obrazek-6.jpg?6a3f02ea" alt="" width="46"></td>
+										<td class="p-name"><a href="/voltcraft-infracerveny-teplomer/">Voltcraft - Infračervený teploměr</a><span class="price">1 299 Kč</span></td>
+										<td class="amount">1 ks</td>
+										<td class="remove"><a href="#" aria-label="Odebrat">×</a></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="free-shipping">
+								<p class="free-shipping-message">Objednejte ještě za <strong>700 Kč</strong> a budete mít dopravu <strong>ZDARMA</strong>.</p>
+								<div class="free-shipping-progress"><span style="width:65%"></span></div>
+							</div>
+						</div>
+						<div class="cart-widget-button">
+							<a href="/kosik/" class="btn btn-conversion" id="continue-order-button" rel="nofollow" data-testid="buttonNextStep">Pokračovat do košíku</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container navigation-wrapper">
+			<nav class="navigation">
+				<div class="navigation-in menu">
+					<ul class="menu menu-level-1 menu-level-0">
+						<li class="has-children"><a href="/kuracke-potreby/">Kuřácké potřeby</a>
+							<ul class="menu-level-2">
+								<li><a href="/slurpery/">Slurpery</a></li>
+								<li><a href="/puffco-doplnky/">Puffco doplňky</a></li>
+								<li><a href="/doplnky-na-extrakty/">Doplňky na extrakty</a></li>
+							</ul>
+						</li>
+						<li><a href="/rigy/">Rigy</a></li>
+						<li><a href="/mereni/">Měření</a></li>
+						<li><a href="/baleni/">Balení</a></li>
+						<li><a href="/cleaning/">Cleaning</a></li>
+						<li><a href="/merch/">Merch</a></li>
+						<li><a href="/kontakty/">Kontakty</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<div id="content">
+		<div class="container">
+			<div class="breadcrumbs navigation-home-icon-wrapper">
+				<a href="/" class="home-icon">Úvod</a><span>›</span>
+				<a href="/mereni/">Měření</a><span>›</span>
+				<span>Voltcraft - Infračervený teploměr</span>
+			</div>
+
+			<div class="layout-wrapper">
+				<!-- SIDEBAR -->
+				<aside class="sidebar">
+					<div class="box-categories" id="categories">
+						<h3 class="pageElement__heading"><span>Kategorie</span></h3>
+						<ul class="categories cat-01">
+							<li class="topic"><a href="/merch/">Merch</a></li>
+							<li class="topic"><a href="/rigy/">Rigy</a></li>
+							<li class="topic"><a href="/slurpery/">Slurpery, Blendery, Bangery</a></li>
+							<li class="topic active"><a href="/mereni/">Měření</a></li>
+							<li class="topic"><a href="/baleni/">Balení</a></li>
+							<li class="topic"><a href="/cleaning/">Cleaning</a></li>
+							<li class="topic"><a href="/puffco-doplnky/">Puffco doplňky</a></li>
+							<li class="topic"><a href="/doplnky-na-extrakty/">Doplňky na extrakty</a></li>
+						</ul>
+					</div>
+					<div class="box box-payment">
+						<h3 class="pageElement__heading"><span>Přijímáme online platby</span></h3>
+						<div class="payment-logos"><span>VISA</span><span>Mastercard</span></div>
+					</div>
+				</aside>
+
+				<!-- DETAIL PRODUKTU -->
+				<div class="p-detail">
+					<div class="p-detail-inner">
+						<div class="row product-top">
+							<div class="col-xs-12 col-lg-6 p-image-wrapper">
+								<img src="https://cdn.myshoptet.com/usr/www.budman-shop.cz/user/shop/big/243_obrazek-6.jpg?6a3f02ea" alt="Voltcraft - Infračervený teploměr">
+							</div>
+							<div class="col-xs-12 col-lg-6 p-info-wrapper">
+								<div class="p-detail-inner-header">
+									<h1>Voltcraft - Infračervený teploměr</h1>
+									<span class="p-code"><span class="p-code-label">Kód:</span> <span>VOLTCRAFT-INFRACERVENY-TEPLOMER</span></span>
+								</div>
+								<form action="/action/Cart/addCartItem/" method="post" id="product-detail-form" class="pr-action">
+									<div class="p-detail-info">
+										<div class="p-final-price-wrapper" data-testid="productCardPrice">
+											<strong class="price-final"><span class="price-final-holder">1 299 Kč</span></strong>
+											<span class="price-measure"></span>
+										</div>
+										<div class="availability">
+											<span class="availability-label" style="color: #3c840f">Skladem</span>
+										</div>
+										<p class="p-short-description">Malý a odolný infračervený teploměr s kovovým pláštěm a klipem na klíče.</p>
+										<div class="product-actions">
+											<span class="quantity">
+												<span class="decrease" aria-label="Méně">−</span>
+												<input type="text" class="amount" value="1" inputmode="numeric" aria-label="Množství">
+												<span class="increase" aria-label="Více">+</span>
+												<span class="quantity-unit">ks</span>
+											</span>
+											<button type="submit" class="btn btn-lg btn-conversion add-to-cart-button" data-testid="buttonAddToCart">Přidat do košíku</button>
+										</div>
+									</div>
+								</form>
+								<div class="social-buttons">
+									<a href="#" class="print">Tisk</a>
+									<a href="#" class="ask">Zeptat se</a>
+									<a href="#" class="share">Sdílet</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="shp-tabs-wrapper p-detail-tabs-wrapper">
+							<ul class="shp-tabs p-detail-tabs visible-links" role="tablist">
+								<li class="shp-tab active"><a href="#description" class="shp-tab-link" role="tab">Popis</a></li>
+								<li class="shp-tab"><a href="#productDiscussion" class="shp-tab-link" role="tab">Diskuze</a></li>
+							</ul>
+						</div>
+						<div class="tab-content">
+							<div id="description" class="tab-pane active">
+								<p>Kompaktní infračervený teploměr Voltcraft Mini IR 10 — přesné bezkontaktní měření teploty banger/slurperu i quartz insertů. Kovový plášť, klip na klíče, okamžitý odečet na displeji.</p>
+								<table class="detail-parameters">
+									<tr><th>Rozsah</th><td>−33 °C až +220 °C</td></tr>
+									<tr><th>Přesnost</th><td>±2 °C</td></tr>
+									<tr><th>Napájení</th><td>knoflíková baterie (součástí)</td></tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer"><div class="container">[ nativní patička ]</div></div>
+
+	<script src="../assets/budman.js" defer></script>
+</body>
+</html>

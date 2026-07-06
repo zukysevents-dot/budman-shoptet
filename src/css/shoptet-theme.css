@@ -2130,3 +2130,348 @@ html.bm-loading .bm-hp-hero__rig { animation-play-state: paused; }
 	.bm-catmenu__panel { transition: opacity 0.15s ease !important; transform: none !important; }
 	.products .product .image img, .product-box .image img { transition: none !important; }
 }
+
+/* ================================================================== */
+/* ===== v5 — KOŠÍKOVÝ POPUP + DETAIL PRODUKTU (premium/liquid) ===== */
+/* Cílí na REÁLNÉ třídy template-11 (staženo z živého budman-shop.cz). */
+/* ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KOŠÍKOVÝ POPUP (mini-cart dropdown) — čistá karta, čitelný text.   */
+/* Shoptet plní .place-cart-here AJAXem; stylujeme kontejner i obsah. */
+/* ------------------------------------------------------------------ */
+.user-action-cart.cart-widget { position: relative; }
+
+/* dropdown = prémiová bílá karta se zlatým vlasovým lemem a stínem */
+.cart-widget .popup-widget-inner.place-cart-here {
+	width: 360px !important;
+	max-width: min(92vw, 380px) !important;
+	padding: 4px !important;
+	background: var(--bm-surface) !important;
+	border: 1px solid var(--bm-line) !important;
+	border-top: 3px solid var(--bm-gold) !important;
+	border-radius: 16px !important;
+	box-shadow: 0 26px 60px rgba(12, 18, 8, 0.28) !important;
+	color: var(--bm-text) !important;
+	overflow: hidden;
+}
+/* liquid akcent v rohu (jemný, prémiový) */
+.cart-widget .place-cart-here::before {
+	content: "";
+	position: absolute; top: -30%; right: -20%;
+	width: 60%; height: 80%;
+	background: radial-gradient(closest-side, rgba(143, 214, 79, 0.14), transparent 70%);
+	pointer-events: none; z-index: 0;
+}
+.cart-widget .place-cart-here > * { position: relative; z-index: 1; }
+
+/* VŠECHEN text v popupu čitelně tmavý (Shoptet defaultně vybledlé šedé) */
+.cart-widget .place-cart-here,
+.cart-widget .place-cart-here a:not(.btn),
+.cart-widget .place-cart-here span,
+.cart-widget .place-cart-here td,
+.cart-widget .place-cart-here strong,
+.cart-widget .place-cart-here p {
+	color: var(--bm-text) !important;
+	-webkit-text-fill-color: var(--bm-text) !important;
+}
+
+.cart-widget .cart-inner { padding: 10px 12px 4px !important; }
+
+/* produktová řádka: fotka | název+cena | množství | křížek */
+.cart-widget .cart-preview,
+.cart-widget table.cart-preview { width: 100% !important; border-collapse: collapse !important; margin: 0 !important; background: transparent !important; }
+.cart-widget .cart-preview tr,
+.cart-widget .cart-preview td { background: transparent !important; border: 0 !important; border-bottom: 1px solid var(--bm-line) !important; vertical-align: middle !important; padding: 9px 4px !important; }
+.cart-widget .cart-preview .image { width: 52px !important; }
+.cart-widget .cart-preview .image img { width: 46px !important; height: 46px !important; object-fit: contain !important; background: #fff; border: 1px solid var(--bm-line); border-radius: 9px; padding: 3px; }
+.cart-widget .cart-preview .p-name a { font-weight: 700 !important; font-size: 0.9rem !important; line-height: 1.25 !important; display: block; }
+.cart-widget .cart-preview .p-name .price { display: block; font-weight: 800 !important; font-size: 0.86rem !important; color: var(--bm-price) !important; -webkit-text-fill-color: var(--bm-price) !important; margin-top: 2px; }
+.cart-widget .cart-preview .amount { white-space: nowrap !important; font-weight: 700 !important; font-size: 0.85rem !important; text-align: center !important; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important; }
+.cart-widget .cart-preview .remove,
+.cart-widget .cart-preview .remove a { text-align: center !important; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important; font-size: 1.1rem; line-height: 1; transition: color 0.15s ease; }
+.cart-widget .cart-preview .remove a:hover { color: #d0402f !important; -webkit-text-fill-color: #d0402f !important; }
+
+/* „doprava zdarma" hláška + gradient progress bar (prémiový detail) */
+.cart-widget .free-shipping { padding: 12px !important; margin: 6px 8px 0 !important; background: rgba(143, 214, 79, 0.08) !important; border: 1px solid rgba(46, 125, 30, 0.16) !important; border-radius: 12px !important; }
+.cart-widget .free-shipping p,
+.cart-widget .free-shipping-message { margin: 0 0 8px !important; font-size: 0.82rem !important; line-height: 1.4 !important; text-align: center; }
+.cart-widget .free-shipping strong { color: var(--bm-green) !important; -webkit-text-fill-color: var(--bm-green) !important; font-weight: 800 !important; }
+.cart-widget .free-shipping-progress { height: 7px; border-radius: 999px; background: rgba(20, 64, 13, 0.12); overflow: hidden; }
+.cart-widget .free-shipping-progress > span { display: block; height: 100%; border-radius: 999px; background: var(--bm-grad-lime); box-shadow: 0 0 8px rgba(143, 214, 79, 0.5); }
+
+/* spodní tlačítko „Pokračovat do košíku" — plná šířka, rozumná výška */
+.cart-widget .place-cart-here .cart-widget-button { background: transparent !important; padding: 10px 12px 12px !important; border: 0 !important; box-shadow: none !important; }
+.cart-widget #continue-order-button {
+	display: flex !important; align-items: center; justify-content: center;
+	width: 100% !important; min-height: 48px !important;
+	padding: 12px 18px !important; border-radius: 12px !important;
+	font-weight: 800 !important; letter-spacing: 0.01em; font-size: 0.95rem !important;
+	background: var(--bm-grad-lime) !important; color: #14280a !important;
+	-webkit-text-fill-color: #14280a !important; border: 0 !important;
+	box-shadow: 0 8px 20px rgba(46, 125, 30, 0.26) !important;
+	transition: transform 0.18s var(--bm-ease), box-shadow 0.18s ease, background 0.18s ease !important;
+}
+.cart-widget #continue-order-button:hover { transform: translateY(-1px); background: var(--bm-grad-green) !important; color: #fff !important; -webkit-text-fill-color: #fff !important; box-shadow: 0 12px 28px rgba(46, 125, 30, 0.4) !important; }
+
+/* prázdný košík text uprostřed, čitelný */
+.cart-widget .place-cart-here .cart-empty,
+.cart-widget .place-cart-here p:only-child { text-align: center; padding: 22px 12px; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important; }
+
+@media (max-width: 980px) {
+	.cart-widget .popup-widget-inner.place-cart-here { position: fixed !important; top: auto !important; left: 8px !important; right: 8px !important; width: auto !important; max-width: none !important; }
+}
+
+/* ------------------------------------------------------------------ */
+/* DETAIL PRODUKTU — vzdušný, prémiový, liquid akcenty.               */
+/* ------------------------------------------------------------------ */
+
+/* mřížka detailu — víc prostoru mezi galerií a infem */
+body.type-product .product-top { gap: clamp(1.6rem, 3vw, 3rem) !important; align-items: start; }
+
+/* GALERIE / hlavní fotka → glass karta s jemným rámem a liquid září */
+body.type-product .p-image-wrapper,
+body.type-product .p-detail .image-cover,
+body.type-product .p-detail .p-image {
+	position: relative;
+	background: linear-gradient(160deg, #ffffff 0%, #fbfaf4 100%) !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 20px !important;
+	box-shadow: 0 12px 34px rgba(23, 20, 13, 0.07);
+	overflow: hidden;
+}
+body.type-product .p-image-wrapper::before {
+	content: ""; position: absolute; inset: 0; z-index: 0;
+	background: radial-gradient(60% 60% at 70% 20%, rgba(143, 214, 79, 0.10), transparent 70%);
+	pointer-events: none;
+}
+body.type-product .p-image-wrapper img { position: relative; z-index: 1; transition: transform 0.5s var(--bm-ease); }
+body.type-product .p-image-wrapper:hover img { transform: scale(1.04); }
+
+/* NADPIS + KÓD — čisté zarovnání (kód pod nadpisem, tlumený čip) */
+body.type-product .p-detail-inner-header { margin-bottom: 1rem; }
+body.type-product .p-detail-inner-header h1 {
+	font-family: var(--bm-font-head) !important;
+	font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.4rem) !important;
+	line-height: 1.08 !important; letter-spacing: -0.02em; margin: 0 0 0.5rem !important;
+	color: var(--bm-heading) !important;
+}
+body.type-product .p-code {
+	display: inline-flex; align-items: center; gap: 0.4em;
+	font-size: 0.76rem !important; color: var(--bm-muted) !important;
+	background: rgba(23, 20, 13, 0.05); border: 1px solid var(--bm-line);
+	padding: 0.28em 0.7em; border-radius: 999px;
+}
+body.type-product .p-code-label { font-weight: 700; }
+
+/* CENA — velká, tučná, se zlatým podtržítkovým akcentem */
+body.type-product .p-final-price-wrapper { margin: 1rem 0 0.6rem !important; }
+body.type-product .price-final,
+body.type-product .price-final-holder {
+	font-family: var(--bm-font-head) !important;
+	font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem) !important;
+	font-weight: 800 !important; color: var(--bm-price) !important; line-height: 1;
+}
+
+/* DOSTUPNOST — zelený „skladem" čip */
+body.type-product .availability { margin: 0.4rem 0 1rem; }
+body.type-product .availability-label,
+body.type-product .availability-value {
+	display: inline-flex; align-items: center; gap: 0.45em;
+	font-weight: 700 !important; font-size: 0.9rem;
+}
+body.type-product .availability-label::before {
+	content: ""; width: 8px; height: 8px; border-radius: 50%;
+	background: var(--bm-grass); box-shadow: 0 0 0 3px rgba(95, 176, 26, 0.18);
+}
+
+body.type-product .p-short-description { color: var(--bm-muted) !important; line-height: 1.6; margin: 0 0 1.3rem; max-width: 42rem; }
+
+/* NÁKUPNÍ ŘÁDEK — stepper + „Přidat do košíku" hezky zarovnané */
+body.type-product .product-actions,
+body.type-product .p-detail-add-to-cart { display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px; margin: 0 0 1rem; }
+
+/* stepper množství → pill skupina */
+body.type-product .quantity {
+	display: inline-flex !important; align-items: stretch;
+	border: 1px solid var(--bm-line-strong); border-radius: 12px; overflow: hidden; background: var(--bm-surface);
+}
+body.type-product .quantity .decrease,
+body.type-product .quantity .increase,
+body.type-product .quantity .decrease-button,
+body.type-product .quantity .increase-button {
+	display: inline-flex !important; align-items: center; justify-content: center;
+	width: 42px; font-size: 1.15rem; font-weight: 700; cursor: pointer; user-select: none;
+	color: var(--bm-text); background: transparent; border: 0;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+body.type-product .quantity .decrease:hover,
+body.type-product .quantity .increase:hover { background: rgba(143, 214, 79, 0.16); color: var(--bm-green-deep); }
+body.type-product .quantity input.amount,
+body.type-product .quantity .amount {
+	width: 52px !important; text-align: center !important; border: 0 !important;
+	border-inline: 1px solid var(--bm-line) !important; border-radius: 0 !important;
+	font-weight: 800 !important; background: transparent !important; box-shadow: none !important;
+	-moz-appearance: textfield;
+}
+body.type-product .quantity input.amount::-webkit-outer-spin-button,
+body.type-product .quantity input.amount::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+body.type-product .quantity .quantity-unit { display: inline-flex; align-items: center; padding: 0 12px; color: var(--bm-muted); font-size: 0.85rem; }
+
+/* hlavní CTA „Přidat do košíku" — větší, plné, konzistentní výška se stepperem */
+body.type-product .add-to-cart-button {
+	flex: 1 1 auto; min-width: 200px; min-height: 52px;
+	display: inline-flex !important; align-items: center; justify-content: center; gap: 0.5em;
+	font-size: 1rem !important; font-weight: 800 !important; border-radius: 12px !important;
+	padding: 12px 26px !important;
+}
+
+/* TISK / ZEPTAT SE / SDÍLET → jemné čipy s odstupem (ne holé odkazy) */
+body.type-product .social-buttons,
+body.type-product .p-detail-share { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 0.4rem; padding-top: 1rem; border-top: 1px solid var(--bm-line); }
+body.type-product .social-buttons a,
+body.type-product .p-detail-share a {
+	display: inline-flex; align-items: center; gap: 0.45em;
+	font-size: 0.82rem; font-weight: 700; text-decoration: none !important;
+	color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important;
+	padding: 0.5em 0.9em; border-radius: 999px; border: 1px solid var(--bm-line);
+	background: var(--bm-surface); transition: color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+body.type-product .social-buttons a:hover,
+body.type-product .p-detail-share a:hover { color: var(--bm-green-deep) !important; -webkit-text-fill-color: var(--bm-green-deep) !important; border-color: var(--bm-green-bright); transform: translateY(-1px); }
+
+/* ZÁLOŽKY (Popis / Diskuze) → prémiové taby s aktivním zlatým podtržením */
+body.type-product .shp-tabs.p-detail-tabs { gap: 2px !important; border-bottom: 2px solid var(--bm-line) !important; margin: 2rem 0 0 !important; padding: 0 !important; }
+body.type-product .shp-tab { list-style: none; margin: 0; }
+body.type-product .shp-tab-link {
+	position: relative; display: inline-block; padding: 12px 20px !important;
+	font-weight: 700; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important;
+	text-decoration: none !important; border: 0 !important; background: transparent !important;
+	transition: color 0.18s ease;
+}
+body.type-product .shp-tab-link::after {
+	content: ""; position: absolute; left: 12px; right: 12px; bottom: -2px; height: 3px; border-radius: 3px;
+	background: linear-gradient(90deg, var(--bm-gold), var(--bm-gold-bright)); transform: scaleX(0); transform-origin: center;
+	transition: transform 0.24s var(--bm-ease);
+}
+body.type-product .shp-tab.active .shp-tab-link,
+body.type-product .shp-tab-link:hover { color: var(--bm-heading) !important; -webkit-text-fill-color: var(--bm-heading) !important; }
+body.type-product .shp-tab.active .shp-tab-link::after { transform: scaleX(1); }
+
+/* PARAMETRY → čistá tabulka */
+body.type-product .detail-parameters { border-radius: 12px; overflow: hidden; border: 1px solid var(--bm-line); }
+body.type-product .detail-parameters th,
+body.type-product .detail-parameters td { padding: 11px 14px !important; border: 0 !important; border-bottom: 1px solid var(--bm-line) !important; }
+body.type-product .detail-parameters th { font-weight: 700 !important; color: var(--bm-heading) !important; background: rgba(23, 20, 13, 0.03); width: 40%; }
+body.type-product .detail-parameters tr:last-child th,
+body.type-product .detail-parameters tr:last-child td { border-bottom: 0 !important; }
+
+/* ------------------------------------------------------------------ */
+/* SIDEBAR (kategorie + platby) — prémiové karty, aktivní stav.       */
+/* ------------------------------------------------------------------ */
+.box-categories, .sidebar .box, .box-payment {
+	background: var(--bm-surface) !important;
+	border: 1px solid var(--bm-line) !important;
+	border-radius: 16px !important;
+	padding: 1.1rem 1.2rem !important;
+}
+.box-categories .pageElement__heading,
+.box-payment .pageElement__heading {
+	font-family: var(--bm-font-head) !important; font-size: 0.78rem !important;
+	letter-spacing: 0.08em; text-transform: uppercase; color: var(--bm-gold-deep) !important;
+	margin: 0 0 0.7rem !important; font-weight: 800;
+}
+.box-categories .categories { list-style: none !important; margin: 0 !important; padding: 0 !important; }
+.box-categories .topic { margin: 0 !important; }
+.box-categories .topic a {
+	display: block; padding: 0.55em 0.7em !important; border-radius: 10px;
+	text-decoration: none !important; color: var(--bm-text) !important; font-weight: 600;
+	transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.box-categories .topic a:hover { background: rgba(143, 214, 79, 0.12); color: var(--bm-green-deep) !important; transform: translateX(3px); }
+.box-categories .topic.active > a,
+.box-categories .categories.active > .topic > a {
+	background: var(--bm-grad-lime-soft) !important; color: #14280a !important; font-weight: 800;
+}
+/* platby: loga s odstupem (ne slepené „VISAMastercard") */
+.box-payment .payment-logos { display: flex; flex-wrap: wrap; gap: 8px; }
+.box-payment .payment-logos span {
+	font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; color: var(--bm-text);
+	background: rgba(23, 20, 13, 0.04); border: 1px solid var(--bm-line); border-radius: 8px; padding: 0.4em 0.75em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.type-product .p-image-wrapper img,
+	body.type-product .shp-tab-link::after,
+	.box-categories .topic a { transition: none !important; }
+	body.type-product .p-image-wrapper:hover img { transform: none !important; }
+}
+
+/* ================================================================== */
+/* ===== v6 — „PROČ BUDMAN" pilíře + Kontakty (premium polish) ====== */
+/* ================================================================== */
+
+/* tři pilíře pod .bm-why leadem (injektuje cleanDemo, texty applyLang) */
+.bm-why__pillars {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+	margin-top: 1.4rem;
+}
+.bm-why__pillar {
+	position: relative;
+	background: var(--bm-surface);
+	border: 1px solid var(--bm-line);
+	border-radius: 16px;
+	padding: 1.25rem 1.3rem 1.35rem;
+	overflow: hidden;
+	transition: transform 0.25s var(--bm-ease), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.bm-why__pillar::before { /* liquid akcent v rohu */
+	content: "";
+	position: absolute; top: -35%; right: -25%;
+	width: 65%; height: 90%;
+	background: radial-gradient(closest-side, rgba(143, 214, 79, 0.12), transparent 70%);
+	pointer-events: none;
+}
+.bm-why__pillar:hover {
+	transform: translateY(-4px);
+	border-color: var(--bm-green-bright);
+	box-shadow: 0 14px 30px rgba(23, 20, 13, 0.10);
+}
+.bm-why__ico {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 46px; height: 46px; border-radius: 50%;
+	background: var(--bm-grad-lime);
+	box-shadow: 0 5px 14px rgba(46, 125, 30, 0.28);
+	margin-bottom: 0.8rem;
+}
+.bm-why__ico svg { width: 22px; height: 22px; stroke: #14280a; }
+.bm-why__pillar h3 {
+	font-family: var(--bm-font-head) !important;
+	font-size: 1.05rem !important;
+	font-weight: 800;
+	margin: 0 0 0.35rem;
+	color: var(--bm-heading);
+}
+.bm-why__pillar p { margin: 0; font-size: 0.9rem; line-height: 1.55; color: var(--bm-muted); }
+@media (max-width: 760px) {
+	.bm-why__pillars { grid-template-columns: 1fr; gap: 0.7rem; }
+	.bm-why__pillar { padding: 1.05rem 1.1rem; }
+}
+
+/* Kontakty: formulář jako karta, pryč nesmyslná prázdná diskuze */
+body.in-kontakty #content form {
+	background: var(--bm-surface);
+	border: 1px solid var(--bm-line);
+	border-radius: 16px;
+	padding: 1.4rem 1.5rem;
+	max-width: 640px;
+}
+body.in-kontakty .discussionContainer,
+body.in-kontakty h2:has(+ .discussionContainer) { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+	.bm-why__pillar { transition: none !important; }
+	.bm-why__pillar:hover { transform: none !important; }
+}

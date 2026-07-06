@@ -947,6 +947,38 @@
 		hero.parentNode.insertBefore(sec, hero.nextSibling);
 	}
 
+	/* ============================================================ */
+	/* Defenzivní opravy demo obsahu Shoptetu.                      */
+	/* ============================================================ */
+	/* Carousel slidy vedou na /do-domacnosti (demo kategorie, 404).
+	   Vizuál banneru NEměníme — jen přesměrujeme cíl na reálnou
+	   kategorii. Skutečná oprava: v adminu přenastavit cíl banneru. */
+	function fixDemoLinks() {
+		var target = findHref(/^rigy$|skleněné rig/i, '/rigy/');
+		[].forEach.call(document.querySelectorAll('a[href^="/do-domacnosti"]'), function (a) {
+			a.setAttribute('href', target);
+		});
+	}
+
+	/* Homepage má defaultní Shoptet title/meta („Vítejte v našem
+	   obchodě… zkušební verze"). Tohle je JEN klientský fallback —
+	   správné řešení je přepsat v adminu (Nastavení → SEO); pak se
+	   tato větev sama deaktivuje (regex už nic nenajde). */
+	function seoFallbacks() {
+		if (!isHome()) return;
+		var rx = /Vítejte v našem obchodě/i;
+		var TITLE = 'Budman — prémiový headshop | dab rigy, slurpery, kuřácké potřeby';
+		var DESC = 'Skleněné dab rigy, quartz slurpery, Puffco doplňky a kuřácké potřeby pro českou dab komunitu. Skladem, expedice do 24 h. Prodej pouze 18+.';
+		if (rx.test(document.title)) document.title = TITLE;
+		[].forEach.call(document.querySelectorAll('meta[name="description"], meta[property="og:description"]'), function (m) {
+			if (rx.test(m.getAttribute('content') || '') || /zkušební verzi/i.test(m.getAttribute('content') || '')) m.setAttribute('content', DESC);
+		});
+		var ogt = document.querySelector('meta[property="og:title"]');
+		if (ogt && rx.test(ogt.getAttribute('content') || '')) ogt.setAttribute('content', TITLE);
+		var h1 = document.querySelector('h1.sr-only, main h1');
+		if (h1 && rx.test(h1.textContent || '')) h1.textContent = 'Budman — prémiový dab & smoking gear headshop';
+	}
+
 	/* Skrýt Shoptet demo text + branded „proč u nás" ---------------- */
 	function cleanDemo() {
 		if (!isHome()) return;
@@ -963,9 +995,17 @@
 		var promo = document.querySelector('.bm-promo');
 		var why = document.createElement('section');
 		why.className = 'bm-why';
+		var LEAF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-4 3-8 8-10 5 2 8 6 8 10a7 7 0 0 1-7 7z"/><path d="M12 22V10"/></svg>';
+		var CHAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z"/></svg>';
 		why.innerHTML = '<h2 class="bm-why__title">Headshop pro dab komunitu</h2>' +
 			'<p class="bm-why__lead">Skleněné rigy, recyclery a kvalitní kuřácké potřeby vybírané s citem pro detail. ' +
-			'Skladové zásoby, expedice do 24 hodin a férové ceny — od kompaktních kousků po ručně foukané sklo.</p>';
+			'Skladové zásoby, expedice do 24 hodin a férové ceny — od kompaktních kousků po ručně foukané sklo.</p>' +
+			// „Proč Budman" pilíře (konverzní sekce; texty přepíná applyLang)
+			'<div class="bm-why__pillars">' +
+				'<div class="bm-why__pillar"><span class="bm-why__ico">' + LEAF + '</span><h3>Kurátorovaný výběr</h3><p>Žádná náhodná veteš — každý kus skla i doplněk vybíráme sami a stojíme si za ním.</p></div>' +
+				'<div class="bm-why__pillar"><span class="bm-why__ico">' + ICON.truck + '</span><h3>Skladem a do 24 h venku</h3><p>Co vidíš, to máme fyzicky skladem. Objednávky balíme a expedujeme do 24 hodin.</p></div>' +
+				'<div class="bm-why__pillar"><span class="bm-why__ico">' + CHAT + '</span><h3>Jsme komunita</h3><p>Sklo žijeme a známe do detailu. Poradíme s výběrem bangeru, joint size i péčí o sklo.</p></div>' +
+			'</div>';
 		var usp = document.querySelector('.benefitBanner');
 		if (usp && usp.parentNode) usp.parentNode.insertBefore(why, usp);
 		else if (promo && promo.parentNode) promo.parentNode.insertBefore(why, promo.nextSibling);
@@ -1181,6 +1221,11 @@
 			promoSub: ['Ruční kousky i kompaktní dab rigy — pečlivě vybrané, skladem.', 'Atomizéry, nástavce a příslušenství.', 'Vše pro pohodový dab.', 'Ať sklo září jako nové.', 'Oblečení a doplňky komunity.'],
 			promoCta: 'Prohlédnout', whyTitle: 'Headshop pro dab komunitu',
 			whyLead: 'Skleněné rigy, recyclery a kvalitní kuřácké potřeby vybírané s citem pro detail. Skladové zásoby, expedice do 24 hodin a férové ceny — od kompaktních kousků po sběratelské ručně foukané sklo.',
+			whyPillars: [
+				['Kurátorovaný výběr', 'Žádná náhodná veteš — každý kus skla i doplněk vybíráme sami a stojíme si za ním.'],
+				['Skladem a do 24 h venku', 'Co vidíš, to máme fyzicky skladem. Objednávky balíme a expedujeme do 24 hodin.'],
+				['Jsme komunita', 'Sklo žijeme a známe do detailu. Poradíme s výběrem bangeru, joint size i péčí o sklo.']
+			],
 			footTag: 'Prémiový dab & smoking gear. Skleněné rigy, Puffco doplňky a kuřácké potřeby pro českou dab komunitu.',
 			footAge: ' Prodej pouze osobám starším 18 let', footH: ['Nakupování', 'Informace', 'Kontakt'],
 			footShop: ['Skleněné rigy', 'Puffco doplňky', 'Kuřácké potřeby', 'Cleaning', 'Merch'],
@@ -1197,6 +1242,11 @@
 			promoSub: ['Handmade and compact dab rigs — hand-picked, in stock.', 'Atomizers, attachments and accessories.', 'Everything for a smooth dab.', 'Keep your glass shining like new.', 'Community clothing and accessories.'],
 			promoCta: 'View', whyTitle: 'Headshop for the dab community',
 			whyLead: 'Glass rigs, recyclers and quality smoking gear chosen with an eye for detail. In-stock inventory, dispatch within 24 hours and fair prices — from compact pieces to collectible hand-blown glass.',
+			whyPillars: [
+				['Curated selection', 'No random junk — we hand-pick every piece of glass and accessory, and we stand behind it.'],
+				['In stock, shipped in 24 h', 'What you see is physically in stock. Orders are packed and dispatched within 24 hours.'],
+				['We are the community', 'We live and breathe glass. Ask us about bangers, joint sizes or glass care.']
+			],
 			footTag: 'Premium dab & smoking gear. Glass rigs, Puffco accessories and smoking gear for the Czech dab community.',
 			footAge: ' Sales only to persons over 18', footH: ['Shopping', 'Information', 'Contact'],
 			footShop: ['Glass rigs', 'Puffco accessories', 'Smoking accessories', 'Cleaning', 'Merch'],
@@ -1213,6 +1263,11 @@
 			promoSub: ['Handgemachte und kompakte Dab-Rigs — ausgewählt, auf Lager.', 'Atomizer, Aufsätze und Zubehör.', 'Alles für einen entspannten Dab.', 'Damit das Glas wie neu glänzt.', 'Kleidung und Accessoires der Community.'],
 			promoCta: 'Ansehen', whyTitle: 'Headshop für die Dab-Community',
 			whyLead: 'Glas-Rigs, Recycler und hochwertiges Rauchzubehör mit Liebe zum Detail ausgewählt. Lagerbestand, Versand innerhalb von 24 Stunden und faire Preise — von kompakten Stücken bis zu mundgeblasenen Sammlerstücken.',
+			whyPillars: [
+				['Kuratierte Auswahl', 'Kein zufälliger Kram — jedes Glas und Zubehör wählen wir selbst aus und stehen dahinter.'],
+				['Auf Lager, in 24 h versandt', 'Was du siehst, ist physisch auf Lager. Bestellungen packen und versenden wir innerhalb von 24 Stunden.'],
+				['Wir sind die Community', 'Wir leben Glas und kennen es im Detail. Frag uns zu Bangern, Joint-Größen oder Glaspflege.']
+			],
 			footTag: 'Premium Dab- & Rauchzubehör. Glas-Rigs, Puffco-Zubehör und Rauchzubehör für die tschechische Dab-Community.',
 			footAge: ' Verkauf nur an Personen über 18 Jahre', footH: ['Einkaufen', 'Informationen', 'Kontakt'],
 			footShop: ['Glas-Rigs', 'Puffco-Zubehör', 'Rauchzubehör', 'Cleaning', 'Merch'],
@@ -1229,6 +1284,11 @@
 			promoSub: ['Piezas hechas a mano y rigs compactos — seleccionados, en stock.', 'Atomizadores, boquillas y accesorios.', 'Todo para un dab relajado.', 'Que el vidrio brille como nuevo.', 'Ropa y accesorios de la comunidad.'],
 			promoCta: 'Ver', whyTitle: 'Headshop para la comunidad dab',
 			whyLead: 'Rigs de vidrio, recyclers y accesorios de calidad elegidos con atención al detalle. Stock disponible, envío en 24 horas y precios justos — desde piezas compactas hasta vidrio soplado a mano de coleccionista.',
+			whyPillars: [
+				['Selección curada', 'Nada de trastos al azar: elegimos cada pieza de vidrio y accesorio, y respondemos por ello.'],
+				['En stock, enviado en 24 h', 'Lo que ves está físicamente en stock. Empacamos y enviamos los pedidos en 24 horas.'],
+				['Somos comunidad', 'Vivimos el vidrio y lo conocemos al detalle. Pregúntanos por bangers, joint size o cuidado.']
+			],
 			footTag: 'Equipo premium para dab y fumar. Rigs de vidrio, accesorios Puffco y accesorios para la comunidad dab checa.',
 			footAge: ' Venta solo a mayores de 18 años', footH: ['Compras', 'Información', 'Contacto'],
 			footShop: ['Rigs de vidrio', 'Accesorios Puffco', 'Accesorios para fumar', 'Limpieza', 'Merch'],
@@ -1258,6 +1318,15 @@
 		[].forEach.call(document.querySelectorAll('.bm-promo__cta'), function (el) { node(el, d.promoCta + ' '); });
 		txt($('.bm-why__title'), d.whyTitle);
 		txt($('.bm-why__lead'), d.whyLead);
+		if (d.whyPillars) {
+			[].forEach.call(document.querySelectorAll('.bm-why__pillar'), function (el, i) {
+				var p = d.whyPillars[i];
+				if (!p) return;
+				var h = el.querySelector('h3'), t = el.querySelector('p');
+				if (h) h.textContent = p[0];
+				if (t) t.textContent = p[1];
+			});
+		}
 		txt($('.bm-footer__tag'), d.footTag);
 		node($('.bm-footer__age'), d.footAge);
 		each('.bm-footer h4', d.footH);
@@ -1302,6 +1371,8 @@
 		setFavicon();
 		playLoader();
 		pageTransitions();
+		fixDemoLinks();
+		seoFallbacks();
 		injectHero();
 		injectPromo();
 		cleanDemo();
