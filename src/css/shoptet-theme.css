@@ -2024,3 +2024,109 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 	color: #e9f3e1 !important;
 	-webkit-text-fill-color: #e9f3e1 !important;
 }
+
+/* ================================================================== */
+/* ============ ANIMATION POLISH v4 — přechody & plynulost ========== */
+/* (charakter animací zachován, doladěné časování/easing/čistota)     */
+/* ================================================================== */
+
+/* ---- Přechody stránek: brand veil při odchodu (injektuje JS) ----- */
+.bm-veil {
+	position: fixed;
+	inset: 0;
+	z-index: 99997; /* pod loaderem (100000) i kurzorem, nad vším ostatním */
+	background: radial-gradient(circle at 50% 45%, #16210f 0%, #0b0f07 72%);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 0.3s ease, visibility 0.3s;
+}
+.bm-veil.is-on { opacity: 1; visibility: visible; }
+/* příchozí stránka navazující na exit veil: start zataženě, bez transition */
+.bm-veil--instant { transition: none !important; }
+
+/* ---- Nájezd obsahu při opakované navigaci (loader jen 1×/session) - */
+@keyframes bmPageIn { from { opacity: 0; } }
+html.bm-enter body > *:not(.bm-loader):not(.bm-veil):not(.bm-cursor):not(.bm-drip):not(.bm-intro) {
+	animation: bmPageIn 0.45s ease-out both;
+}
+
+/* ---- Loader: hladší pulz + prémiový odchod (scale-up do ztracena) - */
+.bm-loader__badge img { animation-duration: 1.7s; animation-timing-function: ease-in-out; }
+.bm-loader__badge { transition: transform 0.6s var(--bm-ease), opacity 0.5s ease; }
+.bm-loader.is-out .bm-loader__badge { transform: scale(1.12); opacity: 0; }
+
+/* ---- Hero nájezd čeká, dokud svítí loader (jinak proběhne schovaný) */
+html.bm-loading .bm-hp-hero__eyebrow,
+html.bm-loading .bm-hp-hero__title,
+html.bm-loading .bm-hp-hero__sub,
+html.bm-loading .bm-hp-hero__cta,
+html.bm-loading .bm-hp-hero__rig { animation-play-state: paused; }
+
+/* ---- Bong v banneru jemně dýchá (dřív úplně statický) ------------ */
+@keyframes bmBongFloat { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+.bm-hp-bong__rig { animation: bmBongFloat 6.5s ease-in-out infinite alternate; will-change: transform; }
+
+/* ---- Scroll-reveal: transition drží i proti pravidlům karet ------ */
+/* Zdvojená třída (0,2,0) přebije hover-transition pravidla karet
+   (0,1,0) bez !important → inline transition-delay (stagger z JS)
+   zůstává funkční. JS třídy po dojetí odklidí → hover čistý. */
+.bm-reveal.bm-reveal { transition: opacity 0.7s var(--bm-ease), transform 0.7s var(--bm-ease); }
+@media (max-width: 640px) { .bm-reveal { transform: translateY(16px); } }
+
+/* ---- Promo dlaždice: fotka jemně přibližuje (transition už měla) -- */
+.bm-promo__tile:hover .bm-promo__img { transform: scale(1.05); }
+
+/* ---- Produktové karty: zoom fotky k lift+border hoveru ----------- */
+.products .product .image img, .product-box .image img,
+.products .product .p-image img {
+	transition: transform 0.5s var(--bm-ease);
+}
+.products .product:hover .image img, .product-box:hover .image img,
+.products .product:hover .p-image img { transform: scale(1.05); }
+
+/* ---- Mega dropdown: pop-in místo tvrdého display flipu ----------- */
+@keyframes bmDropIn { from { opacity: 0; transform: translateY(8px); } }
+@media (min-width: 981px) {
+	.navigation-in.menu .menu-level-2, .menu .menu-level-2 {
+		animation: bmDropIn 0.26s var(--bm-ease);
+		transform-origin: top center;
+	}
+}
+
+/* ---- KATEGORIE panel: měkčí nájezd (scale + brand easing) -------- */
+.bm-catmenu__panel {
+	transform: translateY(-10px) scale(0.98);
+	transform-origin: top left;
+	transition: opacity 0.22s ease, transform 0.3s var(--bm-ease), visibility 0.3s;
+}
+.bm-catmenu.is-open .bm-catmenu__panel { transform: none; }
+
+/* ---- Hero CTA: sheen přejezd při hoveru (prémiový detail) -------- */
+.bm-btn-primary, .bm-btn-ghost { position: relative; overflow: hidden; }
+.bm-btn-primary::after {
+	content: "";
+	position: absolute;
+	top: 0; bottom: 0; left: -80%;
+	width: 55%;
+	background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+	transform: skewX(-20deg);
+	pointer-events: none;
+	transition: left 0s;
+}
+.bm-btn-primary:hover::after { left: 130%; transition: left 0.6s ease; }
+
+/* POZN.: globální html{scroll-behavior:smooth} záměrně NEdáváme —
+   animoval by i programové scrolly Shoptetu (validace, stránkování)
+   a rozbíjel měření pozic v jeho pluginech. */
+
+/* ---- Reduced motion: všechno nové vypnout, obsah hned viditelný --- */
+@media (prefers-reduced-motion: reduce) {
+	.bm-loader, .bm-veil { display: none !important; }
+	html.bm-enter body > * { animation: none !important; }
+	.bm-hp-bong__rig { animation: none !important; }
+	.navigation-in.menu .menu-level-2, .menu .menu-level-2 { animation: none !important; }
+	.bm-btn-primary::after { display: none !important; }
+	.bm-catmenu__panel { transition: opacity 0.15s ease !important; transform: none !important; }
+	.products .product .image img, .product-box .image img { transition: none !important; }
+}

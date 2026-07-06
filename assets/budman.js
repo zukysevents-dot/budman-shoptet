@@ -402,6 +402,13 @@
 	var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+	// první návštěva v session? (plný loader jen 1×; flag se nastaví hned)
+	var firstVisit = false;
+	try {
+		firstVisit = !sessionStorage.getItem('bm_seen');
+		if (firstVisit) sessionStorage.setItem('bm_seen', '1');
+	} catch (e) {}
+
 	function ready(fn) {
 		if (document.readyState !== 'loading') fn();
 		else document.addEventListener('DOMContentLoaded', fn);
@@ -543,9 +550,12 @@
 	}
 
 	/* ============================================================ */
-	/* Načítací obrazovka: bud odznak z loga (1× za session).       */
+	/* Načítací obrazovka: bud odznak z loga — JEN 1× za session.   */
+	/* Další navigace dostanou rychlý „page-in" nájezd (bm-enter).  */
 	/* ============================================================ */
 	function playLoader() {
+		if (reduce || !firstVisit) return;
+
 		var ov = document.createElement('div');
 		ov.className = 'bm-loader';
 		// oficiální logo mark (olivový kruh + bílý bud „B")
@@ -561,9 +571,73 @@
 			document.documentElement.classList.remove('bm-loading');
 			setTimeout(function () { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 650);
 		}
-		if (document.readyState === 'complete') setTimeout(finish, 850);
-		else window.addEventListener('load', function () { setTimeout(finish, 450); });
-		setTimeout(finish, 2800); // pojistka
+		if (document.readyState === 'complete') setTimeout(finish, 700);
+		else window.addEventListener('load', function () { setTimeout(finish, 400); });
+		setTimeout(finish, 2600); // pojistka
+	}
+
+	/* ============================================================ */
+	/* Přechody stránek: brand „veil" při odchodu na jinou stránku. */
+	/* Jen vizuální — nezdržuje navigaci (žádný preventDefault).    */
+	/* Pokud minulá stránka veil zatáhla (flag), nová začne zataženě */
+	/* a plynule odkryje → dark→dark, žádný flash mezi stránkami.    */
+	/* ============================================================ */
+	function pageTransitions() {
+		if (reduce) return;
+		var veil = document.createElement('div');
+		veil.className = 'bm-veil';
+		veil.setAttribute('aria-hidden', 'true');
+		var vt = 0;
+
+		// PŘÍCHOD: navazujeme na exit veil předchozí stránky?
+		var veiled = false;
+		try { veiled = !!sessionStorage.getItem('bm_veiled'); sessionStorage.removeItem('bm_veiled'); } catch (e) {}
+		if (veiled && !firstVisit) {
+			veil.classList.add('is-on', 'bm-veil--instant'); // start zataženě, bez transition
+			document.body.appendChild(veil);
+			window.requestAnimationFrame(function () {
+				window.requestAnimationFrame(function () {
+					veil.classList.remove('bm-veil--instant');
+					veil.classList.remove('is-on'); // fade-out → odkrytí stránky
+				});
+			});
+		} else {
+			document.body.appendChild(veil);
+			if (!firstVisit) {
+				// příchod bez exit veilu (external/bookmark): jemné prolnutí obsahu
+				document.documentElement.classList.add('bm-enter');
+				setTimeout(function () { document.documentElement.classList.remove('bm-enter'); }, 700);
+			}
+		}
+
+		document.addEventListener('click', function (e) {
+			if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+			var a = e.target.closest && e.target.closest('a[href]');
+			if (!a) return;
+			if (a.target && a.target !== '_self') return;
+			if (a.hasAttribute('download')) return;
+			var href = a.getAttribute('href') || '';
+			if (!href || href.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
+			var url;
+			try { url = new URL(a.href, location.href); } catch (err) { return; }
+			if (url.origin !== location.origin) return;
+			// jen změna hashe na téže stránce → žádný veil
+			if (url.pathname === location.pathname && url.search === location.search && url.hash) return;
+			veil.classList.add('is-on');
+			try { sessionStorage.setItem('bm_veiled', '1'); } catch (err) {}
+			// pojistka: zrušená/zaseknutá navigace nesmí nechat veil viset
+			clearTimeout(vt);
+			vt = setTimeout(function () {
+				veil.classList.remove('is-on');
+				try { sessionStorage.removeItem('bm_veiled'); } catch (err) {}
+			}, 4000);
+		});
+
+		// bfcache návrat / obnovení stránky → veil pryč
+		window.addEventListener('pageshow', function () {
+			veil.classList.remove('is-on', 'bm-veil--instant');
+			try { sessionStorage.removeItem('bm_veiled'); } catch (err) {}
+		});
 	}
 
 	function playIntro() {
@@ -632,6 +706,7 @@
 
 		var tx = window.innerWidth / 2, ty = window.innerHeight / 2, x = tx, y = ty;
 		var scale = 0.68, tScale = 0.68, on = false, raf = 0, vis = true;
+		var rot = 0, ps = 1, tps = 1; // náklon dle rychlosti + „squeeze" při kliku
 
 		// --- kapající rosin (zlatý extrakt stéká z kurzoru) ---
 		var drips = [], dripRaf = 0, dripLastT = 0;
@@ -669,12 +744,17 @@
 			tScale = (t.closest && t.closest('a, button, .btn, input[type="submit"], .add-to-cart-button, [role="button"]')) ? 0.8 : 0.68;
 		}
 		function loop() {
-			x += (tx - x) * 0.3; y += (ty - y) * 0.3; scale += (tScale - scale) * 0.2;
-			el.style.transform = 'translate3d(' + (x - 15) + 'px,' + (y - 45) + 'px, 0) scale(' + scale + ')';
+			var vx = tx - x; // rychlost před lerpem → náklon „za pohybem"
+			x += vx * 0.3; y += (ty - y) * 0.3; scale += (tScale - scale) * 0.2;
+			ps += (tps - ps) * 0.35;
+			rot += (Math.max(-10, Math.min(10, vx * 0.28)) - rot) * 0.18;
+			el.style.transform = 'translate3d(' + (x - 15) + 'px,' + (y - 45) + 'px, 0) rotate(' + rot.toFixed(2) + 'deg) scale(' + (scale * ps).toFixed(3) + ')';
 			raf = window.requestAnimationFrame(loop);
 		}
 		document.addEventListener('mousemove', move, { passive: true });
 		document.addEventListener('mouseover', over, { passive: true });
+		document.addEventListener('mousedown', function () { tps = 0.84; }, { passive: true });
+		document.addEventListener('mouseup', function () { tps = 1; }, { passive: true });
 		document.addEventListener('mouseout', function (e) { if (!e.relatedTarget) { on = false; el.classList.remove('is-on'); } });
 		document.addEventListener('visibilitychange', function () {
 			vis = !document.hidden;
@@ -685,39 +765,89 @@
 	}
 
 	/* ============================================================ */
-	/* Jemný scroll-reveal na titulce.                              */
+	/* Jemný scroll-reveal (titulka + kategorie + injektované sekce). */
+	/* Stagger se počítá PO DÁVKÁCH (co se objeví spolu, nabíhá     */
+	/* spolu) a po dojetí se třídy uklidí — jinak by transition-delay */
+	/* zpožďoval hover přechody karet.                               */
 	/* ============================================================ */
 	function reveal() {
-		if (reduce || !isHome() || !('IntersectionObserver' in window)) return;
+		if (reduce || isSensitivePage() || !('IntersectionObserver' in window)) return;
 		var targets = [].slice.call(document.querySelectorAll(
-			'#content .products .product, #content .products-block-header, #content .featured-products .product, #content h2.heading'
+			'#content .products .product, #content .products-block-header, #content .featured-products .product, #content h2.heading, .bm-promo__tile, .bm-why, .benefitBanner__item'
 		));
 		if (!targets.length) return;
-		targets.forEach(function (t, i) {
-			t.classList.add('bm-reveal');
-			t.style.transitionDelay = (Math.min(i, 8) * 0.06) + 's';
-		});
+		targets.forEach(function (t) { t.classList.add('bm-reveal'); });
+		var batch = 0, batchTimer = 0;
 		var io = new IntersectionObserver(function (entries) {
-			entries.forEach(function (e) {
-				if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+			entries.forEach(function (en) {
+				if (!en.isIntersecting) return;
+				var el = en.target;
+				io.unobserve(el);
+				var d = Math.min(batch++, 6) * 0.07;
+				el.style.transitionDelay = d + 's';
+				el.classList.add('is-in');
+				var cleaned = false;
+				function clean(ev) {
+					if (ev && ev.target !== el) return; // transitionend bublá z dětí
+					if (cleaned) return; cleaned = true;
+					el.removeEventListener('transitionend', clean);
+					// odklidit BEZ přechodu (deterministický finální stav i při
+					// pozastaveném render clocku — skrytá záložka apod.)
+					el.style.transition = 'none';
+					el.style.transitionDelay = '';
+					el.classList.remove('bm-reveal', 'is-in');
+					void el.offsetWidth; // reflow → transition:none se uplatní hned
+					el.style.transition = '';
+				}
+				el.addEventListener('transitionend', clean);
+				setTimeout(clean, d * 1000 + 1200); // pojistka
 			});
+			// krátká pauza bez průniků = nová vlna → stagger od nuly
+			clearTimeout(batchTimer);
+			batchTimer = setTimeout(function () { batch = 0; }, 220);
 		}, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 		targets.forEach(function (t) { io.observe(t); });
 	}
 
 	/* ============================================================ */
-	/* Magnetické CTA (desktop).                                    */
+	/* Magnetické CTA (desktop) — rAF lerp, plynulý pružný návrat.  */
+	/* CSS transition na transform by se prala s mousemove → po dobu */
+	/* magnetu ji vypneme (inline) a smoothing dělá lerp.            */
 	/* ============================================================ */
 	function magnetic() {
 		if (reduce || !finePointer) return;
-		document.querySelectorAll('.bm-btn-primary').forEach(function (btn) {
+		document.querySelectorAll('.bm-btn-primary, .bm-btn-ghost').forEach(function (btn) {
+			var raf = 0, tx = 0, ty = 0, x = 0, y = 0, active = false;
+			function loop() {
+				x += (tx - x) * 0.16;
+				y += (ty - y) * 0.16;
+				if (!active && Math.abs(x) < 0.25 && Math.abs(y) < 0.25) {
+					btn.style.transform = '';
+					btn.style.transition = '';
+					raf = 0;
+					return;
+				}
+				btn.style.transform = 'translate3d(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px,0)';
+				raf = window.requestAnimationFrame(loop);
+			}
+			btn.addEventListener('mouseenter', function () {
+				active = true;
+				// transform řídí lerp; barvy/stíny dál přes CSS transition
+				btn.style.transition = 'background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease';
+				if (!raf) raf = window.requestAnimationFrame(loop);
+			});
 			btn.addEventListener('mousemove', function (e) {
 				var r = btn.getBoundingClientRect();
-				var mx = e.clientX - r.left - r.width / 2;
-				var my = e.clientY - r.top - r.height / 2;
-				btn.style.transform = 'translate(' + (mx * 0.18).toFixed(1) + 'px,' + (my * 0.3).toFixed(1) + 'px)';
+				// rect se hýbe s transformem → odečíst aktuální posun (jinak feedback smyčka)
+				var cx = r.left + r.width / 2 - x;
+				var cy = r.top + r.height / 2 - y;
+				tx = (e.clientX - cx) * 0.22;
+				ty = (e.clientY - cy) * 0.34;
 			});
-			btn.addEventListener('mouseleave', function () { btn.style.transform = ''; });
+			btn.addEventListener('mouseleave', function () {
+				active = false; tx = 0; ty = 0;
+				if (!raf) raf = window.requestAnimationFrame(loop);
+			});
 		});
 	}
 
@@ -987,7 +1117,9 @@
 		var menu = document.querySelector('.navigation-in.menu');
 		if (!menu) return;
 		var wrap = document.querySelector('header .container.navigation-wrapper') || menu.closest('.navigation-wrapper') || menu.parentNode;
-		if (!wrap || wrap.querySelector('.bm-catmenu')) return;
+		// guard přes CELÝ dokument — tlačítko se vkládá vedle loga (mimo wrap),
+		// takže wrap.querySelector duplicitu nechytí (opakované volání po 1200 ms)
+		if (!wrap || document.querySelector('.bm-catmenu')) return;
 		// posbírej kategorie z (zploštělého) menu
 		var links = [].slice.call(menu.querySelectorAll('ul.menu-level-1 > li > a, ul > li > a'));
 		var seen = {}, cats = [];
@@ -1169,6 +1301,7 @@
 	ready(function () {
 		setFavicon();
 		playLoader();
+		pageTransitions();
 		injectHero();
 		injectPromo();
 		cleanDemo();
