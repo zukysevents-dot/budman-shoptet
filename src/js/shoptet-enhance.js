@@ -576,6 +576,55 @@
 		[].forEach.call(document.querySelectorAll('a[href^="/do-domacnosti"]'), function (a) {
 			a.setAttribute('href', target);
 		});
+		// kontakt box má v adminu zdvojenou IG URL („instagram.com/https://…") → oprava
+		[].forEach.call(document.querySelectorAll('a[href*="instagram.com/https"]'), function (a) {
+			a.setAttribute('href', 'https://www.instagram.com/budman_eshop/');
+		});
+	}
+
+	/* ============================================================ */
+	/* Košíkový popup: ukotvit POD tlačítko košíku.                  */
+	/* Shoptet má #cart-widget v DOM u login okna (úplně jinde než   */
+	/* tlačítko) → bez kotvení popup „létá" nahoře přes stránku.     */
+	/* Fixed pozice se přepočítá při otevření, změně obsahu,        */
+	/* scrollu i resize.                                             */
+	/* ============================================================ */
+	function anchorCartWidget() {
+		var w = document.getElementById('cart-widget');
+		if (!w) return;
+		function btnEl() {
+			return document.querySelector('.navigation-buttons a[data-target="cart"], a.cart-count, .user-action-cart > a[href*="kosik"]');
+		}
+		function place() {
+			var btn = btnEl();
+			if (!btn) return;
+			var r = btn.getBoundingClientRect();
+			if (!r.width) return; // tlačítko není vidět (jiný breakpoint)
+			var width = Math.min(430, window.innerWidth - 16);
+			var left = Math.min(r.right - width, window.innerWidth - width - 8);
+			if (left < 8) left = 8;
+			w.style.setProperty('position', 'fixed', 'important');
+			w.style.setProperty('top', Math.round(r.bottom + 10) + 'px', 'important');
+			w.style.setProperty('left', Math.round(left) + 'px', 'important');
+			w.style.setProperty('right', 'auto', 'important');
+			w.style.setProperty('bottom', 'auto', 'important');
+			w.style.setProperty('width', width + 'px', 'important');
+			w.style.setProperty('margin', '0', 'important');
+		}
+		place();
+		// layout se po ready ještě hýbe (fonty, obrázky, škálování loga) → přepočty
+		window.addEventListener('load', place);
+		setTimeout(place, 400);
+		setTimeout(place, 1500);
+		// přepočet, když Shoptet popup otevře / nalije obsah (AJAX)
+		if ('MutationObserver' in window) {
+			new MutationObserver(place).observe(w, { attributes: true, childList: true, subtree: true });
+		}
+		document.addEventListener('click', function (e) {
+			if (e.target.closest && e.target.closest('[data-target="cart"]')) setTimeout(place, 0);
+		}, true);
+		window.addEventListener('resize', place, { passive: true });
+		window.addEventListener('scroll', place, { passive: true });
 	}
 
 	/* Homepage má defaultní Shoptet title/meta („Vítejte v našem
@@ -991,6 +1040,7 @@
 		pageTransitions();
 		fixDemoLinks();
 		seoFallbacks();
+		anchorCartWidget();
 		injectHero();
 		injectPromo();
 		cleanDemo();

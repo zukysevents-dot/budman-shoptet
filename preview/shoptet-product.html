@@ -34,16 +34,74 @@
 		.box-categories .categories { list-style: none; }
 		.box-categories .topic a { display: block; padding: 8px 6px; text-decoration: none; }
 		.footer { margin-top: 40px; }
-		/* košíkový popup skeleton (Shoptet ho plní AJAXem — tady mock reálné struktury) */
-		.user-action-cart.cart-widget { position: relative; }
-		.popup-widget-inner.place-cart-here { position: absolute; top: calc(100% + 10px); right: 0; width: 360px; z-index: 200; }
-		.cart-widget-button { }
 	</style>
 	<link rel="stylesheet" href="../assets/budman.css">
 </head>
 <!-- body classes PŘESNĚ jako živý Shoptet detail -->
 <body class="desktop id-723 in-mereni template-11 type-product type-detail multiple-columns-body columns-3 ums_homepage_cart_checkout_headings--on ums_mobile_header_v1--on">
 
+
+	<!-- #cart-widget PŘESNĚ jako na livu: v DOM u login okna (NE u tlačítka!),
+	     obsah = payload /action/Cart/GetCartContent/ -->
+	<div id="cart-widget" class="user-action-cart popup-widget cart-widget loader-wrapper" data-testid="popupCartWidget" role="dialog" aria-hidden="false">
+		<div class="popup-widget-inner cart-widget-inner place-cart-here full">
+			<div id="cart-wrapper" class="cart-wrapper">
+				<div class="cart-inner" data-testid="tableCart">
+					<div class="row cart-row">
+						<div class="col-md-8">
+							<div class="cart-content">
+								<ol class="cart-header step-"><li class="step step-1 active"><strong><span>Nákupní košík</span></strong></li><li class="step step-2"><a href="/objednavka/krok-1/"><span>Doprava &amp; platba</span></a></li><li class="step step-3"><strong><span>Informace o vás</span></strong></li></ol>
+								<table class="cart-table">
+									<tbody>
+										<tr class="removeable">
+											<td class="cart-p-image"><a href="/voltcraft-infracerveny-teplomer/"><img src="https://cdn.myshoptet.com/usr/www.budman-shop.cz/user/shop/related/243_obrazek-6.jpg?6a3f02ea" alt="" width="100" height="100"></a></td>
+											<td class="p-name"><a href="/voltcraft-infracerveny-teplomer/" class="main-link">Voltcraft - Infračervený teploměr</a></td>
+											<td class="p-availability p-cell"><span class="p-label">Dostupnost</span> <strong class="availability-label" style="color:#3c840f">Skladem</strong></td>
+											<td class="p-quantity p-cell">
+												<form action="/action/Cart/setCartItemAmount/" method="post" class="quantity-form js-quantity-form">
+													<span class="p-label">Počet</span>
+													<span class="quantity">
+														<label><input type="number" name="amount" value="1" class="amount" min="1" max="9999" aria-label="Množství"></label>
+														<button class="increase" type="button" aria-label="Zvýšit"><span class="increase__sign">+</span></button>
+														<button class="decrease" type="button" aria-label="Snížit"><span class="decrease__sign">−</span></button>
+													</span>
+												</form>
+											</td>
+											<td class="p-price p-cell"><span class="p-label">Cena za m. j.</span> <strong class="price-final">1 299 Kč</strong> <span class="unit-value">/ ks</span></td>
+											<td class="p-total"><span class="p-label">Součet</span> <strong class="price-final">1 299 Kč</strong>
+												<form action="/action/Cart/deleteCartItem/" method="post" class="inline"><div class="inline"><button type="submit" class="remove-item"><span class="sr-only">Odstranit z košíku</span></button></div></form>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="cart-summary">
+									<h2 class="h4">Dárky a slevy</h2>
+									<div class="extras-wrapper"><div class="extras-col"></div><div class="extras-col"><div class="extras-wrap">
+										<div class="extra delivery"><span>Objednejte ještě za <strong>700 Kč</strong> a budete mít dopravu <strong>ZDARMA</strong>.<div class="price-range"><div style="width: 64.98%"></div></div></span></div>
+									</div></div></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 sidebar-in-cart">
+							<div class="cart-content checkout-box-wrapper">
+								<h2 class="h4">Potřebujete pomoc?</h2>
+								<div class="box box-sm"><div class="contact-box"><strong>Lukáš</strong><ul><li><a href="tel:702081458">702 081 458</a></li><li><a href="https://www.instagram.com/https://www.instagram.com/budman_eshop/">https://www.instagram.com/budman_eshop/</a></li></ul></div></div>
+							</div>
+							<div class="cart-content summary-wrapper">
+								<div class="box box-sm">
+									<div class="price-wrapper"><span class="price-label price-primary">Celkem za zboží:</span> <strong class="price price-primary">1 299 Kč</strong></div>
+									<div class="next-step next-step--cart"><a href="#" class="btn btn-lg next-step-back"><span>Zpět do obchodu</span></a><a href="/objednavka/krok-1/" class="btn btn-lg btn-conversion next-step-forward"><span>Pokračovat</span></a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cart-widget-button">
+			<a href="/kosik/" class="btn btn-conversion" id="continue-order-button" rel="nofollow">Pokračovat do košíku</a>
+		</div>
+	</div>
 	<div class="top-navigation-bar" data-testid="topNavigationBar">
 		<div class="container">
 			<div class="top-navigation-contacts"><a href="tel:+420702081458">702 081 458</a></div>
@@ -57,34 +115,12 @@
 			<div class="search"><form action="/vyhledavani/"><input class="search-text" type="text" placeholder="Napište, co hledáte"><button type="submit" class="btn-search">Hledat</button></form></div>
 			<div class="user-action navigation-buttons">
 				<a href="/prihlaseni/">Přihlásit</a>
-				<!-- KOŠÍK widget (reálná struktura template-11) -->
-				<div class="user-action-cart popup-widget cart-widget loader-wrapper">
-					<a class="btn btn-icon toggle-window cart-count cart-widget-button" href="/kosik/" data-testid="buttonCartToggle">
-						<span class="cart-count-value">1</span>
-						<span class="cart-price visible-lg-inline-block">1 299 Kč</span>
-					</a>
-					<div class="popup-widget-inner cart-widget-inner place-cart-here" role="dialog" aria-hidden="false">
-						<div class="cart-inner">
-							<table class="table cart-preview">
-								<tbody>
-									<tr class="removeItem">
-										<td class="image"><img src="https://cdn.myshoptet.com/usr/www.budman-shop.cz/user/shop/big/243_obrazek-6.jpg?6a3f02ea" alt="" width="46"></td>
-										<td class="p-name"><a href="/voltcraft-infracerveny-teplomer/">Voltcraft - Infračervený teploměr</a><span class="price">1 299 Kč</span></td>
-										<td class="amount">1 ks</td>
-										<td class="remove"><a href="#" aria-label="Odebrat">×</a></td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="free-shipping">
-								<p class="free-shipping-message">Objednejte ještě za <strong>700 Kč</strong> a budete mít dopravu <strong>ZDARMA</strong>.</p>
-								<div class="free-shipping-progress"><span style="width:65%"></span></div>
-							</div>
-						</div>
-						<div class="cart-widget-button">
-							<a href="/kosik/" class="btn btn-conversion" id="continue-order-button" rel="nofollow" data-testid="buttonNextStep">Pokračovat do košíku</a>
-						</div>
-					</div>
-				</div>
+				<!-- tlačítko košíku (reálně: .navigation-buttons > a.cart-count) -->
+				<a href="/kosik/" class="btn btn-icon toggle-window cart-count full" data-target="cart" data-testid="buttonCartToggle">
+					<span class="cart-count-value">1</span>
+					<span class="cart-price visible-lg-inline-block">1 299 Kč</span>
+				</a>
+			</div>
 			</div>
 		</div>
 		<div class="container navigation-wrapper">

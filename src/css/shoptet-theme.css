@@ -2137,90 +2137,218 @@ html.bm-loading .bm-hp-hero__rig { animation-play-state: paused; }
 /* ================================================================== */
 
 /* ------------------------------------------------------------------ */
-/* KOŠÍKOVÝ POPUP (mini-cart dropdown) — čistá karta, čitelný text.   */
-/* Shoptet plní .place-cart-here AJAXem; stylujeme kontejner i obsah. */
+/* KOŠÍKOVÝ POPUP (mini-cart) — REÁLNÝ markup: GetCartContent vrací    */
+/* kompletní cart page (#cart-wrapper, kroky, tabulku, sidebar) a      */
+/* Shoptet ho nalije do .place-cart-here. Popup z toho udělá kompakt:  */
+/* skryje kroky/kontakt/duplicitní tlačítka, nechá položky + dopravu   */
+/* zdarma + součet. Pozici pod tlačítkem košíku kotví JS               */
+/* (anchorCartWidget) — widget je v DOM úplně jinde než tlačítko.      */
 /* ------------------------------------------------------------------ */
-.user-action-cart.cart-widget { position: relative; }
 
-/* dropdown = prémiová bílá karta se zlatým vlasovým lemem a stínem */
-.cart-widget .popup-widget-inner.place-cart-here {
-	width: 360px !important;
-	max-width: min(92vw, 380px) !important;
-	padding: 4px !important;
+/* karta popupu — bílá, zlatý lem, stín (pozici dodá JS: fixed) */
+#cart-widget.cart-widget {
+	z-index: 9000 !important;
 	background: var(--bm-surface) !important;
 	border: 1px solid var(--bm-line) !important;
 	border-top: 3px solid var(--bm-gold) !important;
 	border-radius: 16px !important;
 	box-shadow: 0 26px 60px rgba(12, 18, 8, 0.28) !important;
-	color: var(--bm-text) !important;
 	overflow: hidden;
+	padding: 0 !important;
 }
-/* liquid akcent v rohu (jemný, prémiový) */
-.cart-widget .place-cart-here::before {
-	content: "";
-	position: absolute; top: -30%; right: -20%;
-	width: 60%; height: 80%;
-	background: radial-gradient(closest-side, rgba(143, 214, 79, 0.14), transparent 70%);
-	pointer-events: none; z-index: 0;
+#cart-widget .popup-widget-inner.place-cart-here {
+	width: auto !important;
+	max-width: none !important;
+	max-height: min(64vh, 520px);
+	overflow-y: auto;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	padding: 8px 12px 0 !important;
+	color: var(--bm-text) !important;
 }
-.cart-widget .place-cart-here > * { position: relative; z-index: 1; }
 
-/* VŠECHEN text v popupu čitelně tmavý (Shoptet defaultně vybledlé šedé) */
-.cart-widget .place-cart-here,
-.cart-widget .place-cart-here a:not(.btn),
-.cart-widget .place-cart-here span,
-.cart-widget .place-cart-here td,
-.cart-widget .place-cart-here strong,
-.cart-widget .place-cart-here p {
+/* VŠECHEN text čitelně tmavý (bílé/vybledlé dědičnosti z hlavičky) */
+#cart-widget, #cart-widget a:not(.btn), #cart-widget span, #cart-widget td,
+#cart-widget strong, #cart-widget p, #cart-widget label {
 	color: var(--bm-text) !important;
 	-webkit-text-fill-color: var(--bm-text) !important;
 }
 
-.cart-widget .cart-inner { padding: 10px 12px 4px !important; }
+/* page-level obaly z payloadu → obyčejné bloky bez gridu */
+#cart-widget #cart-wrapper, #cart-widget .cart-inner, #cart-widget .cart-row,
+#cart-widget .cart-row > [class*="col-"], #cart-widget .cart-content {
+	display: block !important;
+	width: auto !important;
+	float: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+}
 
-/* produktová řádka: fotka | název+cena | množství | křížek */
-.cart-widget .cart-preview,
-.cart-widget table.cart-preview { width: 100% !important; border-collapse: collapse !important; margin: 0 !important; background: transparent !important; }
-.cart-widget .cart-preview tr,
-.cart-widget .cart-preview td { background: transparent !important; border: 0 !important; border-bottom: 1px solid var(--bm-line) !important; vertical-align: middle !important; padding: 9px 4px !important; }
-.cart-widget .cart-preview .image { width: 52px !important; }
-.cart-widget .cart-preview .image img { width: 46px !important; height: 46px !important; object-fit: contain !important; background: #fff; border: 1px solid var(--bm-line); border-radius: 9px; padding: 3px; }
-.cart-widget .cart-preview .p-name a { font-weight: 700 !important; font-size: 0.9rem !important; line-height: 1.25 !important; display: block; }
-.cart-widget .cart-preview .p-name .price { display: block; font-weight: 800 !important; font-size: 0.86rem !important; color: var(--bm-price) !important; -webkit-text-fill-color: var(--bm-price) !important; margin-top: 2px; }
-.cart-widget .cart-preview .amount { white-space: nowrap !important; font-weight: 700 !important; font-size: 0.85rem !important; text-align: center !important; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important; }
-.cart-widget .cart-preview .remove,
-.cart-widget .cart-preview .remove a { text-align: center !important; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important; font-size: 1.1rem; line-height: 1; transition: color 0.15s ease; }
-.cart-widget .cart-preview .remove a:hover { color: #d0402f !important; -webkit-text-fill-color: #d0402f !important; }
+/* v popupu NEZOBRAZOVAT: kroky objednávky, nadpis „Dárky a slevy",
+   kontakt box, tlačítka Zpět/Pokračovat z payloadu (má je widget sám) */
+#cart-widget .cart-header,
+#cart-widget .cart-summary h2,
+#cart-widget .checkout-box-wrapper,
+#cart-widget .sidebar-in-cart .next-step,
+#cart-widget .p-label,
+#cart-widget td.p-availability,
+#cart-widget td.p-price { display: none !important; }
 
-/* „doprava zdarma" hláška + gradient progress bar (prémiový detail) */
-.cart-widget .free-shipping { padding: 12px !important; margin: 6px 8px 0 !important; background: rgba(143, 214, 79, 0.08) !important; border: 1px solid rgba(46, 125, 30, 0.16) !important; border-radius: 12px !important; }
-.cart-widget .free-shipping p,
-.cart-widget .free-shipping-message { margin: 0 0 8px !important; font-size: 0.82rem !important; line-height: 1.4 !important; text-align: center; }
-.cart-widget .free-shipping strong { color: var(--bm-green) !important; -webkit-text-fill-color: var(--bm-green) !important; font-weight: 800 !important; }
-.cart-widget .free-shipping-progress { height: 7px; border-radius: 999px; background: rgba(20, 64, 13, 0.12); overflow: hidden; }
-.cart-widget .free-shipping-progress > span { display: block; height: 100%; border-radius: 999px; background: var(--bm-grad-lime); box-shadow: 0 0 8px rgba(143, 214, 79, 0.5); }
+/* tabulka položek → FLEX řádky (table by přetékala šířku popupu) */
+#cart-widget .cart-table,
+#cart-widget .cart-table tbody { display: block !important; width: 100% !important; margin: 0 !important; border: 0 !important; background: transparent !important; }
+#cart-widget .cart-table tr {
+	display: flex !important;
+	align-items: center !important;
+	gap: 8px;
+	border-bottom: 1px solid var(--bm-line);
+	padding: 8px 0;
+}
+#cart-widget .cart-table td {
+	display: block !important;
+	background: transparent !important;
+	border: 0 !important;
+	padding: 0 !important;
+	vertical-align: middle !important;
+}
+#cart-widget .cart-table .p-name { flex: 1 1 auto; min-width: 0; }
+#cart-widget .cart-table .p-quantity { flex: 0 0 auto; }
+#cart-widget .cart-table .p-total { flex: 0 0 auto; display: inline-flex !important; align-items: center; gap: 2px; }
+/* skrytí sloupců MUSÍ být za flexify pravidly (stejná specificita → pořadí) */
+#cart-widget .cart-table td.p-availability,
+#cart-widget .cart-table td.p-price { display: none !important; }
+/* ceny v popupu kompaktní (detail stránky má body.type-product obří .price-final) */
+#cart-widget .price-final { font-size: 0.92rem !important; line-height: 1.2 !important; }
+/* sr-only utilita (harness/у šablony pojistka — text „Odstranit z košíku") */
+#cart-widget .sr-only {
+	position: absolute !important;
+	width: 1px !important; height: 1px !important;
+	padding: 0 !important; margin: -1px !important;
+	overflow: hidden !important; clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important; border: 0 !important;
+}
+#cart-widget .cart-table .cart-p-image { flex: 0 0 46px; width: auto !important; }
+#cart-widget .cart-table .cart-p-image img {
+	width: 46px !important; height: 46px !important; object-fit: contain !important;
+	background: #fff; border: 1px solid var(--bm-line); border-radius: 9px; padding: 3px;
+	display: block;
+}
+#cart-widget .cart-table .p-name a.main-link {
+	font-weight: 700 !important; font-size: 0.88rem !important; line-height: 1.25 !important;
+	text-decoration: none !important; display: block;
+}
+#cart-widget .cart-table .p-total { text-align: right !important; white-space: nowrap !important; }
+#cart-widget .cart-table .p-total .price-final { font-weight: 800 !important; font-size: 0.9rem !important; }
+#cart-widget .unit-value { display: none !important; }
 
-/* spodní tlačítko „Pokračovat do košíku" — plná šířka, rozumná výška */
-.cart-widget .place-cart-here .cart-widget-button { background: transparent !important; padding: 10px 12px 12px !important; border: 0 !important; box-shadow: none !important; }
-.cart-widget #continue-order-button {
+/* stepper množství — mini pill (reálný markup: input + increase/decrease) */
+#cart-widget .quantity-form { margin: 0 !important; }
+#cart-widget .quantity {
+	display: inline-flex !important;
+	align-items: center;
+	border: 1px solid var(--bm-line-strong);
+	border-radius: 9px;
+	overflow: hidden;
+	background: #fff;
+}
+#cart-widget .quantity label { margin: 0 !important; display: inline-flex; }
+#cart-widget .quantity input.amount {
+	width: 38px !important; height: 30px !important;
+	border: 0 !important; text-align: center !important; font-weight: 700 !important;
+	background: transparent !important; box-shadow: none !important; padding: 0 !important;
+	-moz-appearance: textfield; appearance: textfield;
+}
+#cart-widget .quantity input.amount::-webkit-outer-spin-button,
+#cart-widget .quantity input.amount::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+#cart-widget .quantity button.increase,
+#cart-widget .quantity button.decrease {
+	position: static !important;
+	width: 26px !important; height: 30px !important;
+	display: inline-flex !important; align-items: center; justify-content: center;
+	border: 0 !important; background: transparent !important; cursor: pointer;
+	font-size: 1rem; font-weight: 700; line-height: 1;
+	transition: background-color 0.15s ease;
+}
+#cart-widget .quantity button.decrease { order: -1; border-right: 1px solid var(--bm-line) !important; }
+#cart-widget .quantity button.increase { border-left: 1px solid var(--bm-line) !important; }
+#cart-widget .quantity button:hover { background: rgba(143, 214, 79, 0.16) !important; }
+
+/* odstranit z košíku — decentní × */
+#cart-widget .remove-item {
+	width: 26px; height: 26px; margin-left: 8px;
+	border: 0 !important; background: transparent !important; cursor: pointer;
+	color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important;
+	font-size: 1.05rem; line-height: 1; vertical-align: middle;
+	transition: color 0.15s ease;
+}
+#cart-widget .remove-item::before { content: "×"; }
+#cart-widget .remove-item:hover { color: #d0402f !important; -webkit-text-fill-color: #d0402f !important; }
+
+/* „doprava zdarma" — zelená karta + gradient progress (.price-range) */
+#cart-widget .cart-summary { margin: 8px 0 0 !important; padding: 0 !important; border: 0 !important; background: transparent !important; }
+#cart-widget .extras-wrapper, #cart-widget .extras-col, #cart-widget .extras-wrap { display: block !important; margin: 0 !important; padding: 0 !important; }
+#cart-widget .extra.delivery {
+	display: block; margin: 0 0 4px !important; padding: 11px 12px !important;
+	background: rgba(143, 214, 79, 0.10) !important;
+	border: 1px solid rgba(46, 125, 30, 0.16) !important;
+	border-radius: 12px !important;
+	font-size: 0.82rem !important; line-height: 1.45; text-align: center;
+}
+#cart-widget .extra.delivery strong { color: var(--bm-green) !important; -webkit-text-fill-color: var(--bm-green) !important; font-weight: 800 !important; }
+#cart-widget .price-range {
+	height: 7px; margin-top: 8px; border-radius: 999px;
+	background: rgba(20, 64, 13, 0.12); overflow: hidden;
+}
+#cart-widget .price-range > div {
+	height: 100% !important; border-radius: 999px;
+	background: var(--bm-grad-lime) !important;
+	box-shadow: 0 0 8px rgba(143, 214, 79, 0.5);
+}
+
+/* součet ze sidebaru payloadu nechat jako řádek „Celkem za zboží" */
+#cart-widget .sidebar-in-cart { display: block !important; }
+#cart-widget .sidebar-in-cart .summary-wrapper .box {
+	background: transparent !important; border: 0 !important; box-shadow: none !important;
+	margin: 0 !important; padding: 0 !important;
+}
+#cart-widget .price-wrapper {
+	display: flex !important; align-items: center; justify-content: space-between;
+	gap: 10px; margin: 6px 0 0 !important; padding: 10px 2px 2px !important;
+	border-top: 1px solid var(--bm-line);
+	font-size: 0.9rem;
+}
+#cart-widget .price-wrapper .price { font-weight: 800 !important; font-size: 1rem !important; }
+
+/* spodní CTA widgetu (statické tlačítko „Pokračovat do košíku") */
+#cart-widget > .cart-widget-button {
+	background: transparent !important; border: 0 !important; box-shadow: none !important;
+	padding: 10px 12px 12px !important; margin: 0 !important;
+}
+#cart-widget > .cart-widget-button .btn {
 	display: flex !important; align-items: center; justify-content: center;
 	width: 100% !important; min-height: 48px !important;
 	padding: 12px 18px !important; border-radius: 12px !important;
 	font-weight: 800 !important; letter-spacing: 0.01em; font-size: 0.95rem !important;
-	background: var(--bm-grad-lime) !important; color: #14280a !important;
-	-webkit-text-fill-color: #14280a !important; border: 0 !important;
+	background: var(--bm-grad-lime) !important;
+	color: #14280a !important; -webkit-text-fill-color: #14280a !important;
+	border: 0 !important;
 	box-shadow: 0 8px 20px rgba(46, 125, 30, 0.26) !important;
 	transition: transform 0.18s var(--bm-ease), box-shadow 0.18s ease, background 0.18s ease !important;
 }
-.cart-widget #continue-order-button:hover { transform: translateY(-1px); background: var(--bm-grad-green) !important; color: #fff !important; -webkit-text-fill-color: #fff !important; box-shadow: 0 12px 28px rgba(46, 125, 30, 0.4) !important; }
-
-/* prázdný košík text uprostřed, čitelný */
-.cart-widget .place-cart-here .cart-empty,
-.cart-widget .place-cart-here p:only-child { text-align: center; padding: 22px 12px; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important; }
-
-@media (max-width: 980px) {
-	.cart-widget .popup-widget-inner.place-cart-here { position: fixed !important; top: auto !important; left: 8px !important; right: 8px !important; width: auto !important; max-width: none !important; }
+#cart-widget > .cart-widget-button .btn:hover {
+	transform: translateY(-1px);
+	background: var(--bm-grad-green) !important;
+	color: #fff !important; -webkit-text-fill-color: #fff !important;
+	box-shadow: 0 12px 28px rgba(46, 125, 30, 0.4) !important;
 }
+
+/* prázdný košík */
+#cart-widget .place-cart-here > p,
+#cart-widget .cart-empty { text-align: center; padding: 20px 10px; color: var(--bm-muted) !important; -webkit-text-fill-color: var(--bm-muted) !important; }
 
 /* ------------------------------------------------------------------ */
 /* DETAIL PRODUKTU — vzdušný, prémiový, liquid akcenty.               */

@@ -27,3 +27,6 @@ assets/category/
 # OS / editor
 .DS_Store
 Thumbs.db
+
+# lokální Claude Code konfigurace
+.claude/
