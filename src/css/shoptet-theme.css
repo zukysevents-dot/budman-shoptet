@@ -2145,6 +2145,20 @@ html.bm-loading .bm-hp-hero__rig { animation-play-state: paused; }
 /* (anchorCartWidget) — widget je v DOM úplně jinde než tlačítko.      */
 /* ------------------------------------------------------------------ */
 
+/* ⚠️ KLÍČOVÉ: popup je position:fixed → zavřený by překrýval stránku a bral
+   kliknutí (přesně přes „Nejprodávanější" karty). Shoptet otevírá popup přes
+   body.cart-window-visible (hover košíku i po přidání do košíku) + aria-hidden.
+   Mimo otevřený stav je widget skrytý a NEinteraktivní → nic neblokuje. */
+#cart-widget.cart-widget {
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+body.cart-window-visible #cart-widget.cart-widget,
+#cart-widget.cart-widget[aria-hidden="false"] {
+	visibility: visible !important;
+	pointer-events: auto !important;
+}
+
 /* karta popupu — bílá, zlatý lem, stín (pozici dodá JS: fixed) */
 #cart-widget.cart-widget {
 	z-index: 9000 !important;
