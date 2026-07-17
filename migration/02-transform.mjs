@@ -115,6 +115,21 @@ function main() {
 	const removedCatSlugs = cats.filter((c) => isExcludedCategory(c.slug)).map((c) => c.slug);
 	const removedProducts = [];
 
+	// Vyřazuje se jen kategorie se shodným slugem — její DĚTI zůstávají (jsou to
+	// hardwarové doplňky, ne konzumovatelné zboží). Bez tohohle kroku by jim ale
+	// parentSlug ukazoval na smazaného rodiče → import kategorií spadne na validaci.
+	// Povýšíme je proto na kořen; do jaké kategorie je zanořit, je věc adminu.
+	for (const c of keptCats) {
+		if (!c.parentSlug || !isExcludedCategory(c.parentSlug)) continue;
+		warn(
+			'CAT_REPARENTED',
+			`Kategorie "${c.title}" visela pod vyřazenou "${c.parentSlug}" → povýšena na kořen. Zanoř ji ručně v Shoptet adminu.`,
+			c.slug
+		);
+		c.parentSlug = '';
+		c.depth = 0;
+	}
+
 	for (const c of keptCats) {
 		const claims = scanHealthClaims(c.description);
 		if (claims.length) warn('HEALTH_CLAIM_CAT', `Možná zdravotní tvrzení v kategorii "${c.title}" (${claims.join(', ')})`, c.slug);
