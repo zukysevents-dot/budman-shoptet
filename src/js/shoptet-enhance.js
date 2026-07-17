@@ -806,8 +806,9 @@
 				'<div class="bm-footer__contact"><h4>Kontakt</h4>' +
 					'<strong>Lukáš Hrdina</strong><br>IČO 14293714<br>Rybná 716/24<br>110 00 Praha 1<br>' +
 					'<a href="tel:+420702081458">702 081 458</a>' +
-					'<div class="bm-footer__pay"><span>Visa</span><span>Mastercard</span><span>GoPay</span></div>' +
-					'<div class="bm-footer__pay"><span>Zásilkovna</span><span>PPL</span></div>' +
+					// Reálné metody, ne loga karet — karetní brána neexistuje (viz paymentBox()).
+					'<div class="bm-footer__pay bm-footer__pay--billing"><span>QR platba</span><span>Převodem</span><span>Hotově při osobním odběru</span></div>' +
+					'<div class="bm-footer__pay bm-footer__pay--shipping"><span>Zásilkovna</span><span>Osobní odběr</span></div>' +
 				'</div>' +
 			'</div>' +
 			'<div class="bm-footer__bottom"><span>© 2026 Budman-shop — všechna práva vyhrazena</span><span>Vyrobeno s láskou k dab komunitě 🌿</span></div>';
@@ -986,7 +987,9 @@
 			footInfo: ['Jak nakupovat', 'Obchodní podmínky', 'Ochrana osobních údajů', 'Kontakt'],
 			footCopy: '© 2026 Budman-shop — všechna práva vyhrazena', footMade: 'Vyrobeno s láskou k dab komunitě 🌿',
 			bmPayTransfer: 'Po objednávce dostaneš QR kód — naskenuješ ho v bankovní appce a je zaplaceno.',
-			bmPayCash: 'Jen při osobním odběru na Žižkově.'
+			bmPayCash: 'Jen při osobním odběru na Žižkově.',
+			footPay: ['QR platba', 'Převodem', 'Hotově při osobním odběru'],
+			footShip: ['Zásilkovna', 'Osobní odběr']
 		},
 		en: {
 			topmsg: ['Free shipping over 1,500 CZK', 'Free gift on orders over 2,000 CZK', 'In stock, ships within 24 h'],
@@ -1009,7 +1012,9 @@
 			footInfo: ['How to shop', 'Terms & conditions', 'Privacy policy', 'Contact'],
 			footCopy: '© 2026 Budman-shop — all rights reserved', footMade: 'Made with love for the dab community 🌿',
 			bmPayTransfer: 'After ordering you get a QR code — scan it in your banking app and it is paid.',
-			bmPayCash: 'Only for personal pickup in Prague 3, Žižkov.'
+			bmPayCash: 'Only for personal pickup in Prague 3, Žižkov.',
+			footPay: ['QR payment', 'Bank transfer', 'Cash on personal pickup'],
+			footShip: ['Zásilkovna', 'Personal pickup']
 		},
 		de: {
 			topmsg: ['Kostenloser Versand ab 1.500 CZK', 'Gratis Geschenk ab 2.000 CZK', 'Auf Lager, Versand in 24 h'],
@@ -1032,7 +1037,9 @@
 			footInfo: ['Wie man kauft', 'AGB', 'Datenschutz', 'Kontakt'],
 			footCopy: '© 2026 Budman-shop — alle Rechte vorbehalten', footMade: 'Mit Liebe für die Dab-Community gemacht 🌿',
 			bmPayTransfer: 'Nach der Bestellung bekommst du einen QR-Code — in der Banking-App scannen und fertig.',
-			bmPayCash: 'Nur bei Selbstabholung in Prag 3, Žižkov.'
+			bmPayCash: 'Nur bei Selbstabholung in Prag 3, Žižkov.',
+			footPay: ['QR-Zahlung', 'Überweisung', 'Bar bei Selbstabholung'],
+			footShip: ['Zásilkovna', 'Selbstabholung']
 		},
 		es: {
 			topmsg: ['Envío gratis desde 1.500 CZK', 'Regalo gratis en compras desde 2.000 CZK', 'En stock, envío en 24 h'],
@@ -1055,7 +1062,9 @@
 			footInfo: ['Cómo comprar', 'Términos y condiciones', 'Política de privacidad', 'Contacto'],
 			footCopy: '© 2026 Budman-shop — todos los derechos reservados', footMade: 'Hecho con amor para la comunidad dab 🌿',
 			bmPayTransfer: 'Tras el pedido recibes un código QR — escanéalo en tu app bancaria y listo.',
-			bmPayCash: 'Solo para recogida en persona en Praga 3, Žižkov.'
+			bmPayCash: 'Solo para recogida en persona en Praga 3, Žižkov.',
+			footPay: ['Pago con QR', 'Transferencia', 'Efectivo al recoger'],
+			footShip: ['Zásilkovna', 'Recogida en persona']
 		}
 	};
 
@@ -1101,6 +1110,8 @@
 			var k = el.getAttribute('data-bm-i18n');
 			if (d[k] != null) el.textContent = d[k];
 		});
+		each('.bm-footer__pay--billing span', d.footPay || []);
+		each('.bm-footer__pay--shipping span', d.footShip || []);
 	}
 
 	function setLang(lg) {
