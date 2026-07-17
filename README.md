@@ -25,10 +25,10 @@ preview/          lokální mockupy Shoptet markupu pro vývoj (`node preview/se
 docs/             runbook, redirect mapa, obsahové stránky, design systém
 ```
 
-> `templates/` = předmigrační mockupy hlavičky/patičky. **Nejsou nikde napojené** a popisují
-> sortiment, který se neprodává (CBD, Květy) — hlavičku i patičku dnes staví JS
-> (`flattenMenu()`, `injectFooter()` v [shoptet-enhance.js](src/js/shoptet-enhance.js)).
-> Ke smazání; drženo jen jako historická reference.
+> Hlavičku, patičku i homepage bloky staví za běhu JS nad nativním Shoptet markupem
+> (`flattenMenu()`, `injectFooter()`, `injectHero()` v [shoptet-enhance.js](src/js/shoptet-enhance.js)) —
+> žádné HTML snippety se do Návrháře nevkládají. Dřívější složka `templates/` s předmigračními
+> mockupy byla smazána (popisovala sortiment s CBD, který se neprodává); je v git historii.
 
 ## Rychlý start (migrace)
 
