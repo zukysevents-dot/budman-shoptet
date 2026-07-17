@@ -3624,14 +3624,14 @@ body.type-product .detail-parameters tr:last-child td { border-bottom: 0 !import
 /* ------------------------------------------------------------------ */
 /* SIDEBAR (kategorie + platby) — prémiové karty, aktivní stav.       */
 /* ------------------------------------------------------------------ */
-.box-categories, .sidebar .box, .box-payment {
+.box-categories, .sidebar .box, .box-onlinePayments {
 	background: var(--bm-surface) !important;
 	border: 1px solid var(--bm-line) !important;
 	border-radius: 16px !important;
 	padding: 1.1rem 1.2rem !important;
 }
 .box-categories .pageElement__heading,
-.box-payment .pageElement__heading {
+.box-onlinePayments .pageElement__heading {
 	font-family: var(--bm-font-head) !important; font-size: 0.78rem !important;
 	letter-spacing: 0.08em; text-transform: uppercase; color: var(--bm-gold-deep) !important;
 	margin: 0 0 0.7rem !important; font-weight: 800;
@@ -3648,12 +3648,27 @@ body.type-product .detail-parameters tr:last-child td { border-bottom: 0 !import
 .box-categories .categories.active > .topic > a {
 	background: var(--bm-grad-lime-soft) !important; color: #14280a !important; font-weight: 800;
 }
-/* platby: loga s odstupem (ne slepené „VISAMastercard") */
-.box-payment .payment-logos { display: flex; flex-wrap: wrap; gap: 8px; }
-.box-payment .payment-logos span {
-	font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; color: var(--bm-text);
-	background: rgba(23, 20, 13, 0.04); border: 1px solid var(--bm-line); border-radius: 8px; padding: 0.4em 0.75em;
+/* Sidebar „Jak zaplatíš" — nahrazuje nativní box s logy VISA/Mastercard.
+   Karty nepřijímáme (žádná brána), takže loga jsou v JS odstraněna a box
+   přeobsazen reálnými metodami: QR/převod + hotově při osobním odběru. */
+.box-onlinePayments .payment-logos { display: none !important; }
+.bm-pay { display: flex; flex-direction: column; gap: 0.55rem; }
+.bm-pay__item { display: flex; align-items: flex-start; gap: 0.6rem; }
+.bm-pay__ico {
+	flex: 0 0 auto; width: 20px; height: 20px; margin-top: 0.1rem;
+	color: var(--bm-gold-deep);
 }
+.bm-pay__ico svg { width: 100%; height: 100%; display: block; }
+.bm-pay__label { font-weight: 700; font-size: 0.86rem; color: var(--bm-text); line-height: 1.3; }
+.bm-pay__note { font-size: 0.76rem; color: var(--bm-muted, #6b7280); line-height: 1.35; margin-top: 0.1rem; }
+
+/* Pokladna: vysvětlivka pod způsobem platby (QR / hotově jen na prodejně). */
+.bm-payhint {
+	display: block; margin-top: 0.2rem;
+	font-size: 0.78rem; font-style: normal; line-height: 1.4;
+	color: var(--bm-muted, #6b7280);
+}
+.radio-wrapper.active .bm-payhint { color: var(--bm-green-deep, #2f6b1f); }
 
 @media (prefers-reduced-motion: reduce) {
 	body.type-product .p-image-wrapper img,

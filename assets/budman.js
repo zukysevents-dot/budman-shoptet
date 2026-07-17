@@ -862,8 +862,95 @@
 		box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 12 3 4 7v10l8 4 8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>',
 		ig: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.7 0 3 0 4.1.1 1 0 1.7.2 2.3.4.6.3 1.1.6 1.6 1.1.5.5.8 1 1.1 1.6.2.6.4 1.3.4 2.3.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.7-.4 2.3a4.6 4.6 0 0 1-1.1 1.6 4.6 4.6 0 0 1-1.6 1.1c-.6.2-1.3.4-2.3.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.7-.2-2.3-.4a4.6 4.6 0 0 1-1.6-1.1 4.6 4.6 0 0 1-1.1-1.6c-.2-.6-.4-1.3-.4-2.3C2 15 2 14.7 2 12s0-3 .1-4.1c0-1 .2-1.7.4-2.3.3-.6.6-1.1 1.1-1.6.5-.5 1-.8 1.6-1.1.6-.2 1.3-.4 2.3-.4C9 2 9.3 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.4 6.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>',
 		fb: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>',
-		gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7S11 2 8 2 5 5 7.5 7M12 7s1-5 4-5 1 5-3.5 5"/></svg>'
+		gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7S11 2 8 2 5 5 7.5 7M12 7s1-5 4-5 1 5-3.5 5"/></svg>',
+		qr: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v3M21 21h-7"/></svg>',
+		cash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>'
 	};
+
+	/* Platby ---------------------------------------------------------
+	 * Karty nepřijímáme (ShoptetPay zamítl — „kuřácké potřeby" jsou na jejich
+	 * seznamu zakázaného zboží), takže nativní sidebar box „Přijímáme online
+	 * platby" s logy VISA/Mastercard slibuje něco, co v pokladně není.
+	 * Přeobsadíme ho reálnými metodami a v pokladně doplníme vysvětlivky.
+	 * POZOR: text o QR kódu platí jen když je v Shoptet adminu u platby
+	 * „Převodem" vyplněný účet a zapnuté zobrazení QR kódu.
+	 */
+	function paymentBox() {
+		var box = document.querySelector('.box-onlinePayments');
+		if (!box || box.querySelector('.bm-pay')) return;
+		var logos = box.querySelector('p, .payment-logos');
+		if (logos) logos.remove();
+		var h = box.querySelector('.pageElement__heading span, .pageElement__heading');
+		if (h) h.textContent = 'Jak zaplatíš';
+		var list = document.createElement('div');
+		list.className = 'bm-pay';
+		list.innerHTML =
+			'<div class="bm-pay__item"><span class="bm-pay__ico">' + ICON.qr + '</span>' +
+				'<span><span class="bm-pay__label">QR kódem nebo převodem</span>' +
+				'<span class="bm-pay__note">Naskenuješ v bankovní appce, bez poplatku.</span></span></div>' +
+			'<div class="bm-pay__item"><span class="bm-pay__ico">' + ICON.cash + '</span>' +
+				'<span><span class="bm-pay__label">Hotově na prodejně</span>' +
+				'<span class="bm-pay__note">Při osobním odběru — Praha 3, Žižkov.</span></span></div>';
+		box.appendChild(list);
+	}
+
+	/* Pokladna: vysvětlivka pod „Převodem" a „Hotově" ----------------
+	 * Shoptet po změně dopravy tabulku plateb nepřekresluje — jen přepíná
+	 * atributy (class/disabled) a skrývá „Tato kombinace není možná“.
+	 * Observer proto musí sledovat i atributy, ne jen childList, jinak
+	 * hotovost po přepnutí na osobní odběr vysvětlivku nedostane.
+	 */
+	function applyPayHints() {
+		var rows = document.querySelectorAll('#order-billing-methods .radio-wrapper');
+		[].forEach.call(rows, function (row) {
+			var input = row.querySelector('input[name="billingId"]');
+			if (!input) return;
+			var type = input.getAttribute('data-payment-type');
+			var msg = type === 'transfer' ? 'bmPayTransfer' : type === 'cash' ? 'bmPayCash' : null;
+			if (!msg) return;
+			var info = row.querySelector('.payment-info');
+			if (!info) return;
+			var hint = info.querySelector('.bm-payhint');
+			// „Tato kombinace není možná" má přednost — vlastní hint by vedle ní pletl.
+			var blocked = info.querySelector('.not-possible-info');
+			if (blocked && blocked.offsetParent !== null) {
+				if (hint) hint.remove();
+				return;
+			}
+			if (hint) return;
+			hint = document.createElement('em');
+			hint.className = 'bm-payhint';
+			hint.setAttribute('data-bm-i18n', msg);
+			hint.textContent = (I18N[LANG] || I18N.cs)[msg];
+			info.appendChild(hint);
+		});
+	}
+
+	function checkoutPayHints() {
+		var table = document.querySelector('#order-billing-methods');
+		if (!table) return;
+		applyPayHints();
+		if (!('MutationObserver' in window)) return;
+		// Sledujeme nadřazený box — Shoptet může vyměnit celou tabulku, ne jen její obsah.
+		var host = table.closest('.co-payment-method') || table.parentNode || table;
+		// POZOR: záměrně setTimeout, ne requestAnimationFrame — rAF na skryté
+		// záložce (document.hidden) neběží, takže by se pending flag už nikdy
+		// neuvolnil a vysvětlivky by po návratu na záložku zůstaly nedoplněné.
+		var pending = null;
+		var mo = new MutationObserver(function () {
+			if (pending) return;
+			pending = setTimeout(function () {
+				pending = null;
+				applyPayHints();
+			}, 60);
+		});
+		mo.observe(host, {
+			childList: true,
+			subtree: true,
+			attributes: true,
+			attributeFilter: ['class', 'disabled', 'style']
+		});
+	}
 
 	/* Horní lišta: doplnit USP (doprava zdarma / skladem) ----------- */
 	function topBarMsg() {
@@ -1279,7 +1366,9 @@
 			footAge: ' Prodej pouze osobám starším 18 let', footH: ['Nakupování', 'Informace', 'Kontakt'],
 			footShop: ['Skleněné rigy', 'Puffco doplňky', 'Kuřácké potřeby', 'Cleaning', 'Merch'],
 			footInfo: ['Jak nakupovat', 'Obchodní podmínky', 'Ochrana osobních údajů', 'Kontakt'],
-			footCopy: '© 2026 Budman-shop — všechna práva vyhrazena', footMade: 'Vyrobeno s láskou k dab komunitě 🌿'
+			footCopy: '© 2026 Budman-shop — všechna práva vyhrazena', footMade: 'Vyrobeno s láskou k dab komunitě 🌿',
+			bmPayTransfer: 'Po objednávce dostaneš QR kód — naskenuješ ho v bankovní appce a je zaplaceno.',
+			bmPayCash: 'Jen při osobním odběru na Žižkově.'
 		},
 		en: {
 			topmsg: ['Free shipping over 1,500 CZK', 'Free gift on orders over 2,000 CZK', 'In stock, ships within 24 h'],
@@ -1300,7 +1389,9 @@
 			footAge: ' Sales only to persons over 18', footH: ['Shopping', 'Information', 'Contact'],
 			footShop: ['Glass rigs', 'Puffco accessories', 'Smoking accessories', 'Cleaning', 'Merch'],
 			footInfo: ['How to shop', 'Terms & conditions', 'Privacy policy', 'Contact'],
-			footCopy: '© 2026 Budman-shop — all rights reserved', footMade: 'Made with love for the dab community 🌿'
+			footCopy: '© 2026 Budman-shop — all rights reserved', footMade: 'Made with love for the dab community 🌿',
+			bmPayTransfer: 'After ordering you get a QR code — scan it in your banking app and it is paid.',
+			bmPayCash: 'Only for personal pickup in Prague 3, Žižkov.'
 		},
 		de: {
 			topmsg: ['Kostenloser Versand ab 1.500 CZK', 'Gratis Geschenk ab 2.000 CZK', 'Auf Lager, Versand in 24 h'],
@@ -1321,7 +1412,9 @@
 			footAge: ' Verkauf nur an Personen über 18 Jahre', footH: ['Einkaufen', 'Informationen', 'Kontakt'],
 			footShop: ['Glas-Rigs', 'Puffco-Zubehör', 'Rauchzubehör', 'Cleaning', 'Merch'],
 			footInfo: ['Wie man kauft', 'AGB', 'Datenschutz', 'Kontakt'],
-			footCopy: '© 2026 Budman-shop — alle Rechte vorbehalten', footMade: 'Mit Liebe für die Dab-Community gemacht 🌿'
+			footCopy: '© 2026 Budman-shop — alle Rechte vorbehalten', footMade: 'Mit Liebe für die Dab-Community gemacht 🌿',
+			bmPayTransfer: 'Nach der Bestellung bekommst du einen QR-Code — in der Banking-App scannen und fertig.',
+			bmPayCash: 'Nur bei Selbstabholung in Prag 3, Žižkov.'
 		},
 		es: {
 			topmsg: ['Envío gratis desde 1.500 CZK', 'Regalo gratis en compras desde 2.000 CZK', 'En stock, envío en 24 h'],
@@ -1342,7 +1435,9 @@
 			footAge: ' Venta solo a mayores de 18 años', footH: ['Compras', 'Información', 'Contacto'],
 			footShop: ['Rigs de vidrio', 'Accesorios Puffco', 'Accesorios para fumar', 'Limpieza', 'Merch'],
 			footInfo: ['Cómo comprar', 'Términos y condiciones', 'Política de privacidad', 'Contacto'],
-			footCopy: '© 2026 Budman-shop — todos los derechos reservados', footMade: 'Hecho con amor para la comunidad dab 🌿'
+			footCopy: '© 2026 Budman-shop — todos los derechos reservados', footMade: 'Hecho con amor para la comunidad dab 🌿',
+			bmPayTransfer: 'Tras el pedido recibes un código QR — escanéalo en tu app bancaria y listo.',
+			bmPayCash: 'Solo para recogida en persona en Praga 3, Žižkov.'
 		}
 	};
 
@@ -1384,6 +1479,10 @@
 		if (uls[1]) [].forEach.call(uls[1].querySelectorAll('a'), function (a, i) { if (d.footInfo[i] != null) a.textContent = d.footInfo[i]; });
 		var fb = document.querySelectorAll('.bm-footer__bottom span');
 		if (fb[0]) txt(fb[0], d.footCopy); if (fb[1]) txt(fb[1], d.footMade);
+		[].forEach.call(document.querySelectorAll('.bm-payhint[data-bm-i18n]'), function (el) {
+			var k = el.getAttribute('data-bm-i18n');
+			if (d[k] != null) el.textContent = d[k];
+		});
 	}
 
 	function setLang(lg) {
@@ -1426,6 +1525,8 @@
 		injectHero();
 		injectPromo();
 		cleanDemo();
+		paymentBox();
+		checkoutPayHints();
 		topBarMsg();
 		enhanceBenefits();
 		injectFooter();
