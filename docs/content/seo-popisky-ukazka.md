@@ -1,26 +1,29 @@
 # SEO popisky — ukázka tónu + compliance přepis
 
 > Tón dle brandu: mladý tým nadšenců konopné kultury, neformální, lifestyle, ale prémiový.
-> **CBD compliance: žádná léčebná/zdravotní tvrzení.** Držíme se vlastností, materiálů, použití, testování, legality.
+> **Žádná léčebná/zdravotní tvrzení.** Držíme se vlastností, materiálů, použití a zpracování.
 > Toto je vzorek ke schválení stylu — po odsouhlasení podle něj připravím popisky a meta pro všechny produkty a kategorie.
+>
+> Sortiment je **jen hardware** — CBD, květy ani jiné konzumovatelné zboží se neprodávají
+> (vyřazeno při migraci). Popisky proto nikdy nepopisují látku, vždy jen vybavení.
 
 ---
 
-## Kategorie: Květy (compliant přepis — nahrazuje stávající popisek se zakázanými claims)
+## Kategorie: Rigy
 
-**SEO title (~60):** CBD květy – odrůdy s nízkým THC | Budman
+**SEO title (~60):** Skleněné dab rigy a recyclery | Budman
 
-**Meta description (~155):** Pečlivě vybrané CBD konopné květy s laboratorně ověřeným obsahem
-a souladem se zákonným limitem THC. Různé odrůdy, aroma a obsah CBD. Jen pro 18+.
+**Meta description (~155):** Skleněné dab rigy — od kompaktních recyclerů po sběratelské ručně
+foukané kousky. Vybraný gear skladem, expedice do 24 h. Jen pro 18+.
 
 **Popisek kategorie:**
-> V kategorii **Květy** najdeš pečlivě vybrané konopné CBD květy. Zaměřujeme se na kvalitu,
-> původ a čistotu — u nabízených produktů sledujeme laboratorně ověřený obsah látek a soulad
-> se zákonným limitem THC. Vybírat můžeš podle odrůdy, aroma, vzhledu a obsahu CBD, ať si
-> každý najde to svoje. Prodej pouze osobám starším 18 let.
+> V kategorii **Rigy** najdeš skleněné dab rigy, které vybíráme kus po kuse — od kompaktních
+> recyclerů na každý den po sběratelské ručně foukané kousky. Koukáme na kvalitu skla,
+> zpracování spojů a průtok. Vybírat můžeš podle velikosti, typu perkolace a joint size.
+> Prodej pouze osobám starším 18 let.
 
-> ⚠️ Vypadlo: „terapeutické účinky", „podpora celkového zdraví" a podobné claims (u CBD zakázané).
-> `[OVĚŘ: právní rámec prodeje CBD květů v ČR — případně doplnit „určeno pro technické/sběratelské účely".]`
+> ⚠️ Drž se vybavení: materiál, zpracování, velikost, joint size, údržba. Nikdy nepopisuj
+> účinky ani látku, se kterou se rig používá.
 
 ---
 

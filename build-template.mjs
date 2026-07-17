@@ -1,6 +1,7 @@
 // Build šablony bez závislostí: spojí všechny src/css/*.css a src/js/*.js
-// do assets/budman.css a assets/budman.js + verzovací hash pro cache-busting.
-// Výstup nahraješ na Shoptet FTP do /user/documents/ a odkážeš v Návrháři šablon.
+// do assets/budman.css a assets/budman.js.
+// Výstup se commitne a servíruje jsDelivr přímo z GitHubu — v Návrháři šablon
+// se pak přepíše hash commitu v URL. Podrobně: README → Nasazení na Shoptet.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -45,6 +46,8 @@ const jsV = bundle('src/js', '.js', 'budman.js');
 
 fs.writeFileSync(path.join(ASSETS, 'version.json'), JSON.stringify({ css: cssV, js: jsV }, null, 2));
 
-console.log('\nVlož do Shoptet → Návrhář šablon → HTML kódy (záhlaví):');
-console.log(`  <link rel="stylesheet" href="/user/documents/budman.css?v=${cssV}">`);
-console.log(`  <script src="/user/documents/budman.js?v=${jsV}" defer></script>`);
+console.log('\nDalší krok: commitni assets/ a pushni. Pak v Shoptet → Návrhář šablon →');
+console.log('HTML kódy (záhlaví) přepiš <commit> na hash toho pushnutého commitu:');
+console.log('  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@<commit>/assets/budman.css">');
+console.log('  <script src="https://cdn.jsdelivr.net/gh/zukysevents-dot/budman-shoptet@<commit>/assets/budman.js" defer></script>');
+console.log(`\n(obsahové hashe pro kontrolu, že se build změnil: css=${cssV} js=${jsV})`);

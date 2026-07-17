@@ -5,7 +5,8 @@ Návrhy textů pro stránky na Shoptetu. **Nejsou právní rada.** Před zveřej
 1. Doplň všechny `[DOPLŇ: …]` (firemní údaje, IČO/DIČ, sídlo, doručovací a platební metody).
 2. Nech právní stránky (Obchodní podmínky, GDPR, Reklamace) zkontrolovat — musí sedět na
    skutečné procesy e-shopu a aktuální legislativu ČR/EU.
-3. CBD/headshop: **žádné léčebné/zdravotní tvrzení** o produktech. Prodej 18+.
+3. Headshop: **žádné léčebné/zdravotní tvrzení** o produktech. Prodej 18+.
+   Sortiment je jen hardware — CBD ani květy se neprodávají, texty tedy nikdy nepopisují látku.
 
 Stránky a jejich navrhované slugy:
 

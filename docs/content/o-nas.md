@@ -5,7 +5,7 @@
 **BUDMAN** je český obchod pro milovníky kvalitního vybavení. Jsme parta nadšenců konopné
 kultury a dáváme dohromady to nejlepší z dab a kuřáckého světa — od precizně vyrobených
 slurperů, bangerů a rigů přes doplňky Puffco až po skleněné náustky a vychytávky na čištění
-a měření. K tomu pečlivě vybrané CBD extrakty a oleje.
+a měření.
 
 Nejde nám o kvantitu, ale o kousky, které vydrží a dělají radost. Vybíráme materiály,
 zpracování a značky, za kterými si stojíme — a které bychom sami chtěli mít doma.
