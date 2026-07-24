@@ -2013,6 +2013,11 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 @media (max-width: 980px) {
 	.bm-langs { display: flex !important; width: 100%; justify-content: flex-end; margin: 5px 0 !important; padding-right: 12px; gap: 10px; box-sizing: border-box; }
 	.bm-lang { width: 30px; height: 20px; } /* větší tap-target pro palec */
+	/* Shoptet na mobilu pozicuje logo absolutně do horní lišty (top:-50px)
+	   a jeho prázdná klikací plocha (width 250px/64vw, grafika jen ~85 px)
+	   ležela PŘES vlajkami — CS/EN/DE nešly tapnout. Strop šířky vrací
+	   tapy vlajkám; grafika (contain, fit výškou) se nemění. */
+	.site-name a { max-width: 34vw !important; }
 	.navigation-buttons [data-testid="headerCart"][data-target="cart"],
 	.navigation-buttons .cart-count {
 		top: -69px !important;
@@ -2686,6 +2691,10 @@ body.type-product .detail-parameters tr:last-child td { border-bottom: 0 !import
    Karty nepřijímáme (žádná brána), takže loga jsou v JS odstraněna a box
    přeobsazen reálnými metodami: QR/převod + hotově při osobním odběru. */
 .box-onlinePayments .payment-logos { display: none !important; }
+/* Loga karet nesmí ani PROBLIKNOUT, než doběhne deferred JS (a s blokovaným
+   JS by zůstala natrvalo) → celý box skrytý, dokud ho paymentBox()
+   nepřeobsadí reálnými metodami a neoznačí .bm-ready. */
+.box-onlinePayments:not(.bm-ready) { display: none !important; }
 .bm-pay { display: flex; flex-direction: column; gap: 0.55rem; }
 .bm-pay__item { display: flex; align-items: flex-start; gap: 0.6rem; }
 .bm-pay__ico {

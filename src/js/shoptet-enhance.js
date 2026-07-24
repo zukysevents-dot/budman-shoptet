@@ -495,7 +495,10 @@
 	 */
 	function paymentBox() {
 		var box = document.querySelector('.box-onlinePayments');
-		if (!box || box.querySelector('.bm-pay')) return;
+		if (!box) return;
+		// CSS box skrývá (.box-onlinePayments:not(.bm-ready)), dokud v něm místo
+		// nativních log karet nejsou reálné metody — loga tak ani neprobliknou
+		if (box.querySelector('.bm-pay')) { box.classList.add('bm-ready'); return; }
 		var logos = box.querySelector('p, .payment-logos');
 		if (logos) logos.remove();
 		var h = box.querySelector('.pageElement__heading span, .pageElement__heading');
@@ -510,6 +513,7 @@
 				'<span><span class="bm-pay__label">Hotově na prodejně</span>' +
 				'<span class="bm-pay__note">Při osobním odběru — Praha 3, Žižkov.</span></span></div>';
 		box.appendChild(list);
+		box.classList.add('bm-ready');
 	}
 
 	/* Pokladna: vysvětlivka pod „Převodem" a „Hotově" ----------------
