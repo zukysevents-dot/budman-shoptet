@@ -1371,7 +1371,8 @@
 			bmPayTransfer: 'Po objednávce dostaneš QR kód — naskenuješ ho v bankovní appce a je zaplaceno.',
 			bmPayCash: 'Jen při osobním odběru na Žižkově.',
 			footPay: ['QR platba', 'Převodem', 'Hotově při osobním odběru'],
-			footShip: ['Zásilkovna', 'Osobní odběr']
+			footShip: ['Zásilkovna', 'Osobní odběr'],
+			menu: { '/rigy/': 'Rigy', '/slurpery/': 'Slurpery', '/doplnky-na-extrakty/': 'Doplňky na extrakty', '/mereni/': 'Měření', '/baleni/': 'Balení', '/cleaning/': 'Cleaning', '/puffco-doplnky/': 'Puffco doplňky', '/merch/': 'Merch', '/znacky/': 'Značky', '/kontakty/': 'Kontakty', '/kuracke-potreby/': 'Kuřácké potřeby' }
 		},
 		en: {
 			topmsg: ['Free shipping over 1,500 CZK', 'Free gift on orders over 2,000 CZK', 'In stock, ships within 24 h'],
@@ -1396,7 +1397,8 @@
 			bmPayTransfer: 'After ordering you get a QR code — scan it in your banking app and it is paid.',
 			bmPayCash: 'Only for personal pickup in Prague 3, Žižkov.',
 			footPay: ['QR payment', 'Bank transfer', 'Cash on personal pickup'],
-			footShip: ['Zásilkovna', 'Personal pickup']
+			footShip: ['Zásilkovna', 'Personal pickup'],
+			menu: { '/rigy/': 'Rigs', '/slurpery/': 'Slurpers', '/doplnky-na-extrakty/': 'Extract accessories', '/mereni/': 'Measuring', '/baleni/': 'Packaging', '/cleaning/': 'Cleaning', '/puffco-doplnky/': 'Puffco accessories', '/merch/': 'Merch', '/znacky/': 'Brands', '/kontakty/': 'Contact', '/kuracke-potreby/': 'Smoking accessories' }
 		},
 		de: {
 			topmsg: ['Kostenloser Versand ab 1.500 CZK', 'Gratis Geschenk ab 2.000 CZK', 'Auf Lager, Versand in 24 h'],
@@ -1421,7 +1423,8 @@
 			bmPayTransfer: 'Nach der Bestellung bekommst du einen QR-Code — in der Banking-App scannen und fertig.',
 			bmPayCash: 'Nur bei Selbstabholung in Prag 3, Žižkov.',
 			footPay: ['QR-Zahlung', 'Überweisung', 'Bar bei Selbstabholung'],
-			footShip: ['Zásilkovna', 'Selbstabholung']
+			footShip: ['Zásilkovna', 'Selbstabholung'],
+			menu: { '/rigy/': 'Rigs', '/slurpery/': 'Slurper', '/doplnky-na-extrakty/': 'Extrakt-Zubehör', '/mereni/': 'Messzubehör', '/baleni/': 'Verpackung', '/cleaning/': 'Cleaning', '/puffco-doplnky/': 'Puffco-Zubehör', '/merch/': 'Merch', '/znacky/': 'Marken', '/kontakty/': 'Kontakt', '/kuracke-potreby/': 'Rauchzubehör' }
 		},
 		es: {
 			topmsg: ['Envío gratis desde 1.500 CZK', 'Regalo gratis en compras desde 2.000 CZK', 'En stock, envío en 24 h'],
@@ -1446,7 +1449,8 @@
 			bmPayTransfer: 'Tras el pedido recibes un código QR — escanéalo en tu app bancaria y listo.',
 			bmPayCash: 'Solo para recogida en persona en Praga 3, Žižkov.',
 			footPay: ['Pago con QR', 'Transferencia', 'Efectivo al recoger'],
-			footShip: ['Zásilkovna', 'Recogida en persona']
+			footShip: ['Zásilkovna', 'Recogida en persona'],
+			menu: { '/rigy/': 'Rigs', '/slurpery/': 'Slurpers', '/doplnky-na-extrakty/': 'Accesorios para extractos', '/mereni/': 'Medición', '/baleni/': 'Embalaje', '/cleaning/': 'Limpieza', '/puffco-doplnky/': 'Accesorios Puffco', '/merch/': 'Merch', '/znacky/': 'Marcas', '/kontakty/': 'Contacto', '/kuracke-potreby/': 'Accesorios para fumar' }
 		}
 	};
 
@@ -1494,6 +1498,15 @@
 		});
 		each('.bm-footer__pay--billing span', d.footPay || []);
 		each('.bm-footer__pay--shipping span', d.footShip || []);
+		// položky navigace dle href — desktop menu, hamburger (mobil), dropdown
+		// KATEGORIE i sidebar; node() zachová .bm-emoji, mění jen textový uzel
+		if (d.menu) {
+			[].forEach.call(document.querySelectorAll('.menu a[href], .navigation a[href], .mobile-navigation a[href], .bm-catmenu__panel a[href], .box-categories a[href]'), function (a) {
+				var href = (a.getAttribute('href') || '').replace(/\?.*$/, '');
+				if (href && href.slice(-1) !== '/') href += '/';
+				if (d.menu[href] != null) node(a, d.menu[href]);
+			});
+		}
 	}
 
 	function setLang(lg) {
@@ -1552,7 +1565,9 @@
 		// mobilní menu se může dostavět později
 		setTimeout(function () { flattenMenu(); enhanceMenu(); buildCategoryDropdown(); applyLang(LANG); }, 1200);
 		document.addEventListener('click', function (e) {
-			if (e.target.closest && e.target.closest('[class*="menu-trigger"], .hamburger, [class*="mobile"]')) setTimeout(function () { flattenMenu(); enhanceMenu(); }, 120);
+			// po přestavbě mobilního menu znovu aplikovat i jazyk — jinak se
+			// nové položky vrátí k češtině z DOM (feedback klienta 24. 7.)
+			if (e.target.closest && e.target.closest('[class*="menu-trigger"], .hamburger, [class*="mobile"]')) setTimeout(function () { flattenMenu(); enhanceMenu(); applyLang(LANG); }, 120);
 		}, true);
 	});
 })();

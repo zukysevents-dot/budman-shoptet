@@ -1075,6 +1075,9 @@ select, option { background: var(--bm-surface); color: var(--bm-text); }
 .bm-hp-bong__smoke {
 	position: absolute; left: 0; right: 0; bottom: 6%;
 	width: 100%; height: 120%; z-index: 2; pointer-events: none;
+	/* dým se u horní hrany canvasu rozplyne (žádný tvrdý ořez částic) */
+	-webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18%);
+	        mask-image: linear-gradient(180deg, transparent 0, #000 18%);
 }
 .bm-hp-bong__tag {
 	position: absolute; top: 3%; left: 50%; transform: translateX(-50%) translateY(8px);
@@ -1195,7 +1198,14 @@ select, option { background: var(--bm-surface); color: var(--bm-text); }
 		transform: translateX(-50%) !important;
 	}
 	.bm-hp-bong:hover { transform: translateX(-50%) translateY(-3px) !important; }
-	.bm-hp-bong__smoke { bottom: 0 !important; height: 128% !important; }
+	/* Mobil: bong sedí POD textem a canvas ho přesahuje nahoru (~22 % výšky)
+	   → dým lezl přes CTA a podtitulek. Maska zneviditelní pruh nad bongem
+	   a dým nechá rozplynout ještě nad hrdlem — text zůstane čitelný. */
+	.bm-hp-bong__smoke {
+		bottom: 0 !important; height: 128% !important;
+		-webkit-mask-image: linear-gradient(180deg, transparent 0, transparent 20%, #000 48%) !important;
+		        mask-image: linear-gradient(180deg, transparent 0, transparent 20%, #000 48%) !important;
+	}
 	.bm-hp-bong__tag { display: none; }
 }
 @media (max-width: 380px) {
@@ -2001,8 +2011,8 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 .bm-lang.is-active { opacity: 1; border-color: var(--bm-lime); box-shadow: 0 0 0 1px var(--bm-lime); }
 /* mobil/tablet: lišta se přeskupuje → vlajky vlastní řádek vpravo, vždy viditelné */
 @media (max-width: 980px) {
-	.bm-langs { display: flex !important; width: 100%; justify-content: flex-end; margin: 5px 0 !important; padding-right: 12px; gap: 6px; box-sizing: border-box; }
-	.bm-lang { width: 24px; height: 16px; }
+	.bm-langs { display: flex !important; width: 100%; justify-content: flex-end; margin: 5px 0 !important; padding-right: 12px; gap: 10px; box-sizing: border-box; }
+	.bm-lang { width: 30px; height: 20px; } /* větší tap-target pro palec */
 	.navigation-buttons [data-testid="headerCart"][data-target="cart"],
 	.navigation-buttons .cart-count {
 		top: -69px !important;
