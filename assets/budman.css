@@ -2994,6 +2994,16 @@ html.bm-has-catmenu .navigation-in.menu > ul.menu-level-1 { display: none !impor
 	   ležela PŘES vlajkami — CS/EN/DE nešly tapnout. Strop šířky vrací
 	   tapy vlajkám; grafika (contain, fit výškou) se nemění. */
 	.site-name a { max-width: 34vw !important; }
+	/* Sticky lišta na mobilu: Shoptet ji fixuje a při scrollu řídí inline
+	   stylem top (schová/vysune). S našimi řádky (zprávy + vlajky, ~98 px)
+	   nad zelenou hlavičkou pak při scrollu vyjížděla přes hero jako obří
+	   pás — useknutý nadpis, „Doprava zdarma" na textu, rozházená navigace
+	   (feedback klienta 24. 7.). Absolute + top:0 přebije inline top z JS:
+	   lišta normálně odscrolluje s obsahem a nikdy nic nepřekryje;
+	   geometrie při scrollY 0 je totožná. Hlavička pojistně relative,
+	   ať ji mobilní varianta Shoptet JS nemůže fixovat taky. */
+	.top-navigation-bar { position: absolute !important; top: 0 !important; }
+	.header { position: relative !important; transform: none !important; }
 	.navigation-buttons [data-testid="headerCart"][data-target="cart"],
 	.navigation-buttons .cart-count {
 		top: -69px !important;
